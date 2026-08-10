@@ -107,6 +107,48 @@ textarea {
     color: rgb(30 41 59);
     box-shadow: 0 8px 24px -18px rgb(15 23 42 / 0.8);
   }
+
+  .form-label {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgb(30 41 59);
+    font-size: 0.875rem;
+    font-weight: 750;
+  }
+
+  .form-control {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid rgb(203 213 225);
+    border-radius: 0.875rem;
+    background: white;
+    padding: 0.75rem 1rem;
+    color: rgb(15 23 42);
+    font-size: 1rem;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .form-control::placeholder {
+    color: rgb(148 163 184);
+  }
+
+  .form-control:hover {
+    border-color: rgb(147 197 253);
+  }
+
+  .form-control:focus {
+    border-color: rgb(37 99 235);
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(191 219 254 / 0.75);
+  }
+
+  .form-control[aria-invalid="true"] {
+    border-color: rgb(220 38 38);
+    box-shadow: 0 0 0 3px rgb(254 202 202 / 0.55);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -121,4 +163,3 @@ textarea {
     transition-duration: 0.01ms !important;
   }
 }
-

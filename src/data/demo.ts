@@ -12,9 +12,8 @@ export const demoAccess: DemoAccess = {
   vehicle: "Toyota Corolla",
   plate: "ABC-123",
   code: "A7X9-2K4P",
-  status: "activo",
+  status: "active",
 };
 
 export const demoNotice =
   "Los nombres, viviendas, vehículos y registros mostrados son datos ficticios utilizados únicamente con fines de demostración.";
-

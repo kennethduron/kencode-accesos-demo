@@ -17,9 +17,9 @@ export function BrandLogo({ priority = false, className = "" }: BrandLogoProps) 
         width={1241}
         height={620}
         priority={priority}
+        loading={priority ? "eager" : "lazy"}
         sizes="(max-width: 640px) 132px, 164px"
       />
     </span>
   );
 }
-

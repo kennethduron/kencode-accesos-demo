@@ -99,7 +99,7 @@ export default function HomePage() {
                       <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-emerald-50 text-emerald-700"><CheckCircle2 aria-hidden="true" className="size-6" /></span>
                       <div className="min-w-0"><p className="truncate font-bold text-slate-950">{demoAccess.visitor}</p><p className="text-xs text-slate-500">{demoAccess.visitorType} · {demoAccess.vehicle}</p></div>
                     </div>
-                    <StatusBadge status="activo" />
+                    <StatusBadge status="active" />
                   </div>
                   <div className="mt-4 flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
                     <span className="text-xs font-semibold text-slate-500">Código de acceso</span>
@@ -168,4 +168,3 @@ export default function HomePage() {
     </div>
   );
 }
-

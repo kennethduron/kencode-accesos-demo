@@ -14,7 +14,7 @@ export function AppShell({ children }: AppShellProps) {
       <nav className="relative z-10 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl" aria-label="Navegación principal">
         <div className="mx-auto flex min-h-20 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link href="/" aria-label="Ir al inicio">
-            <BrandLogo className="w-[132px] sm:w-[154px]" />
+            <BrandLogo priority className="w-[132px] sm:w-[154px]" />
           </Link>
           <Link href="/" className="secondary-button hidden sm:inline-flex">Ver experiencias</Link>
         </div>
@@ -28,4 +28,3 @@ export function AppShell({ children }: AppShellProps) {
     </div>
   );
 }
-
