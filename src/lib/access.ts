@@ -1,5 +1,6 @@
 import type {
   AccessStatus,
+  AccessEvent,
   AccessValidationResult,
   Authorization,
   AuthorizationInput,
@@ -173,6 +174,8 @@ export function createAuthorization(input: AuthorizationInput, now = new Date(),
     residenceId: DEMO_RESIDENCE_ID,
     residenceLabel: DEMO_RESIDENCE_LABEL,
     entryCount: 0,
+    exitCount: 0,
+    presenceState: "outside",
     updatedAt: now.toISOString(),
   };
 }
@@ -205,6 +208,9 @@ export function validateAccess(
   const normalizedCode = normalizeAccessCode(rawCode);
   if (!ACCESS_CODE_PATTERN.test(normalizedCode)) return { code: "INVALID_FORMAT", normalizedCode, authorization: null };
   if (!authorization) return { code: "NOT_FOUND", normalizedCode, authorization: null };
+  if (authorization.usageMode === "multiple-entry" && authorization.presenceState === "inside") {
+    return { code: "INSIDE", normalizedCode, authorization };
+  }
   if (authorization.status === "cancelled") return { code: "CANCELLED", normalizedCode, authorization };
   if (new Date(authorization.scheduledAt).getTime() > now.getTime()) return { code: "NOT_YET_VALID", normalizedCode, authorization };
   if (new Date(authorization.expiresAt).getTime() <= now.getTime()) return { code: "EXPIRED", normalizedCode, authorization };
@@ -225,12 +231,52 @@ export function confirmEntryInDomain(
     authorization: {
       ...authorization,
       entryCount,
+      presenceState: "inside",
       lastEntryAt: now.toISOString(),
       entryAt: now.toISOString(),
       updatedAt: now.toISOString(),
       status: authorization.usageMode === "single-entry" ? "used" : "active",
     },
     validation,
+  };
+}
+
+export function confirmExitInDomain(
+  authorization: Authorization,
+  now = new Date(),
+): { authorization: Authorization; confirmed: boolean } {
+  if (authorization.usageMode !== "multiple-entry" || authorization.presenceState !== "inside") {
+    return { authorization, confirmed: false };
+  }
+
+  const exitCount = authorization.exitCount + 1;
+  return {
+    confirmed: true,
+    authorization: {
+      ...authorization,
+      presenceState: "outside",
+      exitCount,
+      lastExitAt: now.toISOString(),
+      exitAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    },
+  };
+}
+
+export function createAccessEvent(
+  authorization: Authorization,
+  eventType: AccessEvent["eventType"],
+  now = new Date(),
+): AccessEvent {
+  return {
+    authorizationId: authorization.id,
+    authorizationCode: authorization.code,
+    eventType,
+    eventAt: now.toISOString(),
+    residenceId: authorization.residenceId,
+    securityStation: "Puesto Principal",
+    demo: true,
+    schemaVersion: 1,
   };
 }
 
@@ -281,6 +327,8 @@ function isAuthorization(value: unknown): value is Authorization {
     (value.residenceId === undefined || typeof value.residenceId === "string") &&
     (value.residenceLabel === undefined || typeof value.residenceLabel === "string") &&
     (value.entryCount === undefined || (typeof value.entryCount === "number" && Number.isInteger(value.entryCount) && value.entryCount >= 0)) &&
+    (value.exitCount === undefined || (typeof value.exitCount === "number" && Number.isInteger(value.exitCount) && value.exitCount >= 0)) &&
+    (value.presenceState === undefined || ["outside", "inside"].includes(value.presenceState as string)) &&
     (value.updatedAt === undefined || isIsoDate(value.updatedAt)) &&
     (value.lastEntryAt === undefined || isIsoDate(value.lastEntryAt)) &&
     (value.lastExitAt === undefined || isIsoDate(value.lastExitAt)) &&
@@ -292,13 +340,18 @@ function isAuthorization(value: unknown): value is Authorization {
 }
 
 function normalizeHydratedAuthorization(authorization: Authorization): Authorization {
+  const lastEntryAt = authorization.lastEntryAt ?? authorization.entryAt;
+  const lastExitAt = authorization.lastExitAt ?? authorization.exitAt;
+  const inferredPresence = lastEntryAt && (!lastExitAt || new Date(lastEntryAt) > new Date(lastExitAt)) ? "inside" : "outside";
   return {
     ...authorization,
     residenceId: authorization.residenceId ?? DEMO_RESIDENCE_ID,
     residenceLabel: authorization.residenceLabel ?? DEMO_RESIDENCE_LABEL,
     entryCount: authorization.entryCount ?? (authorization.entryAt ? 1 : 0),
-    lastEntryAt: authorization.lastEntryAt ?? authorization.entryAt,
-    lastExitAt: authorization.lastExitAt ?? authorization.exitAt,
+    exitCount: authorization.exitCount ?? (lastExitAt ? 1 : 0),
+    presenceState: authorization.presenceState ?? inferredPresence,
+    lastEntryAt,
+    lastExitAt,
     updatedAt: authorization.updatedAt ?? authorization.createdAt,
   };
 }

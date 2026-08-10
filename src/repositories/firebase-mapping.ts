@@ -1,5 +1,5 @@
 import type { Timestamp } from "firebase/firestore";
-import type { Authorization, EntryType, UsageMode, ValidityType, VisitType } from "../types/demo.ts";
+import type { Authorization, EntryType, PresenceState, UsageMode, ValidityType, VisitType } from "../types/demo.ts";
 
 export interface FirebaseAuthorizationRecord {
   id: string;
@@ -17,6 +17,8 @@ export interface FirebaseAuthorizationRecord {
   startsAt: Timestamp;
   expiresAt: Timestamp;
   entryCount: number;
+  exitCount: number;
+  presenceState: PresenceState;
   lastEntryAt?: Timestamp | null;
   lastExitAt?: Timestamp | null;
   createdAt: Timestamp;
@@ -59,6 +61,8 @@ export function authorizationToFirebase(
     startsAt: timestamp.fromDate(new Date(authorization.scheduledAt)),
     expiresAt: timestamp.fromDate(new Date(authorization.expiresAt)),
     entryCount: authorization.entryCount,
+    exitCount: authorization.exitCount,
+    presenceState: authorization.presenceState,
     lastEntryAt: authorization.lastEntryAt ? timestamp.fromDate(new Date(authorization.lastEntryAt)) : null,
     lastExitAt: authorization.lastExitAt ? timestamp.fromDate(new Date(authorization.lastExitAt)) : null,
     createdAt: timestamp.fromDate(new Date(authorization.createdAt)),
@@ -79,6 +83,11 @@ export function firebaseToAuthorization(data: Record<string, unknown>): Authoriz
   const updatedAt = iso(data.updatedAt);
   if (!scheduledAt || !expiresAt || !createdAt || !updatedAt || !Number.isInteger(data.entryCount) || Number(data.entryCount) < 0) return null;
   const usageMode: UsageMode = data.usageMode === "single" ? "single-entry" : data.usageMode === "multiple" ? "multiple-entry" : "single-entry";
+  const lastEntryAt = iso(data.lastEntryAt);
+  const lastExitAt = iso(data.lastExitAt);
+  const inferredPresence: PresenceState = lastEntryAt && (!lastExitAt || new Date(lastEntryAt) > new Date(lastExitAt)) ? "inside" : "outside";
+  const presenceState: PresenceState = data.presenceState === "inside" ? "inside" : data.presenceState === "outside" ? "outside" : inferredPresence;
+  const exitCount = Number.isInteger(data.exitCount) && Number(data.exitCount) >= 0 ? Number(data.exitCount) : lastExitAt ? 1 : 0;
   return {
     id: String(data.id),
     code: String(data.code),
@@ -95,10 +104,12 @@ export function firebaseToAuthorization(data: Record<string, unknown>): Authoriz
     scheduledAt,
     expiresAt,
     entryCount: Number(data.entryCount),
-    lastEntryAt: iso(data.lastEntryAt),
-    lastExitAt: iso(data.lastExitAt),
-    entryAt: iso(data.lastEntryAt),
-    exitAt: iso(data.lastExitAt),
+    exitCount,
+    presenceState,
+    lastEntryAt,
+    lastExitAt,
+    entryAt: lastEntryAt,
+    exitAt: lastExitAt,
     createdAt,
     updatedAt,
     cancelledAt: iso(data.cancelledAt),

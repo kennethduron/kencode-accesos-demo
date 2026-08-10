@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CalendarClock, Car, CheckCircle2, Clock3, Home, ShieldCheck, Trash2, UserRound, UsersRound } from "lucide-react";
+import { CalendarClock, Car, CheckCircle2, Clock3, DoorOpen, Home, ShieldCheck, Trash2, UserRound, UsersRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { AccessQr } from "@/components/access-qr";
@@ -49,6 +49,7 @@ export default function CodigoPage() {
     { label: "Placa", value: authorization.plate, icon: Car },
     { label: "Programado", value: `${formatDemoDate(authorization.scheduledAt)} · ${formatDemoTime(authorization.scheduledAt)}`, icon: CalendarClock },
     { label: "Vigencia", value: validityLabels[authorization.validity], icon: Clock3 },
+    { label: "Estado operativo", value: authorization.presenceState === "inside" ? "Dentro de la residencial" : "Fuera de la residencial", icon: DoorOpen },
   ];
 
   return (
@@ -65,6 +66,7 @@ export default function CodigoPage() {
           <div className={`mt-6 w-full rounded-2xl border p-4 text-left ${authorization.usageMode === "multiple-entry" ? "border-emerald-200 bg-emerald-50 text-emerald-900" : "border-blue-200 bg-blue-50 text-blue-900"}`}>
             <p className="flex items-start gap-2 text-sm font-bold"><CheckCircle2 aria-hidden="true" className="mt-0.5 size-5 shrink-0" />{authorization.usageMode === "multiple-entry" ? "Múltiples entradas durante la vigencia" : "Permiso válido para un ingreso"}</p>
           </div>
+          {authorization.presenceState === "inside" ? <p className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-cyan-200 bg-cyan-50 p-3 text-sm font-extrabold text-cyan-800"><DoorOpen aria-hidden="true" className="size-5" />Visitante dentro de la residencial</p> : null}
           <div className="mt-4 w-full rounded-2xl bg-slate-950 p-4 text-left text-white">
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-cyan-300">Tiempo restante</p>
             <p className="mt-1 text-2xl font-black">{status === "active" ? formatRemainingTime(authorization.expiresAt, now) : status === "expired" ? "Vencido" : "Permiso cerrado"}</p>

@@ -8,7 +8,6 @@ import { ResidentShell } from "@/components/resident-shell";
 import { StatusBadge } from "@/components/status-badge";
 import { useDemoAccess } from "@/context/demo-access-context";
 import { entryTypeLabels, filterAuthorizations, formatDemoDate, formatDemoTime, resolveAuthorizationStatus, validityLabels, visitTypeLabels, type HistoryFilter } from "@/lib/access";
-import type { Authorization } from "@/types/demo";
 
 const filters: Array<{ value: HistoryFilter; label: string }> = [
   { value: "all", label: "Todos" },
@@ -24,7 +23,8 @@ export default function HistorialPage() {
   const [filter, setFilter] = useState<HistoryFilter>("all");
   const [date, setDate] = useState("");
   const [now, setNow] = useState(() => new Date());
-  const [detail, setDetail] = useState<Authorization | null>(null);
+  const [detailId, setDetailId] = useState<string | null>(null);
+  const detail = authorizations.find((authorization) => authorization.id === detailId) ?? null;
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const titleId = useId();
@@ -47,14 +47,14 @@ export default function HistorialPage() {
   const active = authorizations.filter((item) => resolveAuthorizationStatus(item, now) === "active").length;
   const finalized = authorizations.filter((item) => ["used", "completed"].includes(resolveAuthorizationStatus(item, now))).length;
 
-  function openDetail(authorization: Authorization, trigger: HTMLButtonElement) {
+  function openDetail(authorization: (typeof authorizations)[number], trigger: HTMLButtonElement) {
     triggerRef.current = trigger;
     selectAuthorization(authorization.id);
-    setDetail(authorization);
+    setDetailId(authorization.id);
   }
 
   function closeDetail() {
-    setDetail(null);
+    setDetailId(null);
     window.setTimeout(() => triggerRef.current?.focus(), 0);
   }
 
@@ -100,7 +100,7 @@ export default function HistorialPage() {
                 <button key={authorization.id} type="button" onClick={(event) => openDetail(authorization, event.currentTarget)} className="surface-card group flex min-h-32 w-full items-start gap-4 p-4 text-left transition hover:border-blue-200 hover:shadow-lg sm:p-5">
                   <span className={`grid size-12 shrink-0 place-items-center rounded-2xl ${status === "active" ? "bg-emerald-50 text-emerald-700" : status === "expired" || status === "cancelled" ? "bg-red-50 text-red-700" : "bg-slate-100 text-slate-600"}`}><UserRound aria-hidden="true" className="size-6" /></span>
                   <span className="min-w-0 flex-1">
-                    <span className="flex flex-wrap items-start justify-between gap-2"><span className="min-w-0"><span className="block truncate font-extrabold text-slate-950">{authorization.visitorName}</span><span className="mt-1 block text-sm text-slate-500">{visitTypeLabels[authorization.visitType]} · {authorization.code}</span></span><StatusBadge status={status} /></span>
+                    <span className="flex flex-wrap items-start justify-between gap-2"><span className="min-w-0"><span className="block truncate font-extrabold text-slate-950">{authorization.visitorName}</span><span className="mt-1 block text-sm text-slate-500">{visitTypeLabels[authorization.visitType]} · {authorization.code}</span></span><span className="flex flex-wrap justify-end gap-2">{authorization.presenceState === "inside" ? <span className="inline-flex min-h-8 items-center rounded-full border border-cyan-200 bg-cyan-50 px-3 text-xs font-bold text-cyan-800">Dentro</span> : null}<StatusBadge status={status} /></span></span>
                     <span className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-slate-500"><span>{formatDemoDate(authorization.scheduledAt)}</span><span>{formatDemoTime(authorization.scheduledAt)}</span><span className="text-blue-700">Ver detalles</span></span>
                   </span>
                 </button>
@@ -127,6 +127,8 @@ export default function HistorialPage() {
                   ["Fecha", formatDemoDate(detail.scheduledAt)],
                   ["Hora programada", formatDemoTime(detail.scheduledAt)],
                   ["Entradas confirmadas", String(detail.entryCount)],
+                  ["Salidas confirmadas", String(detail.exitCount)],
+                  ["Estado operativo", detail.presenceState === "inside" ? "Dentro de la residencial" : "Fuera de la residencial"],
                   ["Última entrada", detail.lastEntryAt ?? detail.entryAt ? formatDemoTime(detail.lastEntryAt ?? detail.entryAt ?? "") : "Sin registrar"],
                   ["Última salida", detail.lastExitAt ?? detail.exitAt ? formatDemoTime(detail.lastExitAt ?? detail.exitAt ?? "") : "Sin registrar"],
                   ["Tipo de ingreso", entryTypeLabels[detail.entryType]],

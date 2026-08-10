@@ -8,10 +8,10 @@ import {
   Timestamp,
   where,
 } from "firebase/firestore";
-import { createInitialAuthorizations, createUniqueAuthorization, generateAccessCode, normalizeAccessCode, validateAccess } from "@/lib/access";
+import { createAccessEvent, createInitialAuthorizations, createUniqueAuthorization, generateAccessCode, normalizeAccessCode, validateAccess } from "@/lib/access";
 import { ensureAnonymousUser } from "@/lib/firebase/auth";
 import { getFirebaseDatabase } from "@/lib/firebase/client";
-import type { AccessRepository, ConfirmEntryResult, UnsubscribeAccess } from "@/repositories/access-repository";
+import type { AccessRepository, ConfirmEntryResult, ConfirmExitResult, UnsubscribeAccess } from "@/repositories/access-repository";
 import { AccessRepositoryError } from "@/repositories/access-repository";
 import { authorizationToFirebase, firebaseToAuthorization } from "@/repositories/firebase-mapping";
 import type { AccessSession, Authorization, AuthorizationInput } from "@/types/demo";
@@ -102,7 +102,13 @@ export class FirebaseAccessRepository implements AccessRepository {
         if (!snapshot.exists()) throw new Error("not-found");
         const authorization = firebaseToAuthorization(snapshot.data());
         if (!authorization || authorization.createdByUid !== session.uid) throw new Error("permission-denied");
-        transaction.update(reference, { status: "cancelled", cancelledAt: Timestamp.now(), updatedAt: Timestamp.now() });
+        transaction.update(reference, {
+          status: "cancelled",
+          presenceState: authorization.presenceState,
+          exitCount: authorization.exitCount,
+          cancelledAt: Timestamp.now(),
+          updatedAt: Timestamp.now(),
+        });
       });
     } catch (error) {
       throw repositoryError(error);
@@ -128,6 +134,7 @@ export class FirebaseAccessRepository implements AccessRepository {
         const updated: Authorization = {
           ...authorization,
           entryCount: authorization.entryCount + 1,
+          presenceState: "inside",
           lastEntryAt: now.toISOString(),
           entryAt: now.toISOString(),
           updatedAt: now.toISOString(),
@@ -135,22 +142,61 @@ export class FirebaseAccessRepository implements AccessRepository {
         };
         transaction.update(reference, {
           entryCount: updated.entryCount,
+          exitCount: updated.exitCount,
+          presenceState: updated.presenceState,
           lastEntryAt: Timestamp.fromDate(now),
           updatedAt: Timestamp.fromDate(now),
           status: updated.status,
         });
         const eventReference = doc(collection(db, EVENTS));
+        const event = createAccessEvent(authorization, "entry_confirmed", now);
         transaction.set(eventReference, {
-          authorizationId: authorization.id,
-          authorizationCode: authorization.code,
-          eventType: "entry_confirmed",
+          ...event,
           eventAt: Timestamp.fromDate(now),
-          residenceId: authorization.residenceId,
-          securityStation: "Puesto Principal",
-          demo: true,
-          schemaVersion: 1,
         });
         return { validation, authorization: updated };
+      });
+    } catch (error) {
+      throw repositoryError(error);
+    }
+  }
+
+  async confirmExit(code: string): Promise<ConfirmExitResult> {
+    await this.initialize();
+    const db = getFirebaseDatabase();
+    const normalized = normalizeAccessCode(code);
+    const reference = doc(db, AUTHORIZATIONS, normalized);
+    try {
+      return await runTransaction(db, async (transaction) => {
+        const snapshot = await transaction.get(reference);
+        const authorization = snapshot.exists() ? firebaseToAuthorization(snapshot.data()) : null;
+        if (!authorization || authorization.usageMode !== "multiple-entry" || authorization.presenceState !== "inside") {
+          return { confirmed: false, authorization };
+        }
+
+        const now = new Date();
+        const updated: Authorization = {
+          ...authorization,
+          presenceState: "outside",
+          exitCount: authorization.exitCount + 1,
+          lastExitAt: now.toISOString(),
+          exitAt: now.toISOString(),
+          updatedAt: now.toISOString(),
+        };
+
+        transaction.update(reference, {
+          presenceState: updated.presenceState,
+          exitCount: updated.exitCount,
+          lastExitAt: Timestamp.fromDate(now),
+          updatedAt: Timestamp.fromDate(now),
+        });
+        const eventReference = doc(collection(db, EVENTS));
+        const event = createAccessEvent(authorization, "exit_confirmed", now);
+        transaction.set(eventReference, {
+          ...event,
+          eventAt: Timestamp.fromDate(now),
+        });
+        return { confirmed: true, authorization: updated };
       });
     } catch (error) {
       throw repositoryError(error);
@@ -163,7 +209,7 @@ export class FirebaseAccessRepository implements AccessRepository {
     const seeds = createInitialAuthorizations();
     const now = new Date().toISOString();
     const templates: Authorization[] = [
-      { ...seeds[1], status: "active", entryCount: 0, lastEntryAt: undefined, entryAt: undefined },
+      { ...seeds[1], status: "active", entryCount: 0, exitCount: 0, presenceState: "outside", lastEntryAt: undefined, entryAt: undefined },
       { ...seeds[0], status: "active" },
       { ...seeds[1], status: "used", entryCount: 1 },
       { ...seeds[2], status: "expired", entryCount: 0 },

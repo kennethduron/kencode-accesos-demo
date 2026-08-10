@@ -22,7 +22,7 @@ const desktopItems = [
 ];
 
 export function ResidentShell({ children, activeHref }: ResidentShellProps) {
-  const { resetDemo, backend, busy, error } = useDemoAccess();
+  const { resetDemo, busy, error } = useDemoAccess();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -73,7 +73,7 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
       </header>
       <main className="mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
         {children}
-        <p className="mt-5 text-center text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Backend demo: {backend === "firebase" ? "Firebase realtime" : "Local"}</p>
+        <p className="mt-5 text-center text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Experiencia residente · Datos de demostración</p>
         {error ? <p role="alert" className="mx-auto mt-4 max-w-2xl rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{error}</p> : null}
         <div className="mt-8"><DemoNotice compact /></div>
         <button type="button" disabled={busy} onClick={() => void handleReset()} className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 disabled:opacity-60 sm:hidden">

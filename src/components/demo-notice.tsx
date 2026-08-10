@@ -14,8 +14,10 @@ export function DemoNotice({ compact = false }: DemoNoticeProps) {
       aria-label="Aviso sobre los datos de demostración"
     >
       <Info aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-blue-600" />
-      <p>{demoNotice}</p>
+      <p>
+        <span className="font-bold text-slate-800">Demostración conceptual desarrollada por Ken Code.</span>{" "}
+        {demoNotice}
+      </p>
     </aside>
   );
 }
-

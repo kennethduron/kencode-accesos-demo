@@ -1,5 +1,6 @@
 import {
   confirmEntryInDomain,
+  confirmExitInDomain,
   createInitialAuthorizations,
   createUniqueAuthorization,
   hydrateStoredDemoState,
@@ -8,7 +9,7 @@ import {
   STORAGE_KEY,
   validateAccess,
 } from "@/lib/access";
-import type { AccessRepository, ConfirmEntryResult, UnsubscribeAccess } from "@/repositories/access-repository";
+import type { AccessRepository, ConfirmEntryResult, ConfirmExitResult, UnsubscribeAccess } from "@/repositories/access-repository";
 import type { AccessSession, Authorization, AuthorizationInput } from "@/types/demo";
 
 type Listener = (authorizations: Authorization[]) => void;
@@ -95,6 +96,16 @@ export class LocalAccessRepository implements AccessRepository {
     this.authorizations = this.authorizations.map((item) => item.code === authorization.code ? confirmed.authorization : item);
     this.persist();
     return { validation, authorization: confirmed.authorization };
+  }
+
+  async confirmExit(code: string): Promise<ConfirmExitResult> {
+    const authorization = await this.getAuthorizationByCode(code);
+    if (!authorization) return { confirmed: false, authorization: null };
+    const result = confirmExitInDomain(authorization);
+    if (!result.confirmed) return result;
+    this.authorizations = this.authorizations.map((item) => item.code === authorization.code ? result.authorization : item);
+    this.persist();
+    return result;
   }
 
   async resetDemoScenarios(): Promise<Authorization[]> {

@@ -7,6 +7,11 @@ export interface ConfirmEntryResult {
   authorization: Authorization | null;
 }
 
+export interface ConfirmExitResult {
+  confirmed: boolean;
+  authorization: Authorization | null;
+}
+
 export interface AccessRepository {
   readonly backend: "local" | "firebase";
   initialize(): Promise<AccessSession>;
@@ -17,6 +22,7 @@ export interface AccessRepository {
   cancelAuthorization(code: string): Promise<void>;
   revokeAuthorization(code: string): Promise<void>;
   confirmEntry(code: string): Promise<ConfirmEntryResult>;
+  confirmExit(code: string): Promise<ConfirmExitResult>;
   resetDemoScenarios(): Promise<Authorization[]>;
 }
 

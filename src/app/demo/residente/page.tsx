@@ -90,18 +90,18 @@ export default function ResidentDashboardPage() {
             <Link href="/demo/residente/historial" className="inline-flex min-h-11 items-center text-sm font-bold text-blue-700">Ver todo</Link>
           </div>
           <div className="divide-y divide-slate-100">
-            {recent.map((authorization) => {
+            {recent.length ? recent.map((authorization) => {
               const status = resolveAuthorizationStatus(authorization, now);
               return (
                 <Link key={authorization.id} href="/demo/residente/historial" className="group flex min-h-24 items-center gap-3 p-4 transition-colors hover:bg-slate-50 sm:p-5">
                   <span className={`grid size-12 shrink-0 place-items-center rounded-2xl ${status === "active" ? "bg-emerald-50 text-emerald-700" : status === "expired" ? "bg-red-50 text-red-700" : "bg-blue-50 text-blue-700"}`}>
                     {authorization.visitType === "uber" ? <Car aria-hidden="true" className="size-6" /> : authorization.visitType === "delivery" ? <FileClock aria-hidden="true" className="size-6" /> : <UserRound aria-hidden="true" className="size-6" />}
                   </span>
-                  <span className="min-w-0 flex-1"><span className="block truncate font-extrabold text-slate-950">{authorization.visitorName}</span><span className="mt-1 block text-sm text-slate-500">{authorization.status === "used" ? "Código utilizado" : visitTypeLabels[authorization.visitType]}</span></span>
+                  <span className="min-w-0 flex-1"><span className="block truncate font-extrabold text-slate-950">{authorization.visitorName}</span><span className="mt-1 block text-sm text-slate-500">{authorization.presenceState === "inside" ? "Dentro de la residencial" : authorization.status === "used" ? "Código utilizado" : visitTypeLabels[authorization.visitType]}</span></span>
                   <span className="flex shrink-0 items-center gap-2"><StatusBadge status={status} /><ArrowRight aria-hidden="true" className="hidden size-4 text-slate-400 sm:block" /></span>
                 </Link>
               );
-            })}
+            }) : <div className="p-8 text-center"><History aria-hidden="true" className="mx-auto size-8 text-slate-300" /><p className="mt-3 font-bold text-slate-700">Aún no hay actividad reciente.</p><Link href="/demo/residente/nueva-visita" className="mt-2 inline-flex min-h-11 items-center text-sm font-extrabold text-blue-700">Crear la primera visita</Link></div>}
           </div>
         </section>
       </section>

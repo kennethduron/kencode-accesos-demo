@@ -11,7 +11,6 @@ import {
   ShieldCheck,
   UserRound,
   UsersRound,
-  Zap,
 } from "lucide-react";
 import { ActionCard } from "@/components/action-card";
 import { BrandLogo } from "@/components/brand-logo";
@@ -22,12 +21,19 @@ import { StatusBadge } from "@/components/status-badge";
 import { demoAccess, demoResident } from "@/data/demo";
 
 const benefits = [
-  { icon: KeyRound, title: "Códigos únicos", text: "Autorizaciones identificables para cada visita." },
-  { icon: QrCode, title: "Acceso con QR", text: "Una experiencia visual lista para validación rápida." },
-  { icon: CalendarClock, title: "Visitas programadas", text: "Organiza accesos antes de la llegada del visitante." },
-  { icon: UsersRound, title: "Permisos temporales", text: "Vigencias conceptuales de 24 o 48 horas." },
-  { icon: Zap, title: "Validación ágil", text: "Estados claros para apoyar al personal de seguridad." },
-  { icon: History, title: "Historial de accesos", text: "Consulta movimientos y autorizaciones desde un solo lugar." },
+  { icon: Clock3, title: "Reduce tiempos de espera", text: "El visitante llega con una autorización preparada de antemano." },
+  { icon: KeyRound, title: "Menos registros manuales", text: "Códigos únicos sustituyen procesos repetitivos y poco claros." },
+  { icon: History, title: "Mantiene historial digital", text: "Entradas y salidas quedan organizadas para consulta posterior." },
+  { icon: ShieldCheck, title: "Mejora la trazabilidad", text: "Cada validación comunica un estado reconocible y accionable." },
+  { icon: CalendarClock, title: "Autorizaciones anticipadas", text: "El residente programa visitas antes de que lleguen al acceso." },
+  { icon: UsersRound, title: "Agiliza visitas frecuentes", text: "Uber, delivery, familiares y proveedores siguen flujos simples." },
+];
+
+const demoFlow = [
+  { icon: UserRound, title: "Residente autoriza", text: "Registra la visita y define su vigencia." },
+  { icon: QrCode, title: "Visitante recibe QR", text: "Obtiene un código listo para presentar." },
+  { icon: ShieldCheck, title: "Seguridad valida", text: "Comprueba el permiso en pocos segundos." },
+  { icon: History, title: "Acceso registrado", text: "Entrada y salida alimentan el historial digital." },
 ];
 
 export default function HomePage() {
@@ -126,13 +132,23 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="relative overflow-hidden bg-[#030b1d] py-16 text-white sm:py-20">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.28),transparent_30%),radial-gradient(circle_at_85%_30%,rgba(6,182,212,0.2),transparent_28%)]" aria-hidden="true" />
+          <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl"><p className="text-sm font-bold uppercase tracking-[0.16em] text-cyan-300">Así funciona</p><h2 className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] sm:text-5xl">Un flujo claro de principio a fin</h2><p className="mt-4 text-base leading-7 text-slate-300">Cuatro pasos sencillos conectan al residente, el visitante y el personal de seguridad.</p></div>
+            <ol className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {demoFlow.map(({ icon: Icon, title, text }, index) => <li key={title} className="relative rounded-3xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-sm"><div className="flex items-center justify-between gap-4"><span className="grid size-11 place-items-center rounded-2xl bg-cyan-300/10 text-cyan-300"><Icon aria-hidden="true" className="size-5" /></span><span className="text-3xl font-black text-white/15">0{index + 1}</span></div><h3 className="mt-5 text-lg font-extrabold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-300">{text}</p></li>)}
+            </ol>
+          </div>
+        </section>
+
         <section className="border-y border-slate-200 bg-white py-16 sm:py-20">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
               <div>
-                <p className="text-sm font-bold uppercase tracking-[0.16em] text-cyan-700">Concepto digital</p>
-                <h2 className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-4xl">Lo esencial para una llegada más fluida</h2>
-                <p className="mt-4 text-base leading-7 text-slate-600">La propuesta visual prioriza claridad, estados reconocibles y acciones rápidas sin representar hardware ni infraestructura física.</p>
+                <p className="text-sm font-bold uppercase tracking-[0.16em] text-cyan-700">Operación residencial</p>
+                <h2 className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-4xl">Diseñado para una operación residencial moderna</h2>
+                <p className="mt-4 text-base leading-7 text-slate-600">Una experiencia digital orientada a reducir fricción, ordenar la operación y facilitar decisiones durante cada acceso.</p>
               </div>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                 <StatCard icon={KeyRound} label="Códigos" value="Únicos" tone="blue" />

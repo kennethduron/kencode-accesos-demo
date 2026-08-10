@@ -8,6 +8,8 @@ export type ValidityType = "single" | "24h" | "48h" | "custom";
 
 export type UsageMode = "single-entry" | "multiple-entry";
 
+export type PresenceState = "outside" | "inside";
+
 export type DemoRole = "residente" | "seguridad" | "administracion";
 
 export interface DemoResident {
@@ -42,6 +44,8 @@ export interface Authorization {
   residenceId: string;
   residenceLabel: string;
   entryCount: number;
+  exitCount: number;
+  presenceState: PresenceState;
   updatedAt: string;
   lastEntryAt?: string;
   lastExitAt?: string;
@@ -71,6 +75,7 @@ export interface StoredDemoState {
 
 export type ValidationResultCode =
   | "AUTHORIZED"
+  | "INSIDE"
   | "EXPIRED"
   | "USED"
   | "CANCELLED"
@@ -92,7 +97,7 @@ export interface AccessSession {
 export interface AccessEvent {
   authorizationId: string;
   authorizationCode: string;
-  eventType: "entry_confirmed";
+  eventType: "entry_confirmed" | "exit_confirmed";
   eventAt: string;
   residenceId: string;
   securityStation: "Puesto Principal";

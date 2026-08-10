@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarClock, Car, CheckCircle2, Clock3, Home, ShieldCheck, Trash2, UserRound } from "lucide-react";
+import { CalendarClock, Car, CheckCircle2, Clock3, DoorOpen, Home, ShieldCheck, Trash2, UserRound } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { AccessQr } from "@/components/access-qr";
@@ -41,6 +41,7 @@ export default function PermisoFamiliarPage() {
     { label: "Duración", value: validityLabels[authorization.validity], icon: Clock3 },
     { label: "Inicio", value: `${formatDemoDate(authorization.scheduledAt)} · ${formatDemoTime(authorization.scheduledAt)}`, icon: CalendarClock },
     { label: "Expira", value: `${formatDemoDate(authorization.expiresAt)} · ${formatDemoTime(authorization.expiresAt)}`, icon: CalendarClock },
+    { label: "Presencia", value: authorization.presenceState === "inside" ? "Dentro de la residencial" : "Fuera de la residencial", icon: DoorOpen },
   ];
 
   return (
@@ -62,6 +63,7 @@ export default function PermisoFamiliarPage() {
               ))}
             </dl>
             <p className="mt-5 flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-bold leading-6 text-emerald-800"><ShieldCheck aria-hidden="true" className="mt-0.5 size-5 shrink-0" />Entradas y salidas permitidas durante la vigencia.</p>
+            <div className="mt-3 grid grid-cols-2 gap-3"><div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-bold text-slate-500">Entradas</p><p className="mt-1 text-2xl font-black text-slate-950">{authorization.entryCount}</p></div><div className="rounded-2xl bg-slate-50 p-4"><p className="text-xs font-bold text-slate-500">Salidas</p><p className="mt-1 text-2xl font-black text-slate-950">{authorization.exitCount}</p></div></div>
           </div>
 
           <div className="flex flex-col items-center rounded-3xl bg-slate-50 p-4 sm:p-6">

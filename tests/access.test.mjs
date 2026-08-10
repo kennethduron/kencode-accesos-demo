@@ -3,6 +3,8 @@ import assert from "node:assert/strict";
 import {
   cancelAuthorization,
   confirmEntryInDomain,
+  confirmExitInDomain,
+  createAccessEvent,
   createAuthorization,
   createUniqueAuthorization,
   filterAuthorizations,
@@ -168,10 +170,11 @@ test("single-use se consume una vez y el segundo consumo falla", () => {
   assert.equal(second.authorization.entryCount, 1);
 });
 
-test("multiple-use permanece activo y aumenta entradas", () => {
+test("multiple-use permanece activo y aumenta entradas después de salir", () => {
   const authorization = createAuthorization(input({ validity: "48h" }), now, () => 0.37);
   const first = confirmEntryInDomain(authorization, new Date(2026, 7, 10, 12, 1));
-  const second = confirmEntryInDomain(first.authorization, new Date(2026, 7, 10, 12, 2));
+  const exit = confirmExitInDomain(first.authorization, new Date(2026, 7, 10, 12, 2));
+  const second = confirmEntryInDomain(exit.authorization, new Date(2026, 7, 10, 12, 3));
   assert.equal(second.authorization.status, "active");
   assert.equal(second.authorization.entryCount, 2);
 });
@@ -204,6 +207,81 @@ test("mapea dominio a Firebase y Firebase a dominio", () => {
   assert.equal(restored.code, authorization.code);
   assert.equal(restored.usageMode, authorization.usageMode);
   assert.equal(restored.entryType, authorization.entryType);
+  assert.equal(restored.presenceState, "outside");
+  assert.equal(restored.exitCount, 0);
+});
+
+test("una autorización nueva inicia fuera y sin salidas", () => {
+  const authorization = createAuthorization(input({ validity: "48h" }), now, () => 0.4);
+  assert.equal(authorization.presenceState, "outside");
+  assert.equal(authorization.entryCount, 0);
+  assert.equal(authorization.exitCount, 0);
+});
+
+test("validation engine retorna INSIDE para visitante multiple-use dentro", () => {
+  const authorization = createAuthorization(input({ validity: "48h" }), now, () => 0.41);
+  const entered = confirmEntryInDomain(authorization, new Date(2026, 7, 10, 12, 1)).authorization;
+  assert.equal(validateAccess(entered.code, entered, new Date(2026, 7, 10, 12, 2)).code, "INSIDE");
+});
+
+test("confirmar salida actualiza presenceState, exitCount y lastExitAt", () => {
+  const authorization = createAuthorization(input({ validity: "48h" }), now, () => 0.42);
+  const entered = confirmEntryInDomain(authorization, new Date(2026, 7, 10, 12, 1)).authorization;
+  const exited = confirmExitInDomain(entered, new Date(2026, 7, 10, 12, 5));
+  assert.equal(exited.confirmed, true);
+  assert.equal(exited.authorization.presenceState, "outside");
+  assert.equal(exited.authorization.exitCount, 1);
+  assert.equal(exited.authorization.lastExitAt, new Date(2026, 7, 10, 12, 5).toISOString());
+  assert.equal(exited.authorization.status, "active");
+});
+
+test("no permite confirmar salida si el visitante ya está fuera", () => {
+  const authorization = createAuthorization(input({ validity: "48h" }), now, () => 0.43);
+  const result = confirmExitInDomain(authorization, new Date(2026, 7, 10, 12, 5));
+  assert.equal(result.confirmed, false);
+  assert.equal(result.authorization.exitCount, 0);
+  assert.equal(result.authorization.presenceState, "outside");
+});
+
+test("multiple-use completa entrada, salida y nueva entrada", () => {
+  const authorization = createAuthorization(input({ validity: "48h" }), now, () => 0.44);
+  const firstEntry = confirmEntryInDomain(authorization, new Date(2026, 7, 10, 12, 1)).authorization;
+  const exit = confirmExitInDomain(firstEntry, new Date(2026, 7, 10, 12, 2)).authorization;
+  const secondEntry = confirmEntryInDomain(exit, new Date(2026, 7, 10, 12, 3)).authorization;
+  assert.equal(secondEntry.entryCount, 2);
+  assert.equal(secondEntry.exitCount, 1);
+  assert.equal(secondEntry.presenceState, "inside");
+  assert.equal(secondEntry.status, "active");
+});
+
+test("single-use no se reactiva mediante confirmación de salida", () => {
+  const authorization = createAuthorization(input({ validity: "single" }), now, () => 0.45);
+  const entered = confirmEntryInDomain(authorization, new Date(2026, 7, 10, 12, 1)).authorization;
+  const exit = confirmExitInDomain(entered, new Date(2026, 7, 10, 12, 2));
+  assert.equal(exit.confirmed, false);
+  assert.equal(exit.authorization.status, "used");
+  assert.equal(validateAccess(exit.authorization.code, exit.authorization, new Date(2026, 7, 10, 12, 3)).code, "USED");
+});
+
+test("evento de salida usa exit_confirmed sin duplicar PII", () => {
+  const authorization = createAuthorization(input({ validity: "48h" }), now, () => 0.46);
+  const event = createAccessEvent(authorization, "exit_confirmed", new Date(2026, 7, 10, 12, 2));
+  assert.equal(event.eventType, "exit_confirmed");
+  assert.equal(event.authorizationCode, authorization.code);
+  assert.equal("visitorName" in event, false);
+  assert.equal(event.securityStation, "Puesto Principal");
+});
+
+test("mapping Firebase conserva presencia y conteos de salida", () => {
+  const authorization = createAuthorization(input({ validity: "48h" }), now, () => 0.47);
+  const entered = confirmEntryInDomain(authorization, new Date(2026, 7, 10, 12, 1)).authorization;
+  const exited = confirmExitInDomain(entered, new Date(2026, 7, 10, 12, 2)).authorization;
+  const timestamp = { fromDate: (value) => ({ toDate: () => value }) };
+  const restored = firebaseToAuthorization(authorizationToFirebase(exited, "demo-uid", timestamp));
+  assert.ok(restored);
+  assert.equal(restored.presenceState, "outside");
+  assert.equal(restored.exitCount, 1);
+  assert.equal(restored.lastExitAt, exited.lastExitAt);
 });
 
 test("validation gate activa loading al iniciar y lo limpia al completar", async () => {
