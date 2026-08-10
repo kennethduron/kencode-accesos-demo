@@ -13,6 +13,7 @@ import {
   validateAccess,
 } from "../src/lib/access.ts";
 import { buildQrPayload, parseQrPayload } from "../src/lib/qr.ts";
+import { createAccessValidationGate } from "../src/lib/access-validation-feedback.ts";
 import { authorizationToFirebase, firebaseToAuthorization } from "../src/repositories/firebase-mapping.ts";
 
 const now = new Date(2026, 7, 10, 10, 0, 0);
@@ -203,4 +204,85 @@ test("mapea dominio a Firebase y Firebase a dominio", () => {
   assert.equal(restored.code, authorization.code);
   assert.equal(restored.usageMode, authorization.usageMode);
   assert.equal(restored.entryType, authorization.entryType);
+});
+
+test("validation gate activa loading al iniciar y lo limpia al completar", async () => {
+  const gate = createAccessValidationGate({ minimumVisibleMs: 0 });
+  let loading = false;
+  let completeTask;
+  const task = new Promise((resolve) => { completeTask = resolve; });
+
+  const validation = gate.run(
+    () => task,
+    () => { loading = true; },
+    () => { loading = false; },
+  );
+
+  assert.equal(loading, true);
+  assert.equal(gate.isProcessing(), true);
+  completeTask("AUTHORIZED");
+  const result = await validation;
+  assert.deepEqual(result, { started: true, value: "AUTHORIZED" });
+  assert.equal(loading, false);
+  assert.equal(gate.isProcessing(), false);
+});
+
+test("validation gate rechaza doble procesamiento mientras hay un lookup activo", async () => {
+  const gate = createAccessValidationGate({ minimumVisibleMs: 0 });
+  let completeTask;
+  const task = new Promise((resolve) => { completeTask = resolve; });
+  const first = gate.run(() => task, () => undefined, () => undefined);
+
+  const second = await gate.run(
+    async () => "duplicado",
+    () => assert.fail("el segundo lookup no debe iniciar"),
+    () => assert.fail("el segundo lookup no debe finalizar"),
+  );
+
+  assert.deepEqual(second, { started: false });
+  completeTask("primero");
+  assert.deepEqual(await first, { started: true, value: "primero" });
+});
+
+test("validation gate limpia loading y permite reintentar después de un error", async () => {
+  const gate = createAccessValidationGate({ minimumVisibleMs: 0 });
+  let loading = false;
+
+  await assert.rejects(
+    gate.run(
+      async () => { throw new Error("Firebase unavailable"); },
+      () => { loading = true; },
+      () => { loading = false; },
+    ),
+    /Firebase unavailable/,
+  );
+
+  assert.equal(loading, false);
+  assert.equal(gate.isProcessing(), false);
+  const retry = await gate.run(async () => "retry-ok", () => undefined, () => undefined);
+  assert.deepEqual(retry, { started: true, value: "retry-ok" });
+});
+
+test("validation gate conserva el overlay durante el mínimo visual configurado", async () => {
+  let currentTime = 1_000;
+  const waits = [];
+  const gate = createAccessValidationGate({
+    minimumVisibleMs: 400,
+    now: () => currentTime,
+    wait: async (milliseconds) => {
+      waits.push(milliseconds);
+      currentTime += milliseconds;
+    },
+  });
+
+  await gate.run(
+    async () => {
+      currentTime += 125;
+      return "AUTHORIZED";
+    },
+    () => undefined,
+    () => undefined,
+  );
+
+  assert.deepEqual(waits, [275]);
 });

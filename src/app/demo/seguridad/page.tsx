@@ -20,8 +20,10 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BrandLogo } from "@/components/brand-logo";
+import { AccessValidationOverlay } from "@/components/access-validation-overlay";
 import { DemoBadge } from "@/components/demo-badge";
 import { entryTypeLabels, formatDemoDate, formatDemoTime, normalizeAccessCode, validateAccess, visitTypeLabels } from "@/lib/access";
+import { createAccessValidationGate, type ValidationSource } from "@/lib/access-validation-feedback";
 import { parseQrPayload } from "@/lib/qr";
 import { getAccessRepository } from "@/repositories";
 import type { AccessValidationResult, Authorization, ValidationResultCode } from "@/types/demo";
@@ -58,6 +60,7 @@ export default function SeguridadPage() {
   const [validationState, setValidation] = useState<AccessValidationResult | null>(null);
   const [connecting, setConnecting] = useState(true);
   const [validating, setValidating] = useState(false);
+  const [validationSource, setValidationSource] = useState<ValidationSource>("manual");
   const [confirming, setConfirming] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [scanning, setScanning] = useState(false);
@@ -67,6 +70,8 @@ export default function SeguridadPage() {
   const controlsRef = useRef<ScanControls | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const scanRequestRef = useRef(0);
+  const scanProcessingRef = useRef(false);
+  const [validationGate] = useState(() => createAccessValidationGate());
 
   useEffect(() => {
     getAccessRepository().initialize().then(() => setConnecting(false)).catch(() => {
@@ -88,37 +93,43 @@ export default function SeguridadPage() {
 
   useEffect(() => stopCamera, [stopCamera]);
 
-  async function validateCode(rawCode: string) {
-    stopCamera();
-    setValidatedStateStart();
-    const normalized = normalizeAccessCode(rawCode);
-    setCode(normalized);
-    const formatResult = validateAccess(normalized, null);
-    if (formatResult.code === "INVALID_FORMAT") {
-      setValidation(formatResult);
-      setValidating(false);
-      return;
-    }
+  async function validateCode(rawCode: string, source: ValidationSource) {
     try {
-      const authorization = await getAccessRepository().getAuthorizationByCode(normalized);
-      setValidation(validateAccess(normalized, authorization));
+      const outcome = await validationGate.run(async () => {
+        const normalized = normalizeAccessCode(rawCode);
+        const formatResult = validateAccess(normalized, null);
+        if (formatResult.code === "INVALID_FORMAT") {
+          return { normalized, result: formatResult };
+        }
+
+        const authorization = await getAccessRepository().getAuthorizationByCode(normalized);
+        return { normalized, result: validateAccess(normalized, authorization) };
+      }, () => {
+        stopCamera();
+        setValidation(null);
+        setConfirmed(false);
+        setServiceError("");
+        setValidationSource(source);
+        setValidating(true);
+        if (source === "qr") setCameraMessage("Código QR detectado correctamente.");
+      }, () => {
+        scanProcessingRef.current = false;
+        setValidating(false);
+      });
+
+      if (!outcome.started) return;
+      setCode(outcome.value.normalized);
+      setValidation(outcome.value.result);
     } catch {
       setServiceError("No fue posible consultar el acceso. Verifique la conexión e intente nuevamente.");
-    } finally {
-      setValidating(false);
     }
-  }
-
-  function setValidatedStateStart() {
-    setValidation(null);
-    setConfirmed(false);
-    setServiceError("");
-    setValidating(true);
   }
 
   async function startCamera() {
+    if (validationGate.isProcessing()) return;
     const requestId = scanRequestRef.current + 1;
     scanRequestRef.current = requestId;
+    scanProcessingRef.current = false;
     setCameraMessage("");
     setValidation(null);
     if (!navigator.mediaDevices?.getUserMedia) {
@@ -147,15 +158,17 @@ export default function SeguridadPage() {
       const reader = new BrowserQRCodeReader(undefined, { delayBetweenScanAttempts: 180 });
       setCameraMessage("Apunte la cámara al código QR de Ken Code.");
       const controls = await reader.decodeFromStream(stream, videoRef.current, (result, _error, callbackControls) => {
-        if (!result) return;
+        if (!result || scanProcessingRef.current || validationGate.isProcessing()) return;
+        scanProcessingRef.current = true;
         callbackControls.stop();
         const parsed = parseQrPayload(result.getText());
         if (!parsed) {
           stopCamera();
+          scanProcessingRef.current = false;
           setCameraMessage("El QR detectado no pertenece a Ken Code Access v1. Puede intentar nuevamente o ingresar el código.");
           return;
         }
-        void validateCode(parsed);
+        void validateCode(parsed, "qr");
       });
       if (requestId !== scanRequestRef.current) {
         controls.stop();
@@ -167,6 +180,7 @@ export default function SeguridadPage() {
     } catch (error) {
       if (requestId !== scanRequestRef.current) return;
       stopCamera();
+      scanProcessingRef.current = false;
       const name = error instanceof DOMException ? error.name : "";
       const messages: Record<string, string> = {
         NotAllowedError: "Permiso de cámara denegado. Habilítelo en el navegador o use el código manual.",
@@ -178,6 +192,7 @@ export default function SeguridadPage() {
   }
 
   function changeMethod(next: "scan" | "manual") {
+    if (validationGate.isProcessing()) return;
     if (next === "manual") stopCamera();
     setMethod(next);
     setCameraMessage("");
@@ -210,16 +225,17 @@ export default function SeguridadPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <AccessValidationOverlay open={validating} source={validationSource} />
       <header className="border-b border-slate-200 bg-white"><div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"><Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[150px]" /></Link><div className="text-right"><DemoBadge /><p className="mt-1 text-xs font-bold text-slate-500">Modo Seguridad · Demostración</p></div></div></header>
-      <main className="mx-auto grid w-full max-w-7xl gap-7 px-4 py-7 sm:px-6 sm:py-10 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
+      <main aria-busy={validating} className="mx-auto grid w-full max-w-7xl gap-7 px-4 py-7 sm:px-6 sm:py-10 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
         <section>
           <p className="text-sm font-black uppercase tracking-[0.16em] text-blue-700">Puesto Principal</p>
           <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Validar acceso</h1>
           <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">Escanee el QR o ingrese el código del visitante.</p>
 
           <div className="mt-7 grid grid-cols-2 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm" role="tablist" aria-label="Método de validación">
-            <button type="button" role="tab" aria-selected={method === "scan"} onClick={() => changeMethod("scan")} className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 text-sm font-extrabold ${method === "scan" ? "bg-blue-600 text-white" : "text-slate-600"}`}><Camera aria-hidden="true" className="size-5" />Escanear QR</button>
-            <button type="button" role="tab" aria-selected={method === "manual"} onClick={() => changeMethod("manual")} className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 text-sm font-extrabold ${method === "manual" ? "bg-blue-600 text-white" : "text-slate-600"}`}><Keyboard aria-hidden="true" className="size-5" />Ingresar código</button>
+            <button type="button" role="tab" aria-selected={method === "scan"} disabled={validating} onClick={() => changeMethod("scan")} className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 text-sm font-extrabold disabled:cursor-wait disabled:opacity-60 ${method === "scan" ? "bg-blue-600 text-white" : "text-slate-600"}`}><Camera aria-hidden="true" className="size-5" />Escanear QR</button>
+            <button type="button" role="tab" aria-selected={method === "manual"} disabled={validating} onClick={() => changeMethod("manual")} className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 text-sm font-extrabold disabled:cursor-wait disabled:opacity-60 ${method === "manual" ? "bg-blue-600 text-white" : "text-slate-600"}`}><Keyboard aria-hidden="true" className="size-5" />Ingresar código</button>
           </div>
 
           <div className="surface-card mt-4 overflow-hidden p-5 sm:p-6">
@@ -229,15 +245,15 @@ export default function SeguridadPage() {
                 {!scanning ? <div className="absolute inset-0 grid place-items-center p-6 text-center text-white"><div><span className="mx-auto grid size-16 place-items-center rounded-3xl bg-white/10"><Camera aria-hidden="true" className="size-8 text-cyan-300" /></span><p className="mt-4 font-extrabold">La cámara permanece apagada</p><p className="mt-1 text-sm text-slate-300">Solo se activará cuando usted lo solicite.</p></div></div> : <div aria-hidden="true" className="pointer-events-none absolute inset-[14%] rounded-3xl border-2 border-cyan-300 shadow-[0_0_0_999px_rgba(2,8,23,0.38)]" />}
               </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <button type="button" disabled={scanning || connecting} onClick={() => void startCamera()} className="primary-button w-full disabled:cursor-wait disabled:opacity-60"><Camera aria-hidden="true" className="size-5" />Escanear QR</button>
-                <button type="button" disabled={!scanning} onClick={() => { stopCamera(); setCameraMessage("Cámara detenida."); }} className="secondary-button inline-flex w-full gap-2 disabled:cursor-not-allowed disabled:opacity-50"><CameraOff aria-hidden="true" className="size-5" />Detener cámara</button>
+                <button type="button" disabled={scanning || connecting || validating} onClick={() => void startCamera()} className="primary-button w-full disabled:cursor-wait disabled:opacity-60"><Camera aria-hidden="true" className="size-5" />Escanear QR</button>
+                <button type="button" disabled={!scanning || validating} onClick={() => { stopCamera(); setCameraMessage("Cámara detenida."); }} className="secondary-button inline-flex w-full gap-2 disabled:cursor-not-allowed disabled:opacity-50"><CameraOff aria-hidden="true" className="size-5" />Detener cámara</button>
               </div>
               <p className="mt-3 min-h-6 text-sm font-semibold text-slate-600" aria-live="polite">{cameraMessage}</p>
-            </div> : <form onSubmit={(event) => { event.preventDefault(); void validateCode(code); }} noValidate>
+            </div> : <form onSubmit={(event) => { event.preventDefault(); void validateCode(code, "manual"); }} noValidate>
               <label htmlFor="security-code" className="form-label text-base">Código de acceso</label>
-              <input id="security-code" value={code} onChange={(event) => setCode(normalizeAccessCode(event.target.value))} inputMode="text" autoCapitalize="characters" autoComplete="off" maxLength={9} placeholder="A7X9-2K4P" className="form-control min-h-16 font-mono text-2xl font-black uppercase tracking-wider" />
+              <input id="security-code" value={code} disabled={validating || connecting} onChange={(event) => setCode(normalizeAccessCode(event.target.value))} inputMode="text" autoCapitalize="characters" autoComplete="off" maxLength={9} placeholder="A7X9-2K4P" className="form-control min-h-16 font-mono text-2xl font-black uppercase tracking-wider disabled:cursor-wait disabled:opacity-60" />
               <p className="mt-2 text-sm text-slate-500">Puede escribir o pegar el código completo.</p>
-              <button type="submit" disabled={validating || connecting} className="primary-button mt-5 min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-60">{validating ? <LoaderCircle aria-hidden="true" className="size-5 animate-spin" /> : <ShieldCheck aria-hidden="true" className="size-5" />}{validating ? "Validando código…" : "Validar código"}</button>
+              <button type="submit" disabled={validating || connecting} className="primary-button mt-5 min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-60"><ShieldCheck aria-hidden="true" className="size-5" />Validar código</button>
             </form>}
           </div>
         </section>
