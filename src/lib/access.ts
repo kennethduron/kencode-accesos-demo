@@ -1,5 +1,6 @@
 import type {
   AccessStatus,
+  AccessValidationResult,
   Authorization,
   AuthorizationInput,
   EntryType,
@@ -10,6 +11,10 @@ import type {
 } from "@/types/demo";
 
 export const STORAGE_KEY = "kencode-access-demo-v1";
+export const LOCAL_SESSION_KEY = "kencode-access-local-session-v1";
+export const DEMO_RESIDENCE_ID = "valle-azul-casa-27";
+export const DEMO_RESIDENCE_LABEL = "Casa 27 · Residencial Valle Azul";
+export const ACCESS_CODE_PATTERN = /^[A-HJ-KM-NP-Z2-9]{4}-[A-HJ-KM-NP-Z2-9]{4}$/;
 
 export const visitTypeLabels: Record<VisitType, string> = {
   uber: "Uber",
@@ -83,7 +88,7 @@ export function validateAuthorizationInput(input: AuthorizationInput, now = new 
   if (!name) errors.visitorName = "Ingresa el nombre del visitante.";
   if (!input.date || !scheduled) errors.date = "Selecciona una fecha válida.";
   if (!input.time || !scheduled) errors.time = "Selecciona una hora válida.";
-  if (scheduled && scheduled.getTime() < now.getTime() - 60_000) {
+  if (scheduled && scheduled.getTime() < now.getTime() - 5 * 60_000) {
     errors.date = "La visita debe programarse para una fecha y hora futuras.";
     errors.time = "Revisa la hora programada.";
   }
@@ -113,9 +118,26 @@ function secureRandom(): number {
 }
 
 export function generateAccessCode(random: () => number = secureRandom): string {
-  const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const alphabet = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
   const part = () => Array.from({ length: 4 }, () => alphabet[Math.floor(random() * alphabet.length) % alphabet.length]).join("");
   return `${part()}-${part()}`;
+}
+
+export function normalizeAccessCode(value: string): string {
+  const compact = value
+    .trim()
+    .toUpperCase()
+    .replace(/[‐‑‒–—―−]/g, "-")
+    .replace(/\s+/g, "")
+    .replace(/[^A-Z0-9-]/g, "")
+    .replace(/-+/g, "-");
+  const withoutHyphen = compact.replace(/-/g, "").slice(0, 8);
+  if (withoutHyphen.length <= 4) return withoutHyphen;
+  return `${withoutHyphen.slice(0, 4)}-${withoutHyphen.slice(4)}`;
+}
+
+export function isValidAccessCode(value: string): boolean {
+  return ACCESS_CODE_PATTERN.test(normalizeAccessCode(value));
 }
 
 function expirationFor(input: AuthorizationInput, scheduled: Date): Date {
@@ -148,17 +170,74 @@ export function createAuthorization(input: AuthorizationInput, now = new Date(),
     createdAt: now.toISOString(),
     expiresAt: expirationFor(input, scheduled).toISOString(),
     usageMode,
+    residenceId: DEMO_RESIDENCE_ID,
+    residenceLabel: DEMO_RESIDENCE_LABEL,
+    entryCount: 0,
+    updatedAt: now.toISOString(),
   };
 }
 
+export async function createUniqueAuthorization(
+  input: AuthorizationInput,
+  codeExists: (code: string) => Promise<boolean>,
+  now = new Date(),
+  random: () => number = secureRandom,
+  maxAttempts = 12,
+): Promise<Authorization> {
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+    const authorization = createAuthorization(input, now, random);
+    if (!(await codeExists(authorization.code))) return authorization;
+  }
+  throw new Error("Unable to generate a unique access code");
+}
+
 export function resolveAuthorizationStatus(authorization: Authorization, now = new Date()): AccessStatus {
-  if (authorization.status === "active" && new Date(authorization.expiresAt).getTime() <= now.getTime()) return "expired";
+  if (!["cancelled", "completed"].includes(authorization.status) && new Date(authorization.expiresAt).getTime() <= now.getTime()) return "expired";
+  if (authorization.usageMode === "single-entry" && authorization.entryCount > 0) return "used";
   return authorization.status;
 }
 
+export function validateAccess(
+  rawCode: string,
+  authorization: Authorization | null,
+  now = new Date(),
+): AccessValidationResult {
+  const normalizedCode = normalizeAccessCode(rawCode);
+  if (!ACCESS_CODE_PATTERN.test(normalizedCode)) return { code: "INVALID_FORMAT", normalizedCode, authorization: null };
+  if (!authorization) return { code: "NOT_FOUND", normalizedCode, authorization: null };
+  if (authorization.status === "cancelled") return { code: "CANCELLED", normalizedCode, authorization };
+  if (new Date(authorization.scheduledAt).getTime() > now.getTime()) return { code: "NOT_YET_VALID", normalizedCode, authorization };
+  if (new Date(authorization.expiresAt).getTime() <= now.getTime()) return { code: "EXPIRED", normalizedCode, authorization };
+  if (authorization.usageMode === "single-entry" && (authorization.entryCount > 0 || authorization.status === "used")) {
+    return { code: "USED", normalizedCode, authorization };
+  }
+  return { code: "AUTHORIZED", normalizedCode, authorization };
+}
+
+export function confirmEntryInDomain(
+  authorization: Authorization,
+  now = new Date(),
+): { authorization: Authorization; validation: AccessValidationResult } {
+  const validation = validateAccess(authorization.code, authorization, now);
+  if (validation.code !== "AUTHORIZED") return { authorization, validation };
+  const entryCount = authorization.entryCount + 1;
+  return {
+    authorization: {
+      ...authorization,
+      entryCount,
+      lastEntryAt: now.toISOString(),
+      entryAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+      status: authorization.usageMode === "single-entry" ? "used" : "active",
+    },
+    validation,
+  };
+}
+
 export function cancelAuthorization(authorizations: Authorization[], id: string): Authorization[] {
+  const cancelledAt = new Date().toISOString();
   return authorizations.map((authorization) =>
-    authorization.id === id ? { ...authorization, status: "cancelled" as const } : authorization,
+    authorization.id === id ? { ...authorization, status: "cancelled" as const, cancelledAt, updatedAt: cancelledAt } : authorization,
   );
 }
 
@@ -187,7 +266,7 @@ function isAuthorization(value: unknown): value is Authorization {
   return (
     typeof value.id === "string" &&
     typeof value.code === "string" &&
-    /^[A-Z2-9]{4}-[A-Z2-9]{4}$/.test(value.code) &&
+    ACCESS_CODE_PATTERN.test(value.code) &&
     typeof value.visitorName === "string" &&
     visitTypes.includes(value.visitType as VisitType) &&
     entryTypes.includes(value.entryType as EntryType) &&
@@ -199,9 +278,29 @@ function isAuthorization(value: unknown): value is Authorization {
     isIsoDate(value.createdAt) &&
     isIsoDate(value.expiresAt) &&
     ["single-entry", "multiple-entry"].includes(value.usageMode as UsageMode) &&
+    (value.residenceId === undefined || typeof value.residenceId === "string") &&
+    (value.residenceLabel === undefined || typeof value.residenceLabel === "string") &&
+    (value.entryCount === undefined || (typeof value.entryCount === "number" && Number.isInteger(value.entryCount) && value.entryCount >= 0)) &&
+    (value.updatedAt === undefined || isIsoDate(value.updatedAt)) &&
+    (value.lastEntryAt === undefined || isIsoDate(value.lastEntryAt)) &&
+    (value.lastExitAt === undefined || isIsoDate(value.lastExitAt)) &&
+    (value.createdByUid === undefined || typeof value.createdByUid === "string") &&
+    (value.cancelledAt === undefined || isIsoDate(value.cancelledAt)) &&
     (value.entryAt === undefined || isIsoDate(value.entryAt)) &&
     (value.exitAt === undefined || isIsoDate(value.exitAt))
   );
+}
+
+function normalizeHydratedAuthorization(authorization: Authorization): Authorization {
+  return {
+    ...authorization,
+    residenceId: authorization.residenceId ?? DEMO_RESIDENCE_ID,
+    residenceLabel: authorization.residenceLabel ?? DEMO_RESIDENCE_LABEL,
+    entryCount: authorization.entryCount ?? (authorization.entryAt ? 1 : 0),
+    lastEntryAt: authorization.lastEntryAt ?? authorization.entryAt,
+    lastExitAt: authorization.lastExitAt ?? authorization.exitAt,
+    updatedAt: authorization.updatedAt ?? authorization.createdAt,
+  };
 }
 
 function relativeIso(now: Date, hours: number, minutes = 0): string {
@@ -220,7 +319,7 @@ export function createInitialAuthorizations(now = new Date()): Authorization[] {
     { id: "seed-friend", code: "AMG4-8H2N", visitorName: "Laura Martínez", visitType: "friend", entryType: "pedestrian", vehicle: "Peatonal", plate: "No aplica", scheduledAt: at(today, "10:15"), validity: "single", status: "completed", createdAt: relativeIso(now, -8), expiresAt: relativeIso(now, 4), usageMode: "single-entry", entryAt: at(today, "10:16"), exitAt: at(today, "11:05") },
     { id: "seed-provider", code: "PRV8-3J6K", visitorName: "Servicios Técnicos", visitType: "provider", entryType: "car", vehicle: "Panel blanca", plate: "PAA-7041", scheduledAt: at(today, "09:30"), validity: "24h", status: "active", createdAt: relativeIso(now, -10), expiresAt: relativeIso(now, 14), usageMode: "multiple-entry" },
     { id: "seed-family-two", code: "JSM7-4Q8P", visitorName: "José Martínez", visitType: "family", entryType: "car", vehicle: "Honda Civic", plate: "HBC-3042", scheduledAt: at(today, "18:00"), validity: "24h", status: "active", createdAt: relativeIso(now, -2), expiresAt: relativeIso(now, 22), usageMode: "multiple-entry" },
-  ];
+  ].map((authorization) => normalizeHydratedAuthorization(authorization as Authorization));
 }
 
 export function hydrateStoredDemoState(raw: string | null, now = new Date()): StoredDemoState {
@@ -231,7 +330,7 @@ export function hydrateStoredDemoState(raw: string | null, now = new Date()): St
   try {
     const parsed: unknown = JSON.parse(raw);
     if (!isRecord(parsed) || parsed.version !== 1 || !Array.isArray(parsed.authorizations)) return fallback;
-    const authorizations = parsed.authorizations.filter(isAuthorization).slice(0, 100);
+    const authorizations = parsed.authorizations.filter(isAuthorization).slice(0, 100).map(normalizeHydratedAuthorization);
     if (authorizations.length === 0) return fallback;
     const selectedId = typeof parsed.selectedId === "string" && authorizations.some((item) => item.id === parsed.selectedId)
       ? parsed.selectedId

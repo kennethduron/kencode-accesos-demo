@@ -22,13 +22,13 @@ const desktopItems = [
 ];
 
 export function ResidentShell({ children, activeHref }: ResidentShellProps) {
-  const { resetDemo } = useDemoAccess();
+  const { resetDemo, backend, busy, error } = useDemoAccess();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [message, setMessage] = useState("");
 
-  function handleReset() {
-    resetDemo();
-    setMessage("Los datos iniciales del demo fueron restaurados.");
+  async function handleReset() {
+    const restored = await resetDemo();
+    setMessage(restored ? "Los escenarios ficticios del demo fueron restaurados." : "No fue posible restaurar los escenarios.");
   }
 
   return (
@@ -55,9 +55,9 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
               {notificationsOpen ? <X aria-hidden="true" className="size-5" /> : <Bell aria-hidden="true" className="size-5" />}
               <span className="absolute -right-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-blue-600 text-[10px] font-black text-white" aria-label="2 notificaciones">2</span>
             </button>
-            <button type="button" onClick={handleReset} className="hidden min-h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-50 sm:inline-flex">
+            <button type="button" disabled={busy} onClick={() => void handleReset()} className="hidden min-h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-wait disabled:opacity-60 sm:inline-flex">
               <RotateCcw aria-hidden="true" className="size-4" />
-              Restablecer demo
+              Restablecer escenarios demo
             </button>
             {notificationsOpen ? (
               <section className="absolute right-0 top-14 z-50 w-[min(21rem,calc(100vw-2rem))] rounded-2xl border border-slate-200 bg-white p-4 shadow-2xl" aria-label="Notificaciones conceptuales">
@@ -73,10 +73,12 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
       </header>
       <main className="mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
         {children}
+        <p className="mt-5 text-center text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Backend demo: {backend === "firebase" ? "Firebase realtime" : "Local"}</p>
+        {error ? <p role="alert" className="mx-auto mt-4 max-w-2xl rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{error}</p> : null}
         <div className="mt-8"><DemoNotice compact /></div>
-        <button type="button" onClick={handleReset} className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 sm:hidden">
+        <button type="button" disabled={busy} onClick={() => void handleReset()} className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 disabled:opacity-60 sm:hidden">
           <RotateCcw aria-hidden="true" className="size-4" />
-          Restablecer demo
+          Restablecer escenarios demo
         </button>
       </main>
       <p className="sr-only" aria-live="polite">{message}</p>

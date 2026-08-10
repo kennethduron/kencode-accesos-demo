@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CalendarClock, Car, CheckCircle2, Clock3, Home, ShieldCheck, Trash2, UserRound, UsersRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ConfirmDialog } from "@/components/confirm-dialog";
-import { QrPlaceholder } from "@/components/qr-placeholder";
+import { AccessQr } from "@/components/access-qr";
 import { ResidentPageHeader } from "@/components/resident-page-header";
 import { ResidentShell } from "@/components/resident-shell";
 import { ShareAccessButton } from "@/components/share-access-button";
@@ -13,7 +13,7 @@ import { useDemoAccess } from "@/context/demo-access-context";
 import { entryTypeLabels, formatDemoDate, formatDemoTime, formatRemainingTime, resolveAuthorizationStatus, validityLabels, visitTypeLabels } from "@/lib/access";
 
 export default function CodigoPage() {
-  const { selectedAuthorization, cancelById } = useDemoAccess();
+  const { selectedAuthorization, cancelById, hydrated, busy, error } = useDemoAccess();
   const [now, setNow] = useState(() => new Date());
   const [dialogOpen, setDialogOpen] = useState(false);
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
@@ -22,6 +22,10 @@ export default function CodigoPage() {
     const timer = window.setInterval(() => setNow(new Date()), 60_000);
     return () => window.clearInterval(timer);
   }, []);
+
+  if (!hydrated) {
+    return <ResidentShell activeHref="/demo/residente/nueva-visita"><section className="surface-card p-8 text-center font-bold text-slate-600" aria-live="polite">Conectando con el servicio de demostración…</section></ResidentShell>;
+  }
 
   if (!selectedAuthorization) {
     return (
@@ -53,10 +57,11 @@ export default function CodigoPage() {
 
       <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <section className="surface-card flex flex-col items-center p-5 text-center sm:p-7" aria-labelledby="access-code-title">
-          <QrPlaceholder />
+          <AccessQr code={authorization.code} />
           <p id="access-code-title" className="mt-6 text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Código alfanumérico</p>
           <p className="mt-2 break-all font-mono text-4xl font-black tracking-[0.08em] text-blue-700 sm:text-5xl">{authorization.code}</p>
           <div className="mt-4"><StatusBadge status={status} /></div>
+          <p className="mt-4 max-w-sm text-sm font-semibold leading-6 text-slate-600">Presente este QR o código al personal de seguridad.</p>
           <div className={`mt-6 w-full rounded-2xl border p-4 text-left ${authorization.usageMode === "multiple-entry" ? "border-emerald-200 bg-emerald-50 text-emerald-900" : "border-blue-200 bg-blue-50 text-blue-900"}`}>
             <p className="flex items-start gap-2 text-sm font-bold"><CheckCircle2 aria-hidden="true" className="mt-0.5 size-5 shrink-0" />{authorization.usageMode === "multiple-entry" ? "Múltiples entradas durante la vigencia" : "Permiso válido para un ingreso"}</p>
           </div>
@@ -83,13 +88,14 @@ export default function CodigoPage() {
               {status === "cancelled" ? "Permiso cancelado" : "Cancelar permiso"}
             </button>
           </div>
+          {error ? <p role="alert" className="mx-5 mb-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700 sm:mx-6">{error}</p> : null}
           {authorization.visitType === "family" ? (
             <div className="border-t border-slate-200 p-5 sm:p-6"><Link href="/demo/residente/permiso-familiar" className="secondary-button inline-flex w-full gap-2"><ShieldCheck aria-hidden="true" className="size-5 text-blue-600" />Administrar permiso familiar</Link></div>
           ) : null}
         </section>
       </div>
 
-      <ConfirmDialog open={dialogOpen} title="¿Cancelar este permiso?" description={`El código ${authorization.code} dejará de ser válido, pero permanecerá visible en el historial.`} confirmLabel="Sí, cancelar permiso" triggerRef={cancelButtonRef} onClose={() => setDialogOpen(false)} onConfirm={() => cancelById(authorization.id)} />
+      <ConfirmDialog open={dialogOpen} title="¿Cancelar este permiso?" description={`El código ${authorization.code} dejará de ser válido, pero permanecerá visible en el historial.`} confirmLabel={busy ? "Cancelando…" : "Sí, cancelar permiso"} triggerRef={cancelButtonRef} onClose={() => setDialogOpen(false)} onConfirm={() => void cancelById(authorization.id)} />
     </ResidentShell>
   );
 }

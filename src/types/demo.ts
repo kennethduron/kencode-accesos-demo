@@ -39,6 +39,14 @@ export interface Authorization {
   createdAt: string;
   expiresAt: string;
   usageMode: UsageMode;
+  residenceId: string;
+  residenceLabel: string;
+  entryCount: number;
+  updatedAt: string;
+  lastEntryAt?: string;
+  lastExitAt?: string;
+  createdByUid?: string;
+  cancelledAt?: string;
   entryAt?: string;
   exitAt?: string;
 }
@@ -59,4 +67,35 @@ export interface StoredDemoState {
   version: 1;
   authorizations: Authorization[];
   selectedId: string | null;
+}
+
+export type ValidationResultCode =
+  | "AUTHORIZED"
+  | "EXPIRED"
+  | "USED"
+  | "CANCELLED"
+  | "NOT_FOUND"
+  | "INVALID_FORMAT"
+  | "NOT_YET_VALID";
+
+export interface AccessValidationResult {
+  code: ValidationResultCode;
+  normalizedCode: string;
+  authorization: Authorization | null;
+}
+
+export interface AccessSession {
+  uid: string;
+  backend: "local" | "firebase";
+}
+
+export interface AccessEvent {
+  authorizationId: string;
+  authorizationCode: string;
+  eventType: "entry_confirmed";
+  eventAt: string;
+  residenceId: string;
+  securityStation: "Puesto Principal";
+  demo: true;
+  schemaVersion: 1;
 }

@@ -14,16 +14,17 @@ import {
   UserRound,
   UsersRound,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ResidentPageHeader } from "@/components/resident-page-header";
 import { ResidentShell } from "@/components/resident-shell";
 import { useDemoAccess } from "@/context/demo-access-context";
 import {
-  createAuthorization,
   entryTypeLabels,
   validateAuthorizationInput,
   validityLabels,
   visitTypeLabels,
+  toLocalDateInput,
+  toLocalTimeInput,
   type AuthorizationErrors,
 } from "@/lib/access";
 import type { AuthorizationInput, EntryType, ValidityType, VisitType } from "@/types/demo";
@@ -66,13 +67,22 @@ function FieldError({ id, children }: { id: string; children?: string }) {
 
 export default function NuevaVisitaPage() {
   const router = useRouter();
-  const { addAuthorization } = useDemoAccess();
+  const { createAccess, error: repositoryError, busy } = useDemoAccess();
   const [form, setForm] = useState<AuthorizationInput>(initialForm);
   const [errors, setErrors] = useState<AuthorizationErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const vehicleVisible = form.entryType !== "pedestrian";
   const familyMode = form.visitType === "family";
   const minDateTime = `${form.date}T${form.time}`;
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      const scheduled = new Date();
+      scheduled.setSeconds(0, 0);
+      setForm((current) => current.date && current.time ? current : { ...current, date: toLocalDateInput(scheduled), time: toLocalTimeInput(scheduled) });
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   function update<K extends keyof AuthorizationInput>(key: K, value: AuthorizationInput[K]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -93,7 +103,7 @@ export default function NuevaVisitaPage() {
     setErrors((current) => ({ ...current, plate: undefined }));
   }
 
-  function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const nextErrors = validateAuthorizationInput(form);
     setErrors(nextErrors);
@@ -103,9 +113,12 @@ export default function NuevaVisitaPage() {
     }
 
     setSubmitting(true);
-    const authorization = createAuthorization(form);
-    addAuthorization(authorization);
-    router.push("/demo/residente/codigo");
+    try {
+      await createAccess(form);
+      router.push("/demo/residente/codigo");
+    } catch {
+      setSubmitting(false);
+    }
   }
 
   return (
@@ -202,7 +215,8 @@ export default function NuevaVisitaPage() {
 
             {familyMode ? <p className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold leading-6 text-emerald-800">Los permisos familiares permiten múltiples entradas y salidas durante 24 o 48 horas.</p> : null}
 
-            <button type="submit" disabled={submitting} className="primary-button min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-70">
+            {repositoryError ? <p role="alert" className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{repositoryError}</p> : null}
+            <button type="submit" disabled={submitting || busy} className="primary-button min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-70">
               <ShieldCheck aria-hidden="true" className="size-5" />
               {submitting ? "Generando acceso…" : "Generar acceso"}
             </button>

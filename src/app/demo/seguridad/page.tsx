@@ -1,7 +1,252 @@
-import { ScanLine } from "lucide-react";
-import { DemoSectionPage } from "@/components/demo-section-page";
+"use client";
 
-export default function SeguridadPage() {
-  return <DemoSectionPage title="Validar acceso" description="Experiencia conceptual para que seguridad revise un QR o código y reconozca su estado en segundos." icon={ScanLine} previewTitle="Validación para seguridad" previewItems={["Escaneo QR conceptual", "Ingreso manual de código", "Estados claros de autorización", "Confirmación de entrada"]} nextHref="/demo/residente/historial" nextLabel="Ver registro resultante" />;
+import Link from "next/link";
+import {
+  AlertCircle,
+  CalendarClock,
+  Camera,
+  CameraOff,
+  Car,
+  CheckCircle2,
+  ClockAlert,
+  Home,
+  Keyboard,
+  LoaderCircle,
+  RotateCcw,
+  SearchX,
+  ShieldCheck,
+  UserRound,
+  XCircle,
+} from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { BrandLogo } from "@/components/brand-logo";
+import { DemoBadge } from "@/components/demo-badge";
+import { entryTypeLabels, formatDemoDate, formatDemoTime, normalizeAccessCode, validateAccess, visitTypeLabels } from "@/lib/access";
+import { parseQrPayload } from "@/lib/qr";
+import { getAccessRepository } from "@/repositories";
+import type { AccessValidationResult, Authorization, ValidationResultCode } from "@/types/demo";
+
+type ScanControls = { stop: () => void };
+
+const resultContent: Record<ValidationResultCode, { title: string; description: string; tone: string; icon: typeof CheckCircle2 }> = {
+  AUTHORIZED: { title: "ACCESO AUTORIZADO", description: "El visitante puede ingresar.", tone: "border-emerald-200 bg-emerald-50 text-emerald-800", icon: CheckCircle2 },
+  EXPIRED: { title: "ACCESO VENCIDO", description: "La vigencia de este permiso finalizó.", tone: "border-red-200 bg-red-50 text-red-800", icon: ClockAlert },
+  USED: { title: "CÓDIGO YA UTILIZADO", description: "Este permiso de un ingreso ya fue consumido.", tone: "border-slate-300 bg-slate-100 text-slate-800", icon: AlertCircle },
+  CANCELLED: { title: "ACCESO CANCELADO", description: "El residente revocó esta autorización.", tone: "border-red-200 bg-red-50 text-red-800", icon: XCircle },
+  NOT_FOUND: { title: "CÓDIGO NO ENCONTRADO", description: "No existe una autorización asociada a este código.", tone: "border-amber-200 bg-amber-50 text-amber-900", icon: SearchX },
+  INVALID_FORMAT: { title: "FORMATO NO VÁLIDO", description: "Revise el código o escanee un QR Ken Code válido.", tone: "border-amber-200 bg-amber-50 text-amber-900", icon: AlertCircle },
+  NOT_YET_VALID: { title: "ACCESO TODAVÍA NO VIGENTE", description: "La autorización aún no ha alcanzado su hora de inicio.", tone: "border-blue-200 bg-blue-50 text-blue-900", icon: CalendarClock },
+};
+
+function AuthorizationDetails({ authorization }: { authorization: Authorization }) {
+  const rows = [
+    ["Visitante", authorization.visitorName, UserRound],
+    ["Vivienda", authorization.residenceLabel, Home],
+    ["Tipo de visita", visitTypeLabels[authorization.visitType], ShieldCheck],
+    ["Tipo de ingreso", entryTypeLabels[authorization.entryType], Car],
+    ["Vehículo", authorization.vehicle, Car],
+    ["Placa", authorization.plate, Car],
+    ["Vigencia", `${formatDemoDate(authorization.scheduledAt)} · ${formatDemoTime(authorization.scheduledAt)} a ${formatDemoTime(authorization.expiresAt)}`, CalendarClock],
+    ["Código", authorization.code, ShieldCheck],
+  ] as const;
+  return <dl className="mt-5 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-4">{rows.map(([label, value, Icon]) => <div key={label} className="grid min-h-14 grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] items-center gap-3 py-3 text-sm"><dt className="flex items-center gap-2 font-semibold text-slate-500"><Icon aria-hidden="true" className="size-4 shrink-0 text-blue-600" />{label}</dt><dd className="break-words text-right font-extrabold text-slate-950">{value}</dd></div>)}</dl>;
 }
 
+export default function SeguridadPage() {
+  const [method, setMethod] = useState<"scan" | "manual">("scan");
+  const [code, setCode] = useState("");
+  const [validationState, setValidation] = useState<AccessValidationResult | null>(null);
+  const [connecting, setConnecting] = useState(true);
+  const [validating, setValidating] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [confirmed, setConfirmed] = useState(false);
+  const [scanning, setScanning] = useState(false);
+  const [cameraMessage, setCameraMessage] = useState("");
+  const [serviceError, setServiceError] = useState("");
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const controlsRef = useRef<ScanControls | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const scanRequestRef = useRef(0);
+
+  useEffect(() => {
+    getAccessRepository().initialize().then(() => setConnecting(false)).catch(() => {
+      setConnecting(false);
+      setServiceError("No fue posible conectar el servicio de demostración. Intente nuevamente.");
+    });
+  }, []);
+
+  const stopCamera = useCallback(() => {
+    scanRequestRef.current += 1;
+    controlsRef.current?.stop();
+    controlsRef.current = null;
+    const streams = [streamRef.current, videoRef.current?.srcObject].filter((stream): stream is MediaStream => stream instanceof MediaStream);
+    streams.forEach((stream) => stream.getTracks().forEach((track) => track.stop()));
+    streamRef.current = null;
+    if (videoRef.current) videoRef.current.srcObject = null;
+    setScanning(false);
+  }, []);
+
+  useEffect(() => stopCamera, [stopCamera]);
+
+  async function validateCode(rawCode: string) {
+    stopCamera();
+    setValidatedStateStart();
+    const normalized = normalizeAccessCode(rawCode);
+    setCode(normalized);
+    const formatResult = validateAccess(normalized, null);
+    if (formatResult.code === "INVALID_FORMAT") {
+      setValidation(formatResult);
+      setValidating(false);
+      return;
+    }
+    try {
+      const authorization = await getAccessRepository().getAuthorizationByCode(normalized);
+      setValidation(validateAccess(normalized, authorization));
+    } catch {
+      setServiceError("No fue posible consultar el acceso. Verifique la conexión e intente nuevamente.");
+    } finally {
+      setValidating(false);
+    }
+  }
+
+  function setValidatedStateStart() {
+    setValidation(null);
+    setConfirmed(false);
+    setServiceError("");
+    setValidating(true);
+  }
+
+  async function startCamera() {
+    const requestId = scanRequestRef.current + 1;
+    scanRequestRef.current = requestId;
+    setCameraMessage("");
+    setValidation(null);
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setCameraMessage("Este navegador no permite usar la cámara. Ingrese el código manualmente.");
+      return;
+    }
+    try {
+      setScanning(true);
+      setCameraMessage("Solicitando acceso a la cámara…");
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
+      if (requestId !== scanRequestRef.current) {
+        stream.getTracks().forEach((track) => track.stop());
+        if (videoRef.current) videoRef.current.srcObject = null;
+        return;
+      }
+      streamRef.current = stream;
+      if (!videoRef.current) throw new Error("Video unavailable");
+      videoRef.current.srcObject = stream;
+      await videoRef.current.play();
+      if (requestId !== scanRequestRef.current) {
+        stream.getTracks().forEach((track) => track.stop());
+        if (videoRef.current) videoRef.current.srcObject = null;
+        return;
+      }
+      const { BrowserQRCodeReader } = await import("@zxing/browser");
+      const reader = new BrowserQRCodeReader(undefined, { delayBetweenScanAttempts: 180 });
+      setCameraMessage("Apunte la cámara al código QR de Ken Code.");
+      const controls = await reader.decodeFromStream(stream, videoRef.current, (result, _error, callbackControls) => {
+        if (!result) return;
+        callbackControls.stop();
+        const parsed = parseQrPayload(result.getText());
+        if (!parsed) {
+          stopCamera();
+          setCameraMessage("El QR detectado no pertenece a Ken Code Access v1. Puede intentar nuevamente o ingresar el código.");
+          return;
+        }
+        void validateCode(parsed);
+      });
+      if (requestId !== scanRequestRef.current) {
+        controls.stop();
+        stream.getTracks().forEach((track) => track.stop());
+        if (videoRef.current) videoRef.current.srcObject = null;
+        return;
+      }
+      controlsRef.current = controls;
+    } catch (error) {
+      if (requestId !== scanRequestRef.current) return;
+      stopCamera();
+      const name = error instanceof DOMException ? error.name : "";
+      const messages: Record<string, string> = {
+        NotAllowedError: "Permiso de cámara denegado. Habilítelo en el navegador o use el código manual.",
+        NotFoundError: "No se encontró una cámara disponible. Use el código manual.",
+        NotReadableError: "La cámara está ocupada por otra aplicación. Ciérrela o use el código manual.",
+      };
+      setCameraMessage(messages[name] ?? "No fue posible iniciar la cámara. Use el código manual e intente nuevamente.");
+    }
+  }
+
+  function changeMethod(next: "scan" | "manual") {
+    if (next === "manual") stopCamera();
+    setMethod(next);
+    setCameraMessage("");
+    setValidation(null);
+    setConfirmed(false);
+  }
+
+  async function confirmEntry() {
+    if (!validation?.authorization || validation.code !== "AUTHORIZED") return;
+    setConfirming(true);
+    setServiceError("");
+    try {
+      const result = await getAccessRepository().confirmEntry(validation.normalizedCode);
+      if (result.validation.code === "AUTHORIZED" && result.authorization) {
+        setValidation({ ...result.validation, authorization: result.authorization });
+        setConfirmed(true);
+      } else {
+        setValidation(result.validation);
+      }
+    } catch {
+      setServiceError("No fue posible confirmar la entrada. Intente nuevamente.");
+    } finally {
+      setConfirming(false);
+    }
+  }
+
+  const validation: AccessValidationResult = validationState ?? { code: "INVALID_FORMAT", normalizedCode: "", authorization: null };
+  const content = validationState ? resultContent[validationState.code] : null;
+  const ResultIcon = content?.icon;
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <header className="border-b border-slate-200 bg-white"><div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"><Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[150px]" /></Link><div className="text-right"><DemoBadge /><p className="mt-1 text-xs font-bold text-slate-500">Modo Seguridad · Demostración</p></div></div></header>
+      <main className="mx-auto grid w-full max-w-7xl gap-7 px-4 py-7 sm:px-6 sm:py-10 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
+        <section>
+          <p className="text-sm font-black uppercase tracking-[0.16em] text-blue-700">Puesto Principal</p>
+          <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Validar acceso</h1>
+          <p className="mt-3 max-w-xl text-base leading-7 text-slate-600">Escanee el QR o ingrese el código del visitante.</p>
+
+          <div className="mt-7 grid grid-cols-2 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-sm" role="tablist" aria-label="Método de validación">
+            <button type="button" role="tab" aria-selected={method === "scan"} onClick={() => changeMethod("scan")} className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 text-sm font-extrabold ${method === "scan" ? "bg-blue-600 text-white" : "text-slate-600"}`}><Camera aria-hidden="true" className="size-5" />Escanear QR</button>
+            <button type="button" role="tab" aria-selected={method === "manual"} onClick={() => changeMethod("manual")} className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-3 text-sm font-extrabold ${method === "manual" ? "bg-blue-600 text-white" : "text-slate-600"}`}><Keyboard aria-hidden="true" className="size-5" />Ingresar código</button>
+          </div>
+
+          <div className="surface-card mt-4 overflow-hidden p-5 sm:p-6">
+            {method === "scan" ? <div>
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-950">
+                <video ref={videoRef} muted playsInline aria-label="Vista previa de la cámara para escanear QR" className={`h-full w-full object-cover ${scanning ? "block" : "hidden"}`} />
+                {!scanning ? <div className="absolute inset-0 grid place-items-center p-6 text-center text-white"><div><span className="mx-auto grid size-16 place-items-center rounded-3xl bg-white/10"><Camera aria-hidden="true" className="size-8 text-cyan-300" /></span><p className="mt-4 font-extrabold">La cámara permanece apagada</p><p className="mt-1 text-sm text-slate-300">Solo se activará cuando usted lo solicite.</p></div></div> : <div aria-hidden="true" className="pointer-events-none absolute inset-[14%] rounded-3xl border-2 border-cyan-300 shadow-[0_0_0_999px_rgba(2,8,23,0.38)]" />}
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <button type="button" disabled={scanning || connecting} onClick={() => void startCamera()} className="primary-button w-full disabled:cursor-wait disabled:opacity-60"><Camera aria-hidden="true" className="size-5" />Escanear QR</button>
+                <button type="button" disabled={!scanning} onClick={() => { stopCamera(); setCameraMessage("Cámara detenida."); }} className="secondary-button inline-flex w-full gap-2 disabled:cursor-not-allowed disabled:opacity-50"><CameraOff aria-hidden="true" className="size-5" />Detener cámara</button>
+              </div>
+              <p className="mt-3 min-h-6 text-sm font-semibold text-slate-600" aria-live="polite">{cameraMessage}</p>
+            </div> : <form onSubmit={(event) => { event.preventDefault(); void validateCode(code); }} noValidate>
+              <label htmlFor="security-code" className="form-label text-base">Código de acceso</label>
+              <input id="security-code" value={code} onChange={(event) => setCode(normalizeAccessCode(event.target.value))} inputMode="text" autoCapitalize="characters" autoComplete="off" maxLength={9} placeholder="A7X9-2K4P" className="form-control min-h-16 font-mono text-2xl font-black uppercase tracking-wider" />
+              <p className="mt-2 text-sm text-slate-500">Puede escribir o pegar el código completo.</p>
+              <button type="submit" disabled={validating || connecting} className="primary-button mt-5 min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-60">{validating ? <LoaderCircle aria-hidden="true" className="size-5 animate-spin" /> : <ShieldCheck aria-hidden="true" className="size-5" />}{validating ? "Validando código…" : "Validar código"}</button>
+            </form>}
+          </div>
+        </section>
+
+        <section className="lg:pt-20" aria-live="polite">
+          {serviceError ? <p role="alert" className="rounded-2xl border border-red-200 bg-red-50 p-4 font-semibold text-red-700">{serviceError}</p> : null}
+          {confirmed && validation?.authorization ? <div className="surface-card p-6 text-center sm:p-8"><span className="mx-auto grid size-16 place-items-center rounded-full bg-emerald-100 text-emerald-700"><CheckCircle2 aria-hidden="true" className="size-9" /></span><h2 className="mt-5 text-3xl font-black text-emerald-700">ENTRADA CONFIRMADA</h2><p className="mt-2 text-slate-600">El registro ya está disponible para el residente en tiempo real.</p><p className="mt-5 text-lg font-extrabold text-slate-950">{validation.authorization.visitorName} · {validation.authorization.entryCount} entrada{validation.authorization.entryCount === 1 ? "" : "s"}</p><button type="button" onClick={() => { setValidation(null); setConfirmed(false); setCode(""); }} className="secondary-button mt-6 inline-flex gap-2"><RotateCcw aria-hidden="true" className="size-5" />Validar otro acceso</button></div> : content && ResultIcon ? <div className={`rounded-3xl border p-5 shadow-sm sm:p-7 ${content.tone}`}><div className="flex items-start gap-4"><span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/80"><ResultIcon aria-hidden="true" className="size-8" /></span><div><h2 className="text-2xl font-black sm:text-3xl">{content.title}</h2><p className="mt-1 font-semibold">{content.description}</p></div></div>{validation.authorization ? <AuthorizationDetails authorization={validation.authorization} /> : null}{validation.code === "NOT_YET_VALID" && validation.authorization ? <p className="mt-4 rounded-2xl bg-white p-4 font-bold">Inicia: {formatDemoDate(validation.authorization.scheduledAt)} · {formatDemoTime(validation.authorization.scheduledAt)}</p> : null}{validation.code === "EXPIRED" && validation.authorization ? <p className="mt-4 rounded-2xl bg-white p-4 font-bold">Expiró: {formatDemoDate(validation.authorization.expiresAt)} · {formatDemoTime(validation.authorization.expiresAt)}</p> : null}{validation.code === "USED" && validation.authorization?.lastEntryAt ? <p className="mt-4 rounded-2xl bg-white p-4 font-bold">Última entrada: {formatDemoDate(validation.authorization.lastEntryAt)} · {formatDemoTime(validation.authorization.lastEntryAt)}</p> : null}<div className="mt-5 grid gap-3 sm:grid-cols-2">{validation.code === "AUTHORIZED" ? <button type="button" disabled={confirming} onClick={() => void confirmEntry()} className="primary-button min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-60">{confirming ? <LoaderCircle aria-hidden="true" className="size-5 animate-spin" /> : <ShieldCheck aria-hidden="true" className="size-5" />}{confirming ? "Confirmando entrada…" : "CONFIRMAR ENTRADA"}</button> : null}<button type="button" onClick={() => { setValidation(null); setCode(""); }} className="secondary-button inline-flex min-h-14 w-full gap-2"><RotateCcw aria-hidden="true" className="size-5" />{validation.code === "NOT_FOUND" ? "Intentar nuevamente" : "Cancelar validación"}</button></div></div> : <div className="surface-card grid min-h-80 place-items-center p-8 text-center"><div><span className="mx-auto grid size-16 place-items-center rounded-3xl bg-blue-50 text-blue-700"><ShieldCheck aria-hidden="true" className="size-8" /></span><h2 className="mt-5 text-xl font-black text-slate-950">Resultado de validación</h2><p className="mt-2 max-w-sm text-sm leading-6 text-slate-600">Aquí aparecerá el estado de la autorización y los datos ficticios necesarios para controlar el ingreso.</p></div></div>}
+        </section>
+      </main>
+    </div>
+  );
+}

@@ -3,7 +3,7 @@
 import { CalendarClock, Car, CheckCircle2, Clock3, Home, ShieldCheck, Trash2, UserRound } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmDialog } from "@/components/confirm-dialog";
-import { QrPlaceholder } from "@/components/qr-placeholder";
+import { AccessQr } from "@/components/access-qr";
 import { ResidentPageHeader } from "@/components/resident-page-header";
 import { ResidentShell } from "@/components/resident-shell";
 import { ShareAccessButton } from "@/components/share-access-button";
@@ -65,7 +65,7 @@ export default function PermisoFamiliarPage() {
           </div>
 
           <div className="flex flex-col items-center rounded-3xl bg-slate-50 p-4 sm:p-6">
-            <QrPlaceholder />
+            <AccessQr code={authorization.code} />
             <p className="mt-5 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Código de permiso</p>
             <p className="mt-2 break-all text-center font-mono text-3xl font-black tracking-wider text-blue-700 sm:text-4xl">{authorization.code}</p>
             <div className="mt-5 w-full rounded-2xl border border-emerald-200 bg-white p-4 text-center">
@@ -84,7 +84,7 @@ export default function PermisoFamiliarPage() {
       </section>
       <p className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm leading-6 text-blue-900">Este permiso dejará de ser válido automáticamente al finalizar el período autorizado.</p>
 
-      <ConfirmDialog open={dialogOpen} title="¿Revocar el acceso familiar?" description={`El permiso de ${authorization.visitorName} cambiará a cancelado y permanecerá registrado en el historial.`} confirmLabel="Sí, revocar acceso" triggerRef={revokeButtonRef} onClose={() => setDialogOpen(false)} onConfirm={() => cancelById(authorization.id)} />
+      <ConfirmDialog open={dialogOpen} title="¿Revocar el acceso familiar?" description={`El permiso de ${authorization.visitorName} cambiará a cancelado y permanecerá registrado en el historial.`} confirmLabel="Sí, revocar acceso" triggerRef={revokeButtonRef} onClose={() => setDialogOpen(false)} onConfirm={() => void cancelById(authorization.id)} />
     </ResidentShell>
   );
 }

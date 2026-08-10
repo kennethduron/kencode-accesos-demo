@@ -38,7 +38,7 @@ export default function ResidentDashboardPage() {
   const today = toLocalDateInput(now);
   const activeCount = authorizations.filter((item) => resolveAuthorizationStatus(item, now) === "active").length;
   const todayCount = authorizations.filter((item) => toLocalDateInput(new Date(item.scheduledAt)) === today).length;
-  const recent = authorizations.filter((item) => ["seed-family", "seed-uber", "seed-delivery"].includes(item.id));
+  const recent = [...authorizations].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)).slice(0, 3);
 
   return (
     <ResidentShell activeHref="/demo/residente">

@@ -1,0 +1,122 @@
+rules_version = '2';
+
+// Reglas exclusivas para una demostración pública con Authentication anónimo.
+// No representan la autorización ni la separación de roles del sistema productivo.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function validCode(code) {
+      return code.matches('^[A-HJ-KM-NP-Z2-9]{4}-[A-HJ-KM-NP-Z2-9]{4}$');
+    }
+
+    function validAuthorization(data, code) {
+      return data.keys().hasAll([
+          'id', 'code', 'visitorName', 'visitType', 'accessType',
+          'vehicleDescription', 'plate', 'residenceId', 'residenceLabel',
+          'status', 'usageMode', 'validity', 'startsAt', 'expiresAt',
+          'entryCount', 'createdAt', 'updatedAt', 'createdByUid', 'demo',
+          'schemaVersion'
+        ])
+        && data.keys().hasOnly([
+          'id', 'code', 'visitorName', 'visitType', 'accessType',
+          'vehicleDescription', 'plate', 'residenceId', 'residenceLabel',
+          'status', 'usageMode', 'validity', 'startsAt', 'expiresAt',
+          'entryCount', 'lastEntryAt', 'lastExitAt', 'createdAt', 'updatedAt',
+          'cancelledAt', 'createdByUid', 'demo', 'schemaVersion'
+        ])
+        && data.id == code
+        && data.code == code
+        && validCode(code)
+        && data.visitorName is string
+        && data.visitorName.size() > 0
+        && data.visitType in ['uber', 'delivery', 'family', 'friend', 'provider', 'other']
+        && data.accessType in ['car', 'motorcycle', 'pedestrian']
+        && data.vehicleDescription is string
+        && data.plate is string
+        && data.residenceId == 'valle-azul-casa-27'
+        && data.residenceLabel is string
+        && data.status in ['active', 'used', 'completed', 'expired', 'cancelled']
+        && data.usageMode in ['single', 'multiple']
+        && data.validity in ['single', '24h', '48h', 'custom']
+        && data.startsAt is timestamp
+        && data.expiresAt is timestamp
+        && data.expiresAt > data.startsAt
+        && data.entryCount is int
+        && data.entryCount >= 0
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp
+        && data.createdByUid is string
+        && data.demo == true
+        && data.schemaVersion == 1;
+    }
+
+    function ownerCancellation() {
+      return resource.data.createdByUid == request.auth.uid
+        && resource.data.status != 'cancelled'
+        && request.resource.data.status == 'cancelled'
+        && request.resource.data.cancelledAt is timestamp
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['status', 'cancelledAt', 'updatedAt']);
+    }
+
+    function validEntryConfirmation() {
+      return resource.data.status != 'cancelled'
+        && request.time >= resource.data.startsAt
+        && request.time < resource.data.expiresAt
+        && request.resource.data.entryCount == resource.data.entryCount + 1
+        && request.resource.data.lastEntryAt is timestamp
+        && request.resource.data.updatedAt is timestamp
+        && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['entryCount', 'lastEntryAt', 'status', 'updatedAt'])
+        && (
+          (resource.data.usageMode == 'single'
+            && resource.data.entryCount == 0
+            && resource.data.status == 'active'
+            && request.resource.data.status == 'used')
+          ||
+          (resource.data.usageMode == 'multiple'
+            && resource.data.status == 'active'
+            && request.resource.data.status == 'active')
+        );
+    }
+
+    match /demo_authorizations/{code} {
+      allow get: if signedIn();
+      allow list: if signedIn() && resource.data.createdByUid == request.auth.uid;
+      allow create: if signedIn()
+        && validAuthorization(request.resource.data, code)
+        && request.resource.data.createdByUid == request.auth.uid
+        && request.resource.data.entryCount <= 1;
+      allow update: if signedIn()
+        && validAuthorization(request.resource.data, code)
+        && request.resource.data.createdByUid == resource.data.createdByUid
+        && (ownerCancellation() || validEntryConfirmation());
+      allow delete: if false;
+    }
+
+    match /demo_access_events/{eventId} {
+      allow read: if false;
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly([
+          'authorizationId', 'authorizationCode', 'eventType', 'eventAt',
+          'residenceId', 'securityStation', 'demo', 'schemaVersion'
+        ])
+        && request.resource.data.authorizationId is string
+        && validCode(request.resource.data.authorizationCode)
+        && request.resource.data.eventType == 'entry_confirmed'
+        && request.resource.data.eventAt is timestamp
+        && request.resource.data.residenceId == 'valle-azul-casa-27'
+        && request.resource.data.securityStation == 'Puesto Principal'
+        && request.resource.data.demo == true
+        && request.resource.data.schemaVersion == 1;
+      allow update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
