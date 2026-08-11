@@ -46,7 +46,7 @@ export default function HomePage() {
             <BrandLogo priority className="w-[132px] sm:w-[164px]" />
           </Link>
           <div className="flex items-center gap-3">
-            <span className="hidden text-xs font-semibold uppercase tracking-[0.16em] text-slate-400 md:inline">Control digital de accesos</span>
+            <span className="hidden text-xs font-semibold uppercase tracking-[0.16em] text-slate-400 md:inline">ECOTERRA Access Demo</span>
             <DemoBadge />
           </div>
         </div>
@@ -57,16 +57,19 @@ export default function HomePage() {
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_18%_16%,rgba(37,99,235,0.13),transparent_26%),radial-gradient(circle_at_82%_25%,rgba(6,182,212,0.14),transparent_28%),linear-gradient(to_bottom,#ffffff,#f8fafc)]" aria-hidden="true" />
           <div className="mx-auto grid w-full max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-24">
             <div className="max-w-3xl">
-              <p className="mb-5 inline-flex items-center gap-2 text-sm font-bold text-blue-700">
+              <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-2 text-sm font-black uppercase tracking-[0.16em] text-blue-800">
                 <ShieldCheck aria-hidden="true" className="size-5" />
-                Sistema Digital de Control de Accesos y Visitas
+                ECOTERRA
               </p>
               <h1 className="text-balance text-[2.55rem] font-black leading-[1.03] tracking-[-0.055em] text-slate-950 sm:text-6xl lg:text-7xl">
-                Autoriza visitas antes de su llegada.
-                <span className="mt-2 block bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-500 bg-clip-text text-transparent">Valida accesos en segundos.</span>
+                Sistema Digital de
+                <span className="mt-2 block bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-500 bg-clip-text text-transparent">Control de Accesos y Visitas</span>
               </h1>
-              <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-slate-600">
-                Una demostración interactiva para visualizar una experiencia residencial más ordenada, clara y ágil, desde la autorización hasta el registro de entrada.
+              <p className="mt-6 max-w-2xl text-pretty text-xl font-bold leading-8 text-slate-800">
+                Autoriza visitas antes de su llegada y valida accesos en segundos.
+              </p>
+              <p className="mt-3 max-w-2xl text-pretty text-base leading-7 text-slate-600">
+                Una demostración interactiva creada para visualizar una experiencia más ordenada, clara y ágil en ECOTERRA.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link href="#experiencias" className="primary-button min-w-44">

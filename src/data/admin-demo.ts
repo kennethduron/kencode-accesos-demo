@@ -45,8 +45,8 @@ export interface AdminAuditRecord {
 }
 
 export const adminSummary = [
-  { label: "Viviendas registradas", value: "2,048", detail: "Escala residencial conceptual", tone: "blue" },
-  { label: "Residentes registrados", value: "4,612", detail: "Datos ficticios", tone: "cyan" },
+  { label: "Viviendas mostradas", value: "Demo", detail: "Escala ilustrativa, no censo real", tone: "blue" },
+  { label: "Residentes mostrados", value: "Demo", detail: "Datos ficticios", tone: "cyan" },
   { label: "Visitas hoy", value: "38", detail: "+12% frente al día anterior", tone: "indigo" },
   { label: "Personas dentro", value: "12", detail: "Presencia operativa actual", tone: "emerald" },
   { label: "Accesos activos", value: "27", detail: "Permisos vigentes", tone: "sky" },
@@ -73,12 +73,12 @@ export const adminAccesses: AdminAccessRecord[] = [
 ];
 
 export const adminHomes: AdminHome[] = [
-  { id: "home-27", label: "Casa 27", resident: "Alejandro", sector: "Sector Norte", members: 3, vehicles: 2, activePermits: 1, status: "Activa" },
-  { id: "home-104", label: "Casa 104", resident: "Familia Martínez", sector: "Sector Central", members: 4, vehicles: 2, activePermits: 0, status: "Activa" },
-  { id: "home-81", label: "Casa 81", resident: "Familia Rivera", sector: "Sector Norte", members: 5, vehicles: 3, activePermits: 0, status: "Activa" },
-  { id: "home-316", label: "Casa 316", resident: "Carolina Mejía", sector: "Sector Este", members: 2, vehicles: 1, activePermits: 0, status: "Activa" },
-  { id: "home-510", label: "Casa 510", resident: "Daniela Cruz", sector: "Sector Sur", members: 3, vehicles: 1, activePermits: 2, status: "En revisión" },
-  { id: "home-642", label: "Casa 642", resident: "Andrea Reyes", sector: "Sector Oeste", members: 2, vehicles: 2, activePermits: 1, status: "Activa" },
+  { id: "home-27", label: "Casa 27", resident: "Alejandro", sector: "Zona ficticia A", members: 3, vehicles: 2, activePermits: 1, status: "Activa" },
+  { id: "home-104", label: "Casa 104", resident: "Familia Martínez", sector: "Zona ficticia B", members: 4, vehicles: 2, activePermits: 0, status: "Activa" },
+  { id: "home-81", label: "Casa 81", resident: "Familia Rivera", sector: "Zona ficticia A", members: 5, vehicles: 3, activePermits: 0, status: "Activa" },
+  { id: "home-316", label: "Casa 316", resident: "Carolina Mejía", sector: "Zona ficticia C", members: 2, vehicles: 1, activePermits: 0, status: "Activa" },
+  { id: "home-510", label: "Casa 510", resident: "Daniela Cruz", sector: "Zona ficticia D", members: 3, vehicles: 1, activePermits: 2, status: "En revisión" },
+  { id: "home-642", label: "Casa 642", resident: "Andrea Reyes", sector: "Zona ficticia E", members: 2, vehicles: 2, activePermits: 1, status: "Activa" },
 ];
 
 export const adminResidents: AdminResidentRecord[] = [

@@ -20,7 +20,7 @@ export function ActionCard({ href, icon: Icon, eyebrow, title, description, acce
   return (
     <Link
       href={href}
-      className={`group relative flex min-h-56 flex-col overflow-hidden rounded-3xl bg-gradient-to-br p-6 text-white shadow-xl transition duration-300 hover:-translate-y-1 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan-300 ${accents[accent]}`}
+      className={`interactive-card group relative flex min-h-56 flex-col overflow-hidden rounded-3xl bg-gradient-to-br p-6 text-white shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-cyan-300 ${accents[accent]}`}
     >
       <span className="absolute -right-10 -top-12 size-36 rounded-full border border-white/15 bg-white/5" aria-hidden="true" />
       <span className="grid size-12 place-items-center rounded-2xl border border-white/20 bg-white/10 backdrop-blur-sm">
@@ -35,4 +35,3 @@ export function ActionCard({ href, icon: Icon, eyebrow, title, description, acce
     </Link>
   );
 }
-

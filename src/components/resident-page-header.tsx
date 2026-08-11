@@ -17,6 +17,7 @@ export function ResidentPageHeader({ title, description, backHref = "/demo/resid
           <ArrowLeft aria-hidden="true" className="size-5" />
           Volver
         </Link>
+        <p className="mb-2 text-xs font-black uppercase tracking-[0.16em] text-blue-700">ECOTERRA Access</p>
         <h1 className="text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-4xl">{title}</h1>
         <p className="mt-2 max-w-2xl text-pretty text-sm leading-6 text-slate-600 sm:text-base">{description}</p>
       </div>

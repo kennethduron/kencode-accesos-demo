@@ -40,7 +40,7 @@ const resultContent: Record<ValidationResultCode, { title: string; description: 
   USED: { title: "CÓDIGO YA UTILIZADO", description: "Este permiso de un ingreso ya fue consumido.", tone: "border-slate-300 bg-slate-100 text-slate-800", icon: AlertCircle },
   CANCELLED: { title: "ACCESO CANCELADO", description: "El residente revocó esta autorización.", tone: "border-red-200 bg-red-50 text-red-800", icon: XCircle },
   NOT_FOUND: { title: "CÓDIGO NO ENCONTRADO", description: "No existe una autorización asociada a este código.", tone: "border-amber-200 bg-amber-50 text-amber-900", icon: SearchX },
-  INVALID_FORMAT: { title: "FORMATO NO VÁLIDO", description: "Revise el código o escanee un QR Ken Code válido.", tone: "border-amber-200 bg-amber-50 text-amber-900", icon: AlertCircle },
+  INVALID_FORMAT: { title: "FORMATO NO VÁLIDO", description: "Revise el código o escanee un QR válido de esta demostración.", tone: "border-amber-200 bg-amber-50 text-amber-900", icon: AlertCircle },
   NOT_YET_VALID: { title: "ACCESO TODAVÍA NO VIGENTE", description: "La autorización aún no ha alcanzado su hora de inicio.", tone: "border-blue-200 bg-blue-50 text-blue-900", icon: CalendarClock },
 };
 
@@ -195,7 +195,7 @@ export default function SeguridadPage() {
       }
       const { BrowserQRCodeReader } = await import("@zxing/browser");
       const reader = new BrowserQRCodeReader(undefined, { delayBetweenScanAttempts: 180 });
-      setCameraMessage("Apunte la cámara al código QR de Ken Code.");
+      setCameraMessage("Apunte la cámara al código QR de ECOTERRA Access.");
       const controls = await reader.decodeFromStream(stream, videoRef.current, (result, _error, callbackControls) => {
         if (!result || scanProcessingRef.current || validationGate.isProcessing() || operationGate.isProcessing()) return;
         scanProcessingRef.current = true;
@@ -204,7 +204,7 @@ export default function SeguridadPage() {
         if (!parsed) {
           stopCamera();
           scanProcessingRef.current = false;
-          setCameraMessage("El QR detectado no pertenece a Ken Code Access v1. Puede intentar nuevamente o ingresar el código.");
+          setCameraMessage("El QR detectado no pertenece a esta demostración. Puede intentar nuevamente o ingresar el código.");
           return;
         }
         void validateCode(parsed, "qr");
@@ -287,7 +287,7 @@ export default function SeguridadPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <AccessValidationOverlay open={busy} source={validationSource} mode={operation ?? "validation"} />
-      <header className="safe-top border-b border-slate-200 bg-white"><div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"><Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[150px]" /></Link><div className="flex items-center gap-3"><Link href="/" className="hidden text-sm font-bold text-blue-700 sm:inline">Inicio del demo</Link><div className="text-right"><DemoBadge /><p className="mt-1 text-xs font-bold text-slate-500">Modo Seguridad · Demostración</p></div></div></div></header>
+      <header className="safe-top border-b border-slate-200 bg-white"><div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"><Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[150px]" /></Link><div className="flex items-center gap-3"><Link href="/" className="hidden min-h-11 items-center text-sm font-bold text-blue-700 sm:inline-flex">Inicio del demo</Link><div className="text-right"><DemoBadge /><p className="mt-1 text-xs font-bold text-slate-500">ECOTERRA · Seguridad · Demo</p></div></div></div></header>
       <main aria-busy={busy} className="mx-auto grid w-full max-w-7xl gap-7 px-4 py-7 sm:px-6 sm:py-10 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
         {!online ? <p role="alert" className="flex items-center gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 font-bold text-red-800 lg:col-span-2"><WifiOff aria-hidden="true" className="size-5 shrink-0" /><span><span className="block">Sin conexión.</span><span className="font-semibold">Se necesita conexión a internet para validar accesos.</span></span></p> : null}
         <section>

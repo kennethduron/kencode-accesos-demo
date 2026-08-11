@@ -40,7 +40,7 @@ export default function RegistroPage() {
           <div className="my-7 flex items-center gap-3"><span className="h-px flex-1 bg-slate-200" /><h2 className="text-sm font-black text-blue-700">Información residencial</h2><span className="h-px flex-1 bg-slate-200" /></div>
 
           <div className="grid gap-5 sm:grid-cols-2">
-            <label className="block sm:col-span-2"><span className="form-label"><Building2 aria-hidden="true" className="size-4" />Residencial</span><select required className="form-control" name="community" defaultValue=""><option value="" disabled>Seleccionar residencial</option><option>Residencial Valle Azul</option></select></label>
+            <label className="block sm:col-span-2"><span className="form-label"><Building2 aria-hidden="true" className="size-4" />Residencial</span><select required className="form-control" name="community" defaultValue=""><option value="" disabled>Seleccionar residencial</option><option>ECOTERRA</option></select></label>
             <label className="block"><span className="form-label"><Home aria-hidden="true" className="size-4" />Vivienda</span><input required className="form-control" name="home" placeholder="Ej. Casa 27" /></label>
             <label className="block"><span className="form-label"><MapPinned aria-hidden="true" className="size-4" />Torre / bloque / sector</span><input required className="form-control" name="sector" placeholder="Ej. Sector B" /></label>
           </div>

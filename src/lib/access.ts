@@ -14,7 +14,7 @@ import type {
 export const STORAGE_KEY = "kencode-access-demo-v1";
 export const LOCAL_SESSION_KEY = "kencode-access-local-session-v1";
 export const DEMO_RESIDENCE_ID = "valle-azul-casa-27";
-export const DEMO_RESIDENCE_LABEL = "Casa 27 · Residencial Valle Azul";
+export const DEMO_RESIDENCE_LABEL = "Casa 27 · ECOTERRA";
 export const ACCESS_CODE_PATTERN = /^[A-HJ-KM-NP-Z2-9]{4}-[A-HJ-KM-NP-Z2-9]{4}$/;
 
 export const visitTypeLabels: Record<VisitType, string> = {

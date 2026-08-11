@@ -1,4 +1,4 @@
-# Guía breve para presentar Ken Code Access
+# Guía breve para presentar ECOTERRA Access Demo
 
 ## Antes de la reunión
 
@@ -29,3 +29,7 @@
 - Si un dispositivo falla, use dos navegadores o dos pestañas y copie el código manual.
 
 Todos los nombres, viviendas, vehículos y registros usados en la presentación son ficticios.
+
+## Visibilidad web
+
+La demo utiliza `noindex` porque está preparada para presentaciones comerciales directas y no pretende posicionarse como un sitio público u oficial de ECOTERRA.

@@ -3,9 +3,9 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "Ken Code Access Demo",
-    short_name: "Ken Code Access",
-    description: "Sistema digital de control de accesos y visitas — demostración conceptual de Ken Code.",
+    name: "ECOTERRA Access Demo",
+    short_name: "ECOTERRA Access",
+    description: "Demostración conceptual del Sistema Digital de Control de Accesos y Visitas para ECOTERRA, desarrollada por Ken Code.",
     start_url: "/",
     scope: "/",
     display: "standalone",

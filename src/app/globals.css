@@ -40,7 +40,7 @@ body {
   position: fixed;
   z-index: 60;
   left: max(1rem, env(safe-area-inset-left));
-  bottom: calc(6.5rem + env(safe-area-inset-bottom));
+  bottom: max(1rem, env(safe-area-inset-bottom));
   display: inline-flex;
   min-height: 30px;
   align-items: center;
@@ -52,6 +52,10 @@ body {
   font-weight: 800;
   box-shadow: 0 8px 24px -16px rgb(15 23 42 / 0.8);
   backdrop-filter: blur(12px);
+}
+
+body:has(.resident-safe-bottom) .connection-pill {
+  bottom: calc(6.5rem + env(safe-area-inset-bottom));
 }
 
 .connection-pill-online {
@@ -82,6 +86,26 @@ input,
 select,
 textarea {
   -webkit-tap-highlight-color: transparent;
+}
+
+a[href],
+button:not(:disabled),
+select:not(:disabled),
+label[for] {
+  cursor: pointer;
+}
+
+button:disabled,
+select:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+a[href],
+button {
+  transition-duration: 180ms;
+  transition-property: color, background-color, border-color, box-shadow, opacity, transform;
+  transition-timing-function: ease;
 }
 
 :focus-visible {
@@ -128,12 +152,7 @@ textarea {
     font-size: 0.875rem;
     font-weight: 750;
     box-shadow: 0 10px 24px -12px rgb(29 78 216 / 0.8);
-    transition: transform 180ms ease, box-shadow 180ms ease;
-  }
-
-  .primary-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 14px 28px -12px rgb(29 78 216 / 0.85);
+    transition: background-color 180ms ease, box-shadow 180ms ease, opacity 180ms ease, transform 180ms ease;
   }
 
   .secondary-button {
@@ -147,6 +166,8 @@ textarea {
     color: rgb(30 41 59);
     font-size: 0.875rem;
     font-weight: 700;
+    box-shadow: 0 6px 18px -16px rgb(15 23 42 / 0.7);
+    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
   }
 
   .icon-button {
@@ -159,6 +180,12 @@ textarea {
     background: white;
     color: rgb(30 41 59);
     box-shadow: 0 8px 24px -18px rgb(15 23 42 / 0.8);
+    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
+  }
+
+  .interactive-card {
+    cursor: pointer;
+    transition: border-color 210ms ease, box-shadow 210ms ease, transform 210ms ease;
   }
 
   .form-label {
@@ -188,10 +215,6 @@ textarea {
     color: rgb(148 163 184);
   }
 
-  .form-control:hover {
-    border-color: rgb(147 197 253);
-  }
-
   .form-control:focus {
     border-color: rgb(37 99 235);
     outline: none;
@@ -204,6 +227,37 @@ textarea {
   }
 }
 
+.primary-button:active,
+.secondary-button:active,
+.icon-button:active,
+.interactive-card:active {
+  transform: translateY(1px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .primary-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px -12px rgb(29 78 216 / 0.85);
+  }
+
+  .secondary-button:hover,
+  .icon-button:hover {
+    border-color: rgb(147 197 253);
+    background: rgb(248 250 252);
+    color: rgb(29 78 216);
+    box-shadow: 0 12px 24px -18px rgb(15 23 42 / 0.75);
+  }
+
+  .interactive-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 44px -20px rgb(15 23 42 / 0.5);
+  }
+
+  .form-control:hover {
+    border-color: rgb(147 197 253);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -213,6 +267,8 @@ textarea {
   *::before,
   *::after {
     scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

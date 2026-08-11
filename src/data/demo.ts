@@ -3,7 +3,7 @@ import type { DemoAccess, DemoResident } from "@/types/demo";
 export const demoResident: DemoResident = {
   firstName: "Alejandro",
   home: "Casa 27",
-  community: "Residencial Valle Azul",
+  community: "ECOTERRA",
 };
 
 export const demoAccess: DemoAccess = {

@@ -8,7 +8,7 @@ export function ShareAccessButton({ authorization, label = "Compartir acceso" }:
   const [message, setMessage] = useState("");
 
   async function share() {
-    const text = `Acceso de demostración Ken Code\nCódigo: ${authorization.code}\nPresente este código o QR al llegar.`;
+    const text = `Acceso de demostración para ECOTERRA\nCódigo: ${authorization.code}\nPresente este código o QR al llegar.`;
     try {
       if (navigator.share) {
         await navigator.share({ title: "Acceso de visitante", text });

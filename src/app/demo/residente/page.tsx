@@ -50,7 +50,7 @@ export default function ResidentDashboardPage() {
               <h1 className="mt-2 text-4xl font-black tracking-[-0.045em] text-slate-950 sm:text-5xl">Hola, Alejandro</h1>
               <p className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-600 sm:text-base">
                 <MapPin aria-hidden="true" className="size-5 shrink-0 text-blue-600" />
-                Casa 27 · Residencial Valle Azul
+                Casa 27 · ECOTERRA
               </p>
             </div>
             <span className="hidden size-12 place-items-center rounded-2xl bg-blue-50 text-blue-700 sm:grid" aria-label="Dos notificaciones conceptuales"><BellRing aria-hidden="true" className="size-6" /></span>

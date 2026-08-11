@@ -17,9 +17,9 @@ export function PageHeader({ title, description, backHref = "/" }: PageHeaderPro
         </Link>
         <DemoBadge />
       </div>
+      <p className="mb-2 text-xs font-black uppercase tracking-[0.16em] text-blue-700">ECOTERRA Access</p>
       <h1 className="text-balance text-3xl font-extrabold tracking-[-0.035em] text-slate-950 sm:text-4xl">{title}</h1>
       <p className="mt-3 max-w-2xl text-pretty text-base leading-7 text-slate-600">{description}</p>
     </header>
   );
 }
-

@@ -44,7 +44,7 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
       <div className="fixed inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle_at_10%_10%,rgba(37,99,235,0.12),transparent_34%),radial-gradient(circle_at_90%_12%,rgba(6,182,212,0.14),transparent_32%)]" aria-hidden="true" />
       <header className="safe-top relative z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
         <div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
-          <Link href="/demo/residente" className="shrink-0" aria-label="Control de Accesos de Ken Code, inicio del residente">
+          <Link href="/demo/residente" className="shrink-0" aria-label="ECOTERRA Access, inicio del residente">
             <BrandLogo priority className="w-[126px] sm:w-[150px]" />
           </Link>
           <nav className="hidden items-center gap-1 md:flex" aria-label="Navegación del residente">

@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
+  DEMO_RESIDENCE_LABEL,
   cancelAuthorization,
   confirmEntryInDomain,
   confirmExitInDomain,
@@ -19,6 +20,15 @@ import { createAccessValidationGate } from "../src/lib/access-validation-feedbac
 import { authorizationToFirebase, firebaseToAuthorization } from "../src/repositories/firebase-mapping.ts";
 import manifest from "../src/app/manifest.ts";
 import { isOnlineState, shouldShowIosInstallHelp } from "../src/lib/connectivity.ts";
+import { demoResident } from "../src/data/demo.ts";
+import {
+  SITE_URL,
+  SOCIAL_IMAGE_ALT,
+  SOCIAL_IMAGE_HEIGHT,
+  SOCIAL_IMAGE_PATH,
+  SOCIAL_IMAGE_WIDTH,
+  siteMetadata,
+} from "../src/lib/site-metadata.ts";
 
 const now = new Date(2026, 7, 10, 10, 0, 0);
 
@@ -392,13 +402,45 @@ test("validation gate conserva el overlay durante el mínimo visual configurado"
 
 test("manifest PWA conserva identidad, modo standalone e iconos requeridos", () => {
   const value = manifest();
-  assert.equal(value.name, "Ken Code Access Demo");
-  assert.equal(value.short_name, "Ken Code Access");
+  assert.equal(value.name, "ECOTERRA Access Demo");
+  assert.equal(value.short_name, "ECOTERRA Access");
+  assert.match(value.description, /ECOTERRA/);
   assert.equal(value.start_url, "/");
   assert.equal(value.display, "standalone");
   assert.ok(value.icons?.some((icon) => icon.sizes === "192x192" && icon.purpose === "any"));
   assert.ok(value.icons?.some((icon) => icon.sizes === "512x512" && icon.purpose === "any"));
   assert.ok(value.icons?.some((icon) => icon.purpose === "maskable"));
+});
+
+test("metadata social define canonical, Open Graph y Twitter para ECOTERRA", () => {
+  assert.equal(siteMetadata.metadataBase?.toString(), `${SITE_URL}/`);
+  assert.equal(siteMetadata.alternates?.canonical, "/");
+  assert.equal(siteMetadata.robots?.index, false);
+  assert.equal(siteMetadata.openGraph?.title, "ECOTERRA | Sistema Digital de Control de Accesos");
+  assert.equal(siteMetadata.openGraph?.url, SITE_URL);
+  const image = siteMetadata.openGraph?.images?.[0];
+  assert.equal(image?.url, SOCIAL_IMAGE_PATH);
+  assert.equal(image?.width, SOCIAL_IMAGE_WIDTH);
+  assert.equal(image?.height, SOCIAL_IMAGE_HEIGHT);
+  assert.equal(image?.alt, SOCIAL_IMAGE_ALT);
+  assert.equal(siteMetadata.twitter?.card, "summary_large_image");
+  assert.deepEqual(siteMetadata.twitter?.images, [SOCIAL_IMAGE_PATH]);
+});
+
+test("metadata y manifest referencian todos los iconos ECOTERRA requeridos", () => {
+  const iconUrls = siteMetadata.icons?.icon?.map((icon) => typeof icon === "string" || icon instanceof URL ? icon.toString() : icon.url);
+  assert.ok(iconUrls?.includes("/favicon.ico"));
+  assert.ok(iconUrls?.includes("/icons/icon-32x32.png"));
+  assert.ok(iconUrls?.includes("/icons/icon-48x48.png"));
+  assert.ok(iconUrls?.includes("/icons/icon-192.png"));
+  assert.ok(iconUrls?.includes("/icons/icon-512.png"));
+  assert.equal(siteMetadata.appleWebApp?.title, "ECOTERRA Access");
+  assert.ok(manifest().icons?.some((icon) => icon.src === "/icons/maskable-512.png" && icon.purpose === "maskable"));
+});
+
+test("la residencia principal visible de la demo es ECOTERRA", () => {
+  assert.equal(demoResident.community, "ECOTERRA");
+  assert.equal(DEMO_RESIDENCE_LABEL, "Casa 27 · ECOTERRA");
 });
 
 test("detección de conexión trata únicamente onLine=false como offline", () => {
