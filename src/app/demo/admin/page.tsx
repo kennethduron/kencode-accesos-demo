@@ -234,10 +234,10 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <header className="sticky top-0 z-40 border-b border-slate-200/90 bg-white/90 backdrop-blur-xl">
+      <header className="safe-top sticky top-0 z-40 border-b border-slate-200/90 bg-white/90 backdrop-blur-xl">
         <div className="mx-auto flex min-h-20 max-w-[100rem] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[154px]" /></Link>
-          <div className="text-right"><DemoBadge /><p className="mt-1 text-[11px] font-bold text-slate-500 sm:text-xs">Vista administrativa de demostración</p></div>
+          <div className="flex items-center gap-3"><Link href="/" className="hidden text-sm font-bold text-blue-700 sm:inline">Inicio del demo</Link><div className="text-right"><DemoBadge /><p className="mt-1 text-[11px] font-bold text-slate-500 sm:text-xs">Vista administrativa de demostración</p></div></div>
         </div>
       </header>
 

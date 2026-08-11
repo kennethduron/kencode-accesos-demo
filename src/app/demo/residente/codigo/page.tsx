@@ -13,7 +13,7 @@ import { useDemoAccess } from "@/context/demo-access-context";
 import { entryTypeLabels, formatDemoDate, formatDemoTime, formatRemainingTime, resolveAuthorizationStatus, validityLabels, visitTypeLabels } from "@/lib/access";
 
 export default function CodigoPage() {
-  const { selectedAuthorization, cancelById, hydrated, busy, error } = useDemoAccess();
+  const { selectedAuthorization, cancelById, hydrated, busy, error, online } = useDemoAccess();
   const [now, setNow] = useState(() => new Date());
   const [dialogOpen, setDialogOpen] = useState(false);
   const cancelButtonRef = useRef<HTMLButtonElement>(null);
@@ -85,7 +85,7 @@ export default function CodigoPage() {
           </dl>
           <div className="grid gap-3 border-t border-slate-200 bg-slate-50 p-5 sm:grid-cols-2 sm:p-6">
             <ShareAccessButton authorization={authorization} />
-            <button ref={cancelButtonRef} type="button" disabled={!canCancel} onClick={() => setDialogOpen(true)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-red-200 bg-white px-4 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400">
+            <button ref={cancelButtonRef} type="button" disabled={!online || !canCancel} onClick={() => setDialogOpen(true)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-red-200 bg-white px-4 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400">
               <Trash2 aria-hidden="true" className="size-5" />
               {status === "cancelled" ? "Permiso cancelado" : "Cancelar permiso"}
             </button>

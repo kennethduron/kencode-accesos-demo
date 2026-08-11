@@ -8,12 +8,13 @@ interface ConfirmDialogProps {
   title: string;
   description: string;
   confirmLabel: string;
+  cancelLabel?: string;
   triggerRef: RefObject<HTMLButtonElement | null>;
   onConfirm: () => void;
   onClose: () => void;
 }
 
-export function ConfirmDialog({ open, title, description, confirmLabel, triggerRef, onConfirm, onClose }: ConfirmDialogProps) {
+export function ConfirmDialog({ open, title, description, confirmLabel, cancelLabel = "Mantener permiso", triggerRef, onConfirm, onClose }: ConfirmDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
   const descriptionId = useId();
@@ -37,7 +38,7 @@ export function ConfirmDialog({ open, title, description, confirmLabel, triggerR
         <h2 id={titleId} className="mt-5 text-xl font-black">{title}</h2>
         <p id={descriptionId} className="mt-2 text-sm leading-6 text-slate-600">{description}</p>
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-          <button type="button" onClick={closeAndRestoreFocus} className="secondary-button inline-flex">Mantener permiso</button>
+          <button type="button" onClick={closeAndRestoreFocus} className="secondary-button inline-flex">{cancelLabel}</button>
           <button type="button" onClick={() => { onConfirm(); closeAndRestoreFocus(); }} className="inline-flex min-h-11 items-center justify-center rounded-xl bg-red-600 px-4 text-sm font-bold text-white hover:bg-red-700">{confirmLabel}</button>
         </div>
       </div>

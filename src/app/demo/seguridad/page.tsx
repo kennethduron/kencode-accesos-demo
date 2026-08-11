@@ -17,6 +17,7 @@ import {
   SearchX,
   ShieldCheck,
   UserRound,
+  WifiOff,
   XCircle,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -25,6 +26,7 @@ import { AccessValidationOverlay } from "@/components/access-validation-overlay"
 import { DemoBadge } from "@/components/demo-badge";
 import { entryTypeLabels, formatDemoDate, formatDemoTime, normalizeAccessCode, validateAccess, visitTypeLabels } from "@/lib/access";
 import { createAccessValidationGate, type ValidationSource } from "@/lib/access-validation-feedback";
+import { useOnlineStatus } from "@/hooks/use-online-status";
 import { parseQrPayload } from "@/lib/qr";
 import { getAccessRepository } from "@/repositories";
 import type { AccessValidationResult, Authorization, ValidationResultCode } from "@/types/demo";
@@ -57,6 +59,7 @@ function AuthorizationDetails({ authorization }: { authorization: Authorization 
 }
 
 export default function SeguridadPage() {
+  const online = useOnlineStatus();
   const [method, setMethod] = useState<"scan" | "manual">("scan");
   const [code, setCode] = useState("");
   const [validationState, setValidation] = useState<AccessValidationResult | null>(null);
@@ -77,6 +80,10 @@ export default function SeguridadPage() {
   const [operationGate] = useState(() => createAccessValidationGate());
 
   useEffect(() => {
+    if (navigator.onLine === false) {
+      window.setTimeout(() => setConnecting(false), 0);
+      return;
+    }
     getAccessRepository().initialize().then(() => setConnecting(false)).catch(() => {
       setConnecting(false);
       setServiceError("No fue posible conectar el servicio de demostración. Intente nuevamente.");
@@ -96,7 +103,25 @@ export default function SeguridadPage() {
 
   useEffect(() => stopCamera, [stopCamera]);
 
+  useEffect(() => {
+    if (online) return;
+    const offlineTimer = window.setTimeout(() => {
+      stopCamera();
+      setValidation(null);
+      setConfirmed(null);
+      setServiceError("");
+      setCameraMessage("");
+    }, 0);
+    return () => window.clearTimeout(offlineTimer);
+  }, [online, stopCamera]);
+
   async function validateCode(rawCode: string, source: ValidationSource) {
+    if (!online) {
+      setValidation(null);
+      setConfirmed(null);
+      setServiceError("Sin conexión. Se necesita conexión a internet para validar accesos.");
+      return;
+    }
     try {
       const outcome = await validationGate.run(async () => {
         const normalized = normalizeAccessCode(rawCode);
@@ -106,6 +131,7 @@ export default function SeguridadPage() {
         }
 
         const authorization = await getAccessRepository().getAuthorizationByCode(normalized);
+        if (navigator.onLine === false) throw new Error("Offline validation is not allowed");
         return { normalized, result: validateAccess(normalized, authorization) };
       }, () => {
         stopCamera();
@@ -121,6 +147,12 @@ export default function SeguridadPage() {
       });
 
       if (!outcome.started) return;
+      if (navigator.onLine === false) {
+        setValidation(null);
+        setConfirmed(null);
+        setServiceError("Sin conexión. Se necesita conexión a internet para validar accesos.");
+        return;
+      }
       setCode(outcome.value.normalized);
       setValidation(outcome.value.result);
     } catch {
@@ -129,6 +161,10 @@ export default function SeguridadPage() {
   }
 
   async function startCamera() {
+    if (!online) {
+      setCameraMessage("Sin conexión. Se necesita internet antes de iniciar una validación.");
+      return;
+    }
     if (validationGate.isProcessing() || operationGate.isProcessing()) return;
     const requestId = scanRequestRef.current + 1;
     scanRequestRef.current = requestId;
@@ -204,7 +240,7 @@ export default function SeguridadPage() {
   }
 
   async function confirmEntry() {
-    if (!validation?.authorization || validation.code !== "AUTHORIZED") return;
+    if (!online || !validation?.authorization || validation.code !== "AUTHORIZED") return;
     try {
       const outcome = await operationGate.run(
         () => getAccessRepository().confirmEntry(validation.normalizedCode),
@@ -223,7 +259,7 @@ export default function SeguridadPage() {
   }
 
   async function confirmExit() {
-    if (!validation?.authorization || validation.code !== "INSIDE") return;
+    if (!online || !validation?.authorization || validation.code !== "INSIDE") return;
     try {
       const outcome = await operationGate.run(
         () => getAccessRepository().confirmExit(validation.normalizedCode),
@@ -251,8 +287,9 @@ export default function SeguridadPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <AccessValidationOverlay open={busy} source={validationSource} mode={operation ?? "validation"} />
-      <header className="border-b border-slate-200 bg-white"><div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"><Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[150px]" /></Link><div className="text-right"><DemoBadge /><p className="mt-1 text-xs font-bold text-slate-500">Modo Seguridad · Demostración</p></div></div></header>
+      <header className="safe-top border-b border-slate-200 bg-white"><div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"><Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[150px]" /></Link><div className="flex items-center gap-3"><Link href="/" className="hidden text-sm font-bold text-blue-700 sm:inline">Inicio del demo</Link><div className="text-right"><DemoBadge /><p className="mt-1 text-xs font-bold text-slate-500">Modo Seguridad · Demostración</p></div></div></div></header>
       <main aria-busy={busy} className="mx-auto grid w-full max-w-7xl gap-7 px-4 py-7 sm:px-6 sm:py-10 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
+        {!online ? <p role="alert" className="flex items-center gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 font-bold text-red-800 lg:col-span-2"><WifiOff aria-hidden="true" className="size-5 shrink-0" /><span><span className="block">Sin conexión.</span><span className="font-semibold">Se necesita conexión a internet para validar accesos.</span></span></p> : null}
         <section>
           <p className="text-sm font-black uppercase tracking-[0.16em] text-blue-700">Puesto Principal</p>
           <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Validar acceso</h1>
@@ -270,15 +307,15 @@ export default function SeguridadPage() {
                 {!scanning ? <div className="absolute inset-0 grid place-items-center p-6 text-center text-white"><div><span className="mx-auto grid size-16 place-items-center rounded-3xl bg-white/10"><Camera aria-hidden="true" className="size-8 text-cyan-300" /></span><p className="mt-4 font-extrabold">La cámara permanece apagada</p><p className="mt-1 text-sm text-slate-300">Solo se activará cuando usted lo solicite.</p></div></div> : <div aria-hidden="true" className="pointer-events-none absolute inset-[14%] rounded-3xl border-2 border-cyan-300 shadow-[0_0_0_999px_rgba(2,8,23,0.38)]" />}
               </div>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <button type="button" disabled={scanning || connecting || busy} onClick={() => void startCamera()} className="primary-button w-full disabled:cursor-wait disabled:opacity-60"><Camera aria-hidden="true" className="size-5" />Escanear QR</button>
+                <button type="button" disabled={!online || scanning || connecting || busy} onClick={() => void startCamera()} className="primary-button w-full disabled:cursor-not-allowed disabled:opacity-60"><Camera aria-hidden="true" className="size-5" />Escanear QR</button>
                 <button type="button" disabled={!scanning || busy} onClick={() => { stopCamera(); setCameraMessage("Cámara detenida."); }} className="secondary-button inline-flex w-full gap-2 disabled:cursor-not-allowed disabled:opacity-50"><CameraOff aria-hidden="true" className="size-5" />Detener cámara</button>
               </div>
               <p className="mt-3 min-h-6 text-sm font-semibold text-slate-600" aria-live="polite">{cameraMessage}</p>
             </div> : <form onSubmit={(event) => { event.preventDefault(); void validateCode(code, "manual"); }} noValidate>
               <label htmlFor="security-code" className="form-label text-base">Código de acceso</label>
-              <input id="security-code" value={code} disabled={busy || connecting} onChange={(event) => setCode(normalizeAccessCode(event.target.value))} inputMode="text" autoCapitalize="characters" autoComplete="off" maxLength={9} placeholder="A7X9-2K4P" className="form-control min-h-16 font-mono text-2xl font-black uppercase tracking-wider disabled:cursor-wait disabled:opacity-60" />
+              <input id="security-code" value={code} disabled={!online || busy || connecting} onChange={(event) => setCode(normalizeAccessCode(event.target.value))} inputMode="text" autoCapitalize="characters" autoComplete="off" maxLength={9} placeholder="A7X9-2K4P" className="form-control min-h-16 font-mono text-2xl font-black uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-60" />
               <p className="mt-2 text-sm text-slate-500">Puede escribir o pegar el código completo.</p>
-              <button type="submit" disabled={busy || connecting} className="primary-button mt-5 min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-60"><ShieldCheck aria-hidden="true" className="size-5" />Validar código</button>
+              <button type="submit" disabled={!online || busy || connecting} className="primary-button mt-5 min-h-14 w-full text-base disabled:cursor-not-allowed disabled:opacity-60"><ShieldCheck aria-hidden="true" className="size-5" />Validar código</button>
             </form>}
           </div>
         </section>
@@ -309,8 +346,8 @@ export default function SeguridadPage() {
               {validation.code === "EXPIRED" && validation.authorization ? <p className="mt-4 rounded-2xl bg-white p-4 font-bold">Expiró: {formatDemoDate(validation.authorization.expiresAt)} · {formatDemoTime(validation.authorization.expiresAt)}</p> : null}
               {validation.code === "USED" && validation.authorization?.lastEntryAt ? <p className="mt-4 rounded-2xl bg-white p-4 font-bold">Última entrada: {formatDemoDate(validation.authorization.lastEntryAt)} · {formatDemoTime(validation.authorization.lastEntryAt)}</p> : null}
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {validation.code === "AUTHORIZED" ? <button type="button" disabled={busy} onClick={() => void confirmEntry()} className="primary-button min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-60"><DoorOpen aria-hidden="true" className="size-5" />CONFIRMAR ENTRADA</button> : null}
-                {validation.code === "INSIDE" ? <button type="button" disabled={busy} onClick={() => void confirmExit()} className="primary-button min-h-14 w-full text-base disabled:cursor-wait disabled:opacity-60"><LogOut aria-hidden="true" className="size-5" />CONFIRMAR SALIDA</button> : null}
+                {validation.code === "AUTHORIZED" ? <button type="button" disabled={!online || busy} onClick={() => void confirmEntry()} className="primary-button min-h-14 w-full text-base disabled:cursor-not-allowed disabled:opacity-60"><DoorOpen aria-hidden="true" className="size-5" />CONFIRMAR ENTRADA</button> : null}
+                {validation.code === "INSIDE" ? <button type="button" disabled={!online || busy} onClick={() => void confirmExit()} className="primary-button min-h-14 w-full text-base disabled:cursor-not-allowed disabled:opacity-60"><LogOut aria-hidden="true" className="size-5" />CONFIRMAR SALIDA</button> : null}
                 <button type="button" disabled={busy} onClick={() => { setValidation(null); setCode(""); }} className="secondary-button inline-flex min-h-14 w-full gap-2 disabled:opacity-60"><RotateCcw aria-hidden="true" className="size-5" />{validation.code === "NOT_FOUND" ? "Intentar nuevamente" : "Cancelar validación"}</button>
               </div>
             </div>

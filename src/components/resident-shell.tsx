@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, History, Home, PlusCircle, RotateCcw, UserRound, X } from "lucide-react";
-import { useState, type ReactNode } from "react";
+import { Bell, History, Home, PlusCircle, RotateCcw, UserRound, WifiOff, X } from "lucide-react";
+import { useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { BrandLogo } from "@/components/brand-logo";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { DemoBadge } from "@/components/demo-badge";
 import { DemoNotice } from "@/components/demo-notice";
 import { MobileBottomNav } from "@/components/mobile-bottom-nav";
@@ -22,19 +23,26 @@ const desktopItems = [
 ];
 
 export function ResidentShell({ children, activeHref }: ResidentShellProps) {
-  const { resetDemo, busy, error } = useDemoAccess();
+  const { resetDemo, busy, error, online } = useDemoAccess();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [resetOpen, setResetOpen] = useState(false);
+  const resetButtonRef = useRef<HTMLButtonElement>(null);
 
   async function handleReset() {
     const restored = await resetDemo();
     setMessage(restored ? "Los escenarios ficticios del demo fueron restaurados." : "No fue posible restaurar los escenarios.");
   }
 
+  function openReset(event: MouseEvent<HTMLButtonElement>) {
+    resetButtonRef.current = event.currentTarget;
+    setResetOpen(true);
+  }
+
   return (
-    <div className="min-h-screen bg-slate-50 pb-24 md:pb-0">
+    <div className="resident-safe-bottom min-h-screen bg-slate-50">
       <div className="fixed inset-x-0 top-0 -z-10 h-80 bg-[radial-gradient(circle_at_10%_10%,rgba(37,99,235,0.12),transparent_34%),radial-gradient(circle_at_90%_12%,rgba(6,182,212,0.14),transparent_32%)]" aria-hidden="true" />
-      <header className="relative z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
+      <header className="safe-top relative z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl">
         <div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
           <Link href="/demo/residente" className="shrink-0" aria-label="Control de Accesos de Ken Code, inicio del residente">
             <BrandLogo priority className="w-[126px] sm:w-[150px]" />
@@ -55,7 +63,7 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
               {notificationsOpen ? <X aria-hidden="true" className="size-5" /> : <Bell aria-hidden="true" className="size-5" />}
               <span className="absolute -right-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-blue-600 text-[10px] font-black text-white" aria-label="2 notificaciones">2</span>
             </button>
-            <button type="button" disabled={busy} onClick={() => void handleReset()} className="hidden min-h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-wait disabled:opacity-60 sm:inline-flex">
+            <button type="button" disabled={busy || !online} onClick={openReset} className="hidden min-h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60 sm:inline-flex">
               <RotateCcw aria-hidden="true" className="size-4" />
               Restablecer escenarios demo
             </button>
@@ -72,17 +80,22 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
         </div>
       </header>
       <main className="mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
+        {!online ? <p role="alert" className="mb-6 flex items-center gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-bold text-red-800"><WifiOff aria-hidden="true" className="size-5 shrink-0" />Sin conexión. Se necesita conexión a internet para crear o actualizar accesos.</p> : null}
         {children}
         <p className="mt-5 text-center text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Experiencia residente · Datos de demostración</p>
         {error ? <p role="alert" className="mx-auto mt-4 max-w-2xl rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{error}</p> : null}
         <div className="mt-8"><DemoNotice compact /></div>
-        <button type="button" disabled={busy} onClick={() => void handleReset()} className="mt-4 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 disabled:opacity-60 sm:hidden">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+          <Link href="/" className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-blue-700"><Home aria-hidden="true" className="size-4" />Volver al inicio del demo</Link>
+        <button type="button" disabled={busy || !online} onClick={openReset} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 disabled:opacity-60 sm:hidden">
           <RotateCcw aria-hidden="true" className="size-4" />
           Restablecer escenarios demo
         </button>
+        </div>
       </main>
       <p className="sr-only" aria-live="polite">{message}</p>
       <MobileBottomNav activeHref={activeHref} />
+      <ConfirmDialog open={resetOpen} title="¿Restablecer los escenarios del demo?" description="Se recuperarán únicamente los escenarios ficticios controlados de esta sesión de demostración." confirmLabel={busy ? "Restableciendo…" : "Sí, restablecer demo"} cancelLabel="Cancelar" triggerRef={resetButtonRef} onClose={() => setResetOpen(false)} onConfirm={() => void handleReset()} />
     </div>
   );
 }

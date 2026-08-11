@@ -17,6 +17,8 @@ import {
 import { buildQrPayload, parseQrPayload } from "../src/lib/qr.ts";
 import { createAccessValidationGate } from "../src/lib/access-validation-feedback.ts";
 import { authorizationToFirebase, firebaseToAuthorization } from "../src/repositories/firebase-mapping.ts";
+import manifest from "../src/app/manifest.ts";
+import { isOnlineState, shouldShowIosInstallHelp } from "../src/lib/connectivity.ts";
 
 const now = new Date(2026, 7, 10, 10, 0, 0);
 
@@ -254,6 +256,29 @@ test("multiple-use completa entrada, salida y nueva entrada", () => {
   assert.equal(secondEntry.status, "active");
 });
 
+test("Familiar 48h reutiliza exactamente el mismo código tras entrada, salida y reentrada", () => {
+  const authorization = createAuthorization(input({ visitType: "family", validity: "48h" }), now, () => 0.441);
+  const originalCode = authorization.code;
+  assert.equal(validateAccess(originalCode, authorization, new Date(2026, 7, 10, 12, 0)).code, "AUTHORIZED");
+
+  const firstEntry = confirmEntryInDomain(authorization, new Date(2026, 7, 10, 12, 1)).authorization;
+  assert.equal(firstEntry.code, originalCode);
+  assert.equal(firstEntry.presenceState, "inside");
+  assert.equal(firstEntry.entryCount, 1);
+  assert.equal(validateAccess(originalCode, firstEntry, new Date(2026, 7, 10, 12, 2)).code, "INSIDE");
+
+  const firstExit = confirmExitInDomain(firstEntry, new Date(2026, 7, 10, 12, 3)).authorization;
+  assert.equal(firstExit.code, originalCode);
+  assert.equal(firstExit.presenceState, "outside");
+  assert.equal(firstExit.exitCount, 1);
+  assert.equal(validateAccess(originalCode, firstExit, new Date(2026, 7, 10, 12, 4)).code, "AUTHORIZED");
+
+  const secondEntry = confirmEntryInDomain(firstExit, new Date(2026, 7, 10, 12, 5)).authorization;
+  assert.equal(secondEntry.code, originalCode);
+  assert.equal(secondEntry.presenceState, "inside");
+  assert.equal(secondEntry.entryCount, 2);
+});
+
 test("single-use no se reactiva mediante confirmación de salida", () => {
   const authorization = createAuthorization(input({ validity: "single" }), now, () => 0.45);
   const entered = confirmEntryInDomain(authorization, new Date(2026, 7, 10, 12, 1)).authorization;
@@ -363,4 +388,28 @@ test("validation gate conserva el overlay durante el mínimo visual configurado"
   );
 
   assert.deepEqual(waits, [275]);
+});
+
+test("manifest PWA conserva identidad, modo standalone e iconos requeridos", () => {
+  const value = manifest();
+  assert.equal(value.name, "Ken Code Access Demo");
+  assert.equal(value.short_name, "Ken Code Access");
+  assert.equal(value.start_url, "/");
+  assert.equal(value.display, "standalone");
+  assert.ok(value.icons?.some((icon) => icon.sizes === "192x192" && icon.purpose === "any"));
+  assert.ok(value.icons?.some((icon) => icon.sizes === "512x512" && icon.purpose === "any"));
+  assert.ok(value.icons?.some((icon) => icon.purpose === "maskable"));
+});
+
+test("detección de conexión trata únicamente onLine=false como offline", () => {
+  assert.equal(isOnlineState(true), true);
+  assert.equal(isOnlineState(undefined), true);
+  assert.equal(isOnlineState(false), false);
+});
+
+test("ayuda de instalación iOS aparece solo en Safari y fuera de standalone", () => {
+  const safari = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1";
+  assert.equal(shouldShowIosInstallHelp({ userAgent: safari }), true);
+  assert.equal(shouldShowIosInstallHelp({ userAgent: safari, navigatorStandalone: true }), false);
+  assert.equal(shouldShowIosInstallHelp({ userAgent: safari.replace("Version/18.0", "CriOS/126.0") }), false);
 });

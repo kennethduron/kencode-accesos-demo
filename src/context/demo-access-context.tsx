@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, type ReactNode } from "react";
 import { getAccessRepository, getDemoBackend } from "@/repositories";
+import { useOnlineStatus } from "@/hooks/use-online-status";
 import type { Authorization, AuthorizationInput } from "@/types/demo";
 
 const SELECTED_KEY = "kencode-selected-authorization-v1";
@@ -24,6 +25,7 @@ type DemoAction =
 
 interface DemoAccessContextValue extends DemoState {
   backend: "local" | "firebase";
+  online: boolean;
   selectedAuthorization: Authorization | null;
   createAccess: (input: AuthorizationInput) => Promise<Authorization>;
   selectAuthorization: (id: string) => void;
@@ -65,6 +67,7 @@ const DemoAccessContext = createContext<DemoAccessContextValue | null>(null);
 export function DemoAccessProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const backend = getDemoBackend();
+  const online = useOnlineStatus();
 
   useEffect(() => {
     const repository = getAccessRepository();
@@ -93,6 +96,10 @@ export function DemoAccessProvider({ children }: { children: ReactNode }) {
   }, [state.selectedId]);
 
   const createAccess = useCallback(async (input: AuthorizationInput) => {
+    if (!online) {
+      dispatch({ type: "error", payload: "Sin conexión. Se necesita conexión a internet para generar accesos." });
+      throw new Error("Offline");
+    }
     dispatch({ type: "busy", payload: true });
     dispatch({ type: "error", payload: "" });
     try {
@@ -106,11 +113,15 @@ export function DemoAccessProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: "busy", payload: false });
     }
-  }, []);
+  }, [online]);
 
   const selectAuthorization = useCallback((id: string) => dispatch({ type: "select", payload: id }), []);
 
   const cancelById = useCallback(async (id: string) => {
+    if (!online) {
+      dispatch({ type: "error", payload: "Sin conexión. Se necesita conexión a internet para actualizar permisos." });
+      return;
+    }
     const authorization = state.authorizations.find((item) => item.id === id);
     if (!authorization) return;
     dispatch({ type: "busy", payload: true });
@@ -124,9 +135,13 @@ export function DemoAccessProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: "busy", payload: false });
     }
-  }, [state.authorizations]);
+  }, [online, state.authorizations]);
 
   const resetDemo = useCallback(async () => {
+    if (!online) {
+      dispatch({ type: "error", payload: "Sin conexión. Se necesita conexión a internet para restablecer la demostración." });
+      return false;
+    }
     dispatch({ type: "busy", payload: true });
     try {
       const authorizations = await getAccessRepository().resetDemoScenarios();
@@ -139,19 +154,20 @@ export function DemoAccessProvider({ children }: { children: ReactNode }) {
     } finally {
       dispatch({ type: "busy", payload: false });
     }
-  }, []);
+  }, [online]);
 
   const clearError = useCallback(() => dispatch({ type: "error", payload: "" }), []);
   const value = useMemo<DemoAccessContextValue>(() => ({
     ...state,
     backend,
+    online,
     selectedAuthorization: state.authorizations.find((item) => item.id === state.selectedId) ?? null,
     createAccess,
     selectAuthorization,
     cancelById,
     resetDemo,
     clearError,
-  }), [backend, cancelById, clearError, createAccess, resetDemo, selectAuthorization, state]);
+  }), [backend, cancelById, clearError, createAccess, online, resetDemo, selectAuthorization, state]);
 
   return <DemoAccessContext.Provider value={value}>{children}</DemoAccessContext.Provider>;
 }

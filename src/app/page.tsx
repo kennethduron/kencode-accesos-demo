@@ -16,6 +16,7 @@ import { ActionCard } from "@/components/action-card";
 import { BrandLogo } from "@/components/brand-logo";
 import { DemoBadge } from "@/components/demo-badge";
 import { DemoNotice } from "@/components/demo-notice";
+import { InstallDemoAction } from "@/components/pwa-runtime";
 import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
 import { demoAccess, demoResident } from "@/data/demo";
@@ -39,7 +40,7 @@ const demoFlow = [
 export default function HomePage() {
   return (
     <div className="min-h-screen overflow-hidden bg-slate-50">
-      <header className="relative z-20 border-b border-white/10 bg-[#030b1d]">
+      <header className="safe-top relative z-20 border-b border-white/10 bg-[#030b1d]">
         <div className="mx-auto flex min-h-20 w-full max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link href="/" aria-label="Ken Code, inicio">
             <BrandLogo priority className="w-[132px] sm:w-[164px]" />
@@ -75,6 +76,7 @@ export default function HomePage() {
                 <Link href="/demo/registro" className="secondary-button inline-flex min-w-44">
                   Ver registro conceptual
                 </Link>
+                <InstallDemoAction />
               </div>
               <p className="mt-6 text-sm font-medium text-slate-500">Demostración conceptual desarrollada por Ken Code.</p>
             </div>
@@ -122,7 +124,7 @@ export default function HomePage() {
             <div className="max-w-2xl">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-700">Tres experiencias conectadas</p>
               <h2 className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-5xl">Explora el concepto desde cada rol</h2>
-              <p className="mt-4 text-base leading-7 text-slate-600">Cada acceso conduce a una vista preparada para evolucionar en las siguientes fases del demo.</p>
+              <p className="mt-4 text-base leading-7 text-slate-600">Cada acceso conduce a una experiencia conectada y lista para una presentación comercial guiada.</p>
             </div>
             <div className="mt-10 grid gap-5 md:grid-cols-3">
               <ActionCard href="/demo/residente" icon={UserRound} eyebrow="Experiencia 01" title="Residente" description="Autoriza visitas, revisa permisos y consulta accesos desde una experiencia simple." accent="blue" />
