@@ -197,6 +197,77 @@ button {
     border-color: rgb(220 38 38);
     box-shadow: 0 0 0 3px rgb(254 202 202 / 0.55);
   }
+
+  .temporal-field-shell {
+    position: relative;
+    display: flex;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    min-block-size: 48px;
+    align-items: center;
+    gap: 0.75rem;
+    border: 1px solid rgb(203 213 225);
+    border-radius: 0.875rem;
+    background: white;
+    padding: 0.75rem 1rem;
+    color: rgb(15 23 42);
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .temporal-field-display {
+    min-inline-size: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1rem;
+  }
+
+  .temporal-field-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+    color: rgb(100 116 139);
+  }
+
+  .temporal-field-input {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    block-size: 100%;
+    min-block-size: 48px;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    opacity: 0.001;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .temporal-field-shell:focus-within {
+    border-color: rgb(37 99 235);
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(191 219 254 / 0.75);
+  }
+
+  .temporal-field-shell-invalid,
+  .temporal-field-shell-invalid:focus-within {
+    border-color: rgb(220 38 38);
+    box-shadow: 0 0 0 3px rgb(254 202 202 / 0.55);
+  }
+
+  .temporal-field-shell-disabled {
+    background: rgb(248 250 252);
+    color: rgb(148 163 184);
+  }
+
+  .temporal-field-shell-disabled .temporal-field-input {
+    cursor: not-allowed;
+  }
 }
 
 .primary-button:active,
@@ -231,6 +302,51 @@ button {
 
   .form-control:hover {
     border-color: rgb(147 197 253);
+  }
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .temporal-field-shell {
+    display: block;
+    min-block-size: 0;
+    border: 0;
+    background: transparent;
+    padding: 0;
+  }
+
+  .temporal-field-display,
+  .temporal-field-icon {
+    display: none;
+  }
+
+  .temporal-field-input {
+    position: static;
+    inset: auto;
+    z-index: auto;
+    display: block;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    block-size: auto;
+    min-block-size: 48px;
+    border: 1px solid rgb(203 213 225);
+    background: white;
+    padding: 0.75rem 1rem;
+    opacity: 1;
+    color: rgb(15 23 42);
+    cursor: auto;
+  }
+
+  .temporal-field-shell:focus-within,
+  .temporal-field-shell-invalid,
+  .temporal-field-shell-invalid:focus-within {
+    border-color: transparent;
+    box-shadow: none;
+  }
+
+  .temporal-field-shell-disabled .temporal-field-input {
+    background: rgb(248 250 252);
+    color: rgb(148 163 184);
   }
 }
 

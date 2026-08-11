@@ -15,6 +15,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { NativeTemporalField } from "@/components/native-temporal-field";
 import { ResidentPageHeader } from "@/components/resident-page-header";
 import { ResidentShell } from "@/components/resident-shell";
 import { useDemoAccess } from "@/context/demo-access-context";
@@ -108,7 +109,7 @@ export default function NuevaVisitaPage() {
     const nextErrors = validateAuthorizationInput(form);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
-      document.querySelector<HTMLElement>("[aria-invalid='true']")?.focus();
+      window.setTimeout(() => document.querySelector<HTMLElement>("[aria-invalid='true']")?.focus(), 0);
       return;
     }
 
@@ -177,16 +178,8 @@ export default function NuevaVisitaPage() {
             )}
 
             <div className="grid min-w-0 gap-5 sm:grid-cols-2">
-              <div className="min-w-0">
-                <label htmlFor="date" className="form-label"><CalendarDays aria-hidden="true" className="size-4" />Fecha</label>
-                <input id="date" type="date" className="form-control" value={form.date} onChange={(event) => update("date", event.target.value)} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
-                <FieldError id="date-error">{errors.date}</FieldError>
-              </div>
-              <div className="min-w-0">
-                <label htmlFor="time" className="form-label"><Clock3 aria-hidden="true" className="size-4" />Hora</label>
-                <input id="time" type="time" className="form-control" value={form.time} onChange={(event) => update("time", event.target.value)} aria-invalid={Boolean(errors.time)} aria-describedby={errors.time ? "time-error" : undefined} />
-                <FieldError id="time-error">{errors.time}</FieldError>
-              </div>
+              <NativeTemporalField id="date" type="date" label={<><CalendarDays aria-hidden="true" className="size-4" />Fecha</>} value={form.date} onChange={(event) => update("date", event.target.value)} error={errors.date} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
+              <NativeTemporalField id="time" type="time" label={<><Clock3 aria-hidden="true" className="size-4" />Hora</>} value={form.time} onChange={(event) => update("time", event.target.value)} error={errors.time} aria-invalid={Boolean(errors.time)} aria-describedby={errors.time ? "time-error" : undefined} />
             </div>
 
             <fieldset>
@@ -206,11 +199,7 @@ export default function NuevaVisitaPage() {
             </fieldset>
 
             {form.validity === "custom" ? (
-              <div className="min-w-0">
-                <label htmlFor="customExpiresAt" className="form-label">Fecha y hora de expiración</label>
-                <input id="customExpiresAt" type="datetime-local" min={minDateTime} className="form-control" value={form.customExpiresAt} onChange={(event) => update("customExpiresAt", event.target.value)} aria-invalid={Boolean(errors.customExpiresAt)} aria-describedby={errors.customExpiresAt ? "customExpiresAt-error" : undefined} />
-                <FieldError id="customExpiresAt-error">{errors.customExpiresAt}</FieldError>
-              </div>
+              <NativeTemporalField id="customExpiresAt" type="datetime-local" min={minDateTime} label="Fecha y hora de expiración" value={form.customExpiresAt ?? ""} onChange={(event) => update("customExpiresAt", event.target.value)} error={errors.customExpiresAt} aria-invalid={Boolean(errors.customExpiresAt)} aria-describedby={errors.customExpiresAt ? "customExpiresAt-error" : undefined} />
             ) : null}
 
             {familyMode ? <p className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-semibold leading-6 text-emerald-800">Los permisos familiares permiten múltiples entradas y salidas durante 24 o 48 horas.</p> : null}

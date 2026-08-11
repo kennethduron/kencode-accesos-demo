@@ -35,6 +35,7 @@ import { createAccessValidationGate } from "../src/lib/access-validation-feedbac
 import { authorizationToFirebase, firebaseToAuthorization } from "../src/repositories/firebase-mapping.ts";
 import manifest from "../src/app/manifest.ts";
 import { isOnlineState, shouldShowIosInstallHelp } from "../src/lib/connectivity.ts";
+import { formatTemporalDisplayValue, getTemporalPlaceholder } from "../src/lib/temporal-field.ts";
 import { demoResident } from "../src/data/demo.ts";
 import { landingImages } from "../src/data/landing-images.ts";
 import {
@@ -558,4 +559,29 @@ test("cancelar el selector de compartir se trata como una cancelación normal", 
   assert.equal(isShareCancellation(new DOMException("cancelled", "AbortError")), true);
   assert.equal(isShareCancellation({ name: "AbortError" }), true);
   assert.equal(isShareCancellation(new Error("network")), false);
+});
+
+test("campos temporales muestran instrucciones claras sin cambiar su valor ISO", () => {
+  assert.equal(getTemporalPlaceholder("date"), "Seleccionar fecha");
+  assert.equal(getTemporalPlaceholder("time"), "Seleccionar hora");
+  assert.equal(getTemporalPlaceholder("datetime-local"), "Seleccionar fecha y hora");
+  assert.equal(formatTemporalDisplayValue("date", ""), "Seleccionar fecha");
+});
+
+test("campo date presenta una fecha local amigable", () => {
+  const isoValue = "2026-08-10";
+  assert.equal(formatTemporalDisplayValue("date", isoValue), "10 ago 2026");
+  assert.equal(isoValue, "2026-08-10");
+});
+
+test("campo time presenta la hora en formato de doce horas", () => {
+  assert.equal(formatTemporalDisplayValue("time", "00:05"), "12:05 a. m.");
+  assert.equal(formatTemporalDisplayValue("time", "12:30"), "12:30 p. m.");
+  assert.equal(formatTemporalDisplayValue("time", "16:20"), "4:20 p. m.");
+});
+
+test("campo datetime-local combina fecha y hora sin alterar el valor canónico", () => {
+  const isoValue = "2026-08-10T16:20";
+  assert.equal(formatTemporalDisplayValue("datetime-local", isoValue), "10 ago 2026 · 4:20 p. m.");
+  assert.equal(isoValue, "2026-08-10T16:20");
 });
