@@ -1,0 +1,1394 @@
+[
+  {
+    "size": "360x800",
+    "route": "registro",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 754
+    },
+    "doc": {
+      "clientW": 345,
+      "scrollH": 2327,
+      "scrollW": 345
+    },
+    "h1": {
+      "h": 36,
+      "w": 313,
+      "x": 16,
+      "y": 201
+    },
+    "main": {
+      "w": 345,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 360
+    }
+  },
+  {
+    "size": "360x800",
+    "route": "residente",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 345,
+      "scrollH": 1673,
+      "scrollW": 345
+    },
+    "h1": {
+      "h": 40,
+      "w": 254,
+      "x": 16,
+      "y": 137
+    },
+    "main": {
+      "w": 345,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 360
+    }
+  },
+  {
+    "size": "360x800",
+    "route": "nueva-visita",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 345,
+      "scrollH": 2227,
+      "scrollW": 345
+    },
+    "h1": {
+      "h": 36,
+      "w": 313,
+      "x": 16,
+      "y": 197
+    },
+    "main": {
+      "w": 345,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 360
+    }
+  },
+  {
+    "size": "360x800",
+    "route": "codigo",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 345,
+      "scrollH": 2458,
+      "scrollW": 345
+    },
+    "h1": {
+      "h": 36,
+      "w": 313,
+      "x": 16,
+      "y": 197
+    },
+    "main": {
+      "w": 345,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 360
+    }
+  },
+  {
+    "size": "360x800",
+    "route": "permiso-familiar",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 345,
+      "scrollH": 2406,
+      "scrollW": 345
+    },
+    "h1": {
+      "h": 36,
+      "w": 313,
+      "x": 16,
+      "y": 197
+    },
+    "main": {
+      "w": 345,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 360
+    }
+  },
+  {
+    "size": "360x800",
+    "route": "historial",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 345,
+      "scrollH": 2150,
+      "scrollW": 345
+    },
+    "h1": {
+      "h": 36,
+      "w": 313,
+      "x": 16,
+      "y": 197
+    },
+    "main": {
+      "w": 345,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 360
+    }
+  },
+  {
+    "size": "360x800",
+    "route": "seguridad",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 754
+    },
+    "doc": {
+      "clientW": 345,
+      "scrollH": 1122,
+      "scrollW": 345
+    },
+    "h1": {
+      "h": 36,
+      "w": 313,
+      "x": 16,
+      "y": 137
+    },
+    "main": {
+      "w": 345,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 360
+    }
+  },
+  {
+    "size": "360x800",
+    "route": "admin",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 754
+    },
+    "doc": {
+      "clientW": 345,
+      "scrollH": 2973,
+      "scrollW": 345
+    },
+    "h1": {
+      "h": 64,
+      "w": 313,
+      "x": 16,
+      "y": 206
+    },
+    "main": {
+      "w": 345,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 360
+    }
+  },
+  {
+    "size": "430x932",
+    "route": "registro",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 886
+    },
+    "doc": {
+      "clientW": 415,
+      "scrollH": 2199,
+      "scrollW": 415
+    },
+    "h1": {
+      "h": 36,
+      "w": 383,
+      "x": 16,
+      "y": 201
+    },
+    "main": {
+      "w": 415,
+      "x": 0
+    },
+    "viewport": {
+      "h": 932,
+      "w": 430
+    }
+  },
+  {
+    "size": "430x932",
+    "route": "residente",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 798
+    },
+    "doc": {
+      "clientW": 415,
+      "scrollH": 1625,
+      "scrollW": 415
+    },
+    "h1": {
+      "h": 40,
+      "w": 254,
+      "x": 16,
+      "y": 137
+    },
+    "main": {
+      "w": 415,
+      "x": 0
+    },
+    "viewport": {
+      "h": 932,
+      "w": 430
+    }
+  },
+  {
+    "size": "430x932",
+    "route": "nueva-visita",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 798
+    },
+    "doc": {
+      "clientW": 415,
+      "scrollH": 2167,
+      "scrollW": 415
+    },
+    "h1": {
+      "h": 36,
+      "w": 383,
+      "x": 16,
+      "y": 197
+    },
+    "main": {
+      "w": 415,
+      "x": 0
+    },
+    "viewport": {
+      "h": 932,
+      "w": 430
+    }
+  },
+  {
+    "size": "430x932",
+    "route": "codigo",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 798
+    },
+    "doc": {
+      "clientW": 415,
+      "scrollH": 2323,
+      "scrollW": 415
+    },
+    "h1": {
+      "h": 36,
+      "w": 383,
+      "x": 16,
+      "y": 197
+    },
+    "main": {
+      "w": 415,
+      "x": 0
+    },
+    "viewport": {
+      "h": 932,
+      "w": 430
+    }
+  },
+  {
+    "size": "430x932",
+    "route": "permiso-familiar",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 798
+    },
+    "doc": {
+      "clientW": 415,
+      "scrollH": 2354,
+      "scrollW": 415
+    },
+    "h1": {
+      "h": 36,
+      "w": 383,
+      "x": 16,
+      "y": 197
+    },
+    "main": {
+      "w": 415,
+      "x": 0
+    },
+    "viewport": {
+      "h": 932,
+      "w": 430
+    }
+  },
+  {
+    "size": "430x932",
+    "route": "historial",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 798
+    },
+    "doc": {
+      "clientW": 415,
+      "scrollH": 1987,
+      "scrollW": 415
+    },
+    "h1": {
+      "h": 36,
+      "w": 383,
+      "x": 16,
+      "y": 197
+    },
+    "main": {
+      "w": 415,
+      "x": 0
+    },
+    "viewport": {
+      "h": 932,
+      "w": 430
+    }
+  },
+  {
+    "size": "430x932",
+    "route": "seguridad",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 886
+    },
+    "doc": {
+      "clientW": 415,
+      "scrollH": 1146,
+      "scrollW": 415
+    },
+    "h1": {
+      "h": 36,
+      "w": 383,
+      "x": 16,
+      "y": 137
+    },
+    "main": {
+      "w": 415,
+      "x": 0
+    },
+    "viewport": {
+      "h": 932,
+      "w": 430
+    }
+  },
+  {
+    "size": "430x932",
+    "route": "admin",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 886
+    },
+    "doc": {
+      "clientW": 415,
+      "scrollH": 2818,
+      "scrollW": 415
+    },
+    "h1": {
+      "h": 64,
+      "w": 383,
+      "x": 16,
+      "y": 206
+    },
+    "main": {
+      "w": 415,
+      "x": 0
+    },
+    "viewport": {
+      "h": 932,
+      "w": 430
+    }
+  },
+  {
+    "size": "768x1024",
+    "route": "registro",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 978
+    },
+    "doc": {
+      "clientW": 753,
+      "scrollH": 1806,
+      "scrollW": 753
+    },
+    "h1": {
+      "h": 40,
+      "w": 705,
+      "x": 24,
+      "y": 219
+    },
+    "main": {
+      "w": 753,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1024,
+      "w": 768
+    }
+  },
+  {
+    "size": "768x1024",
+    "route": "residente",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 890
+    },
+    "doc": {
+      "clientW": 753,
+      "scrollH": 1397,
+      "scrollW": 753
+    },
+    "h1": {
+      "h": 48,
+      "w": 339,
+      "x": 24,
+      "y": 149
+    },
+    "main": {
+      "w": 753,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1024,
+      "w": 768
+    }
+  },
+  {
+    "size": "768x1024",
+    "route": "nueva-visita",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 890
+    },
+    "doc": {
+      "clientW": 753,
+      "scrollH": 1499,
+      "scrollW": 753
+    },
+    "h1": {
+      "h": 40,
+      "w": 467,
+      "x": 24,
+      "y": 209
+    },
+    "main": {
+      "w": 753,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1024,
+      "w": 768
+    }
+  },
+  {
+    "size": "768x1024",
+    "route": "codigo",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 890
+    },
+    "doc": {
+      "clientW": 753,
+      "scrollH": 2104,
+      "scrollW": 753
+    },
+    "h1": {
+      "h": 40,
+      "w": 412,
+      "x": 24,
+      "y": 209
+    },
+    "main": {
+      "w": 753,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1024,
+      "w": 768
+    }
+  },
+  {
+    "size": "768x1024",
+    "route": "permiso-familiar",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 890
+    },
+    "doc": {
+      "clientW": 753,
+      "scrollH": 2067,
+      "scrollW": 753
+    },
+    "h1": {
+      "h": 40,
+      "w": 508,
+      "x": 24,
+      "y": 209
+    },
+    "main": {
+      "w": 753,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1024,
+      "w": 768
+    }
+  },
+  {
+    "size": "768x1024",
+    "route": "historial",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 890
+    },
+    "doc": {
+      "clientW": 753,
+      "scrollH": 1110,
+      "scrollW": 753
+    },
+    "h1": {
+      "h": 40,
+      "w": 426,
+      "x": 24,
+      "y": 209
+    },
+    "main": {
+      "w": 753,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1024,
+      "w": 768
+    }
+  },
+  {
+    "size": "768x1024",
+    "route": "seguridad",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 978
+    },
+    "doc": {
+      "clientW": 753,
+      "scrollH": 1361,
+      "scrollW": 753
+    },
+    "h1": {
+      "h": 40,
+      "w": 705,
+      "x": 24,
+      "y": 149
+    },
+    "main": {
+      "w": 753,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1024,
+      "w": 768
+    }
+  },
+  {
+    "size": "768x1024",
+    "route": "admin",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 978
+    },
+    "doc": {
+      "clientW": 753,
+      "scrollH": 2086,
+      "scrollW": 753
+    },
+    "h1": {
+      "h": 36,
+      "w": 705,
+      "x": 24,
+      "y": 216
+    },
+    "main": {
+      "w": 753,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1024,
+      "w": 768
+    }
+  },
+  {
+    "size": "834x1194",
+    "route": "registro",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1148
+    },
+    "doc": {
+      "clientW": 819,
+      "scrollH": 1806,
+      "scrollW": 819
+    },
+    "h1": {
+      "h": 40,
+      "w": 771,
+      "x": 24,
+      "y": 219
+    },
+    "main": {
+      "w": 819,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1194,
+      "w": 834
+    }
+  },
+  {
+    "size": "834x1194",
+    "route": "residente",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1060
+    },
+    "doc": {
+      "clientW": 819,
+      "scrollH": 1397,
+      "scrollW": 819
+    },
+    "h1": {
+      "h": 48,
+      "w": 339,
+      "x": 24,
+      "y": 149
+    },
+    "main": {
+      "w": 819,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1194,
+      "w": 834
+    }
+  },
+  {
+    "size": "834x1194",
+    "route": "nueva-visita",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1060
+    },
+    "doc": {
+      "clientW": 819,
+      "scrollH": 1499,
+      "scrollW": 819
+    },
+    "h1": {
+      "h": 40,
+      "w": 467,
+      "x": 24,
+      "y": 209
+    },
+    "main": {
+      "w": 819,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1194,
+      "w": 834
+    }
+  },
+  {
+    "size": "834x1194",
+    "route": "codigo",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1060
+    },
+    "doc": {
+      "clientW": 819,
+      "scrollH": 2104,
+      "scrollW": 819
+    },
+    "h1": {
+      "h": 40,
+      "w": 412,
+      "x": 24,
+      "y": 209
+    },
+    "main": {
+      "w": 819,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1194,
+      "w": 834
+    }
+  },
+  {
+    "size": "834x1194",
+    "route": "permiso-familiar",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1060
+    },
+    "doc": {
+      "clientW": 819,
+      "scrollH": 2067,
+      "scrollW": 819
+    },
+    "h1": {
+      "h": 40,
+      "w": 508,
+      "x": 24,
+      "y": 209
+    },
+    "main": {
+      "w": 819,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1194,
+      "w": 834
+    }
+  },
+  {
+    "size": "834x1194",
+    "route": "historial",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1060
+    },
+    "doc": {
+      "clientW": 819,
+      "scrollH": 1744,
+      "scrollW": 819
+    },
+    "h1": {
+      "h": 40,
+      "w": 426,
+      "x": 24,
+      "y": 209
+    },
+    "main": {
+      "w": 819,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1194,
+      "w": 834
+    }
+  },
+  {
+    "size": "834x1194",
+    "route": "seguridad",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1148
+    },
+    "doc": {
+      "clientW": 819,
+      "scrollH": 1411,
+      "scrollW": 819
+    },
+    "h1": {
+      "h": 40,
+      "w": 771,
+      "x": 24,
+      "y": 149
+    },
+    "main": {
+      "w": 819,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1194,
+      "w": 834
+    }
+  },
+  {
+    "size": "834x1194",
+    "route": "admin",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1148
+    },
+    "doc": {
+      "clientW": 819,
+      "scrollH": 2086,
+      "scrollW": 819
+    },
+    "h1": {
+      "h": 36,
+      "w": 771,
+      "x": 24,
+      "y": 216
+    },
+    "main": {
+      "w": 819,
+      "x": 0
+    },
+    "viewport": {
+      "h": 1194,
+      "w": 834
+    }
+  },
+  {
+    "size": "1280x800",
+    "route": "registro",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 754
+    },
+    "doc": {
+      "clientW": 1265,
+      "scrollH": 1368,
+      "scrollW": 1265
+    },
+    "h1": {
+      "h": 40,
+      "w": 960,
+      "x": 152,
+      "y": 219
+    },
+    "main": {
+      "w": 1024,
+      "x": 120
+    },
+    "viewport": {
+      "h": 800,
+      "w": 1280
+    }
+  },
+  {
+    "size": "1280x800",
+    "route": "residente",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 1265,
+      "scrollH": 1073,
+      "scrollW": 1265
+    },
+    "h1": {
+      "h": 48,
+      "w": 339,
+      "x": 32,
+      "y": 149
+    },
+    "main": {
+      "w": 1265,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 1280
+    }
+  },
+  {
+    "size": "1280x800",
+    "route": "nueva-visita",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 1265,
+      "scrollH": 1119,
+      "scrollW": 1265
+    },
+    "h1": {
+      "h": 40,
+      "w": 467,
+      "x": 32,
+      "y": 209
+    },
+    "main": {
+      "w": 1265,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 1280
+    }
+  },
+  {
+    "size": "1280x800",
+    "route": "codigo",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 1265,
+      "scrollH": 1331,
+      "scrollW": 1265
+    },
+    "h1": {
+      "h": 40,
+      "w": 412,
+      "x": 32,
+      "y": 209
+    },
+    "main": {
+      "w": 1265,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 1280
+    }
+  },
+  {
+    "size": "1280x800",
+    "route": "permiso-familiar",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 1265,
+      "scrollH": 1535,
+      "scrollW": 1265
+    },
+    "h1": {
+      "h": 40,
+      "w": 508,
+      "x": 32,
+      "y": 209
+    },
+    "main": {
+      "w": 1265,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 1280
+    }
+  },
+  {
+    "size": "1280x800",
+    "route": "historial",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 666
+    },
+    "doc": {
+      "clientW": 1265,
+      "scrollH": 1314,
+      "scrollW": 1265
+    },
+    "h1": {
+      "h": 40,
+      "w": 426,
+      "x": 32,
+      "y": 209
+    },
+    "main": {
+      "w": 1265,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 1280
+    }
+  },
+  {
+    "size": "1280x800",
+    "route": "seguridad",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 754
+    },
+    "doc": {
+      "clientW": 1265,
+      "scrollH": 845,
+      "scrollW": 1265
+    },
+    "h1": {
+      "h": 40,
+      "w": 481,
+      "x": 32,
+      "y": 149
+    },
+    "main": {
+      "w": 1265,
+      "x": 0
+    },
+    "viewport": {
+      "h": 800,
+      "w": 1280
+    }
+  },
+  {
+    "size": "1280x800",
+    "route": "admin",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 754
+    },
+    "doc": {
+      "clientW": 1265,
+      "scrollH": 1358,
+      "scrollW": 1265
+    },
+    "h1": {
+      "h": 36,
+      "w": 945,
+      "x": 280,
+      "y": 143
+    },
+    "main": {
+      "w": 1025,
+      "x": 240
+    },
+    "viewport": {
+      "h": 800,
+      "w": 1280
+    }
+  },
+  {
+    "size": "1920x1080",
+    "route": "registro",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1034
+    },
+    "doc": {
+      "clientW": 1905,
+      "scrollH": 1368,
+      "scrollW": 1905
+    },
+    "h1": {
+      "h": 40,
+      "w": 960,
+      "x": 472,
+      "y": 219
+    },
+    "main": {
+      "w": 1024,
+      "x": 440
+    },
+    "viewport": {
+      "h": 1080,
+      "w": 1920
+    }
+  },
+  {
+    "size": "1920x1080",
+    "route": "residente",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 946
+    },
+    "doc": {
+      "clientW": 1920,
+      "scrollH": 1080,
+      "scrollW": 1920
+    },
+    "h1": {
+      "h": 48,
+      "w": 339,
+      "x": 352,
+      "y": 149
+    },
+    "main": {
+      "w": 1280,
+      "x": 320
+    },
+    "viewport": {
+      "h": 1080,
+      "w": 1920
+    }
+  },
+  {
+    "size": "1920x1080",
+    "route": "nueva-visita",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 946
+    },
+    "doc": {
+      "clientW": 1905,
+      "scrollH": 1119,
+      "scrollW": 1905
+    },
+    "h1": {
+      "h": 40,
+      "w": 467,
+      "x": 344,
+      "y": 209
+    },
+    "main": {
+      "w": 1280,
+      "x": 312
+    },
+    "viewport": {
+      "h": 1080,
+      "w": 1920
+    }
+  },
+  {
+    "size": "1920x1080",
+    "route": "codigo",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 946
+    },
+    "doc": {
+      "clientW": 1905,
+      "scrollH": 1331,
+      "scrollW": 1905
+    },
+    "h1": {
+      "h": 40,
+      "w": 412,
+      "x": 344,
+      "y": 209
+    },
+    "main": {
+      "w": 1280,
+      "x": 312
+    },
+    "viewport": {
+      "h": 1080,
+      "w": 1920
+    }
+  },
+  {
+    "size": "1920x1080",
+    "route": "permiso-familiar",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 946
+    },
+    "doc": {
+      "clientW": 1905,
+      "scrollH": 1535,
+      "scrollW": 1905
+    },
+    "h1": {
+      "h": 40,
+      "w": 508,
+      "x": 344,
+      "y": 209
+    },
+    "main": {
+      "w": 1280,
+      "x": 312
+    },
+    "viewport": {
+      "h": 1080,
+      "w": 1920
+    }
+  },
+  {
+    "size": "1920x1080",
+    "route": "historial",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 946
+    },
+    "doc": {
+      "clientW": 1905,
+      "scrollH": 1100,
+      "scrollW": 1905
+    },
+    "h1": {
+      "h": 40,
+      "w": 426,
+      "x": 344,
+      "y": 209
+    },
+    "main": {
+      "w": 1280,
+      "x": 312
+    },
+    "viewport": {
+      "h": 1080,
+      "w": 1920
+    }
+  },
+  {
+    "size": "1920x1080",
+    "route": "seguridad",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1034
+    },
+    "doc": {
+      "clientW": 1920,
+      "scrollH": 1080,
+      "scrollW": 1920
+    },
+    "h1": {
+      "h": 40,
+      "w": 487,
+      "x": 352,
+      "y": 149
+    },
+    "main": {
+      "w": 1280,
+      "x": 320
+    },
+    "viewport": {
+      "h": 1080,
+      "w": 1920
+    }
+  },
+  {
+    "size": "1920x1080",
+    "route": "admin",
+    "connected": {
+      "h": 30,
+      "w": 101,
+      "x": 16,
+      "y": 1034
+    },
+    "doc": {
+      "clientW": 1905,
+      "scrollH": 1163,
+      "scrollW": 1905
+    },
+    "h1": {
+      "h": 36,
+      "w": 1280,
+      "x": 432,
+      "y": 143
+    },
+    "main": {
+      "w": 1360,
+      "x": 392
+    },
+    "viewport": {
+      "h": 1080,
+      "w": 1920
+    }
+  }
+]
