@@ -7,7 +7,7 @@ export type ShareCapability = "files" | "text" | "download";
 
 export interface AccessShareCardModel {
   brand: "ECOTERRA";
-  product: "Sistema Digital de Control de Accesos y Visitas";
+  product: "Control de Accesos y Visitas";
   title: string;
   statusLabel: string;
   code: string;
@@ -49,15 +49,15 @@ export function buildAccessShareModel(
 
   return {
     brand: "ECOTERRA",
-    product: "Sistema Digital de Control de Accesos y Visitas",
-    title: shareable ? (variant === "family" ? "PERMISO DE VISITA" : "ACCESO AUTORIZADO") : invalidStatusLabels[status],
+    product: "Control de Accesos y Visitas",
+    title: shareable ? (variant === "family" ? "PERMISO ACTIVO" : "ACCESO AUTORIZADO") : invalidStatusLabels[status],
     statusLabel: shareable ? "VIGENTE" : "NO VIGENTE",
     code,
     qrPayload: buildQrPayload(code),
     visitor: authorization.visitorName,
     home: homeFromResidenceLabel(authorization.residenceLabel),
     visitType: visitTypeLabels[authorization.visitType],
-    validity: `${validityLabels[authorization.validity]} · hasta ${formatDemoDate(authorization.expiresAt)} ${formatDemoTime(authorization.expiresAt)}`,
+    validity: `${validityLabels[authorization.validity]} · válido hasta ${formatDemoDate(authorization.expiresAt)} · ${formatDemoTime(authorization.expiresAt)}`,
     instruction: "Presente este QR o código al personal de seguridad.",
     footer: "Demostración desarrollada por Ken Code",
     filename: createAccessShareFilename(code),

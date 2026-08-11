@@ -23,11 +23,20 @@ import {
   getShareCapability,
   isShareCancellation,
 } from "../src/lib/access-share.ts";
+import {
+  ACCESS_SHARE_CARD_HEIGHT,
+  ACCESS_SHARE_CARD_WIDTH,
+  ACCESS_SHARE_CODE_FONT_SIZE,
+  ACCESS_SHARE_FOOTER_HEIGHT,
+  ACCESS_SHARE_HEADER_HEIGHT,
+  ACCESS_SHARE_QR_SIZE,
+} from "../src/lib/create-access-share-card.ts";
 import { createAccessValidationGate } from "../src/lib/access-validation-feedback.ts";
 import { authorizationToFirebase, firebaseToAuthorization } from "../src/repositories/firebase-mapping.ts";
 import manifest from "../src/app/manifest.ts";
 import { isOnlineState, shouldShowIosInstallHelp } from "../src/lib/connectivity.ts";
 import { demoResident } from "../src/data/demo.ts";
+import { landingImages } from "../src/data/landing-images.ts";
 import {
   SITE_URL,
   SOCIAL_IMAGE_ALT,
@@ -505,9 +514,37 @@ test("vigencia compartida se deriva de la autorización real", () => {
   const authorization48 = createAuthorization(input({ visitType: "family", validity: "48h" }), now, () => 0.2);
   const validity24 = buildAccessShareModel(authorization24, "active").validity;
   const validity48 = buildAccessShareModel(authorization48, "active", "family").validity;
-  assert.match(validity24, /^24 horas · hasta /);
-  assert.match(validity48, /^48 horas · hasta /);
+  assert.match(validity24, /^24 horas · válido hasta /);
+  assert.match(validity48, /^48 horas · válido hasta /);
   assert.notEqual(validity24, validity48);
+});
+
+test("share card mantiene formato operativo y jerarquía medible", () => {
+  assert.deepEqual([ACCESS_SHARE_CARD_WIDTH, ACCESS_SHARE_CARD_HEIGHT], [1080, 1350]);
+  assert.ok(ACCESS_SHARE_HEADER_HEIGHT / ACCESS_SHARE_CARD_HEIGHT >= 0.12);
+  assert.ok(ACCESS_SHARE_HEADER_HEIGHT / ACCESS_SHARE_CARD_HEIGHT <= 0.16);
+  assert.ok(ACCESS_SHARE_FOOTER_HEIGHT / ACCESS_SHARE_CARD_HEIGHT >= 0.05);
+  assert.ok(ACCESS_SHARE_FOOTER_HEIGHT / ACCESS_SHARE_CARD_HEIGHT <= 0.07);
+  assert.ok(ACCESS_SHARE_QR_SIZE >= 430 && ACCESS_SHARE_QR_SIZE <= 520);
+  assert.ok(ACCESS_SHARE_CODE_FONT_SIZE >= 48 && ACCESS_SHARE_CODE_FONT_SIZE <= 68);
+});
+
+test("permiso familiar usa branding compacto y estado operativo", () => {
+  const authorization = createAuthorization(input({ visitType: "family", validity: "48h" }), now, () => 0.2);
+  const model = buildAccessShareModel(authorization, "active", "family");
+  assert.equal(model.product, "Control de Accesos y Visitas");
+  assert.equal(model.title, "PERMISO ACTIVO");
+  assert.equal(model.statusLabel, "VIGENTE");
+});
+
+test("imágenes comerciales son locales, ilustrativas y no se atribuyen a ECOTERRA", () => {
+  for (const image of Object.values(landingImages)) {
+    assert.match(image.src, /^\/images\/ecoterra-demo\//);
+    assert.match(image.alt, /imagen ilustrativa/i);
+    assert.doesNotMatch(image.alt, /ECOTERRA/i);
+    assert.match(image.sourceUrl, /^https:\/\/unsplash\.com\/photos\//);
+    assert.ok(image.width > 0 && image.height > 0);
+  }
 });
 
 test("capacidad de compartir distingue archivos, texto y descarga", () => {

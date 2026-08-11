@@ -3,6 +3,10 @@ import type { AccessShareCardModel } from "./access-share";
 
 export const ACCESS_SHARE_CARD_WIDTH = 1080;
 export const ACCESS_SHARE_CARD_HEIGHT = 1350;
+export const ACCESS_SHARE_HEADER_HEIGHT = 190;
+export const ACCESS_SHARE_FOOTER_HEIGHT = 90;
+export const ACCESS_SHARE_QR_SIZE = 500;
+export const ACCESS_SHARE_CODE_FONT_SIZE = 68;
 
 function roundRect(context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, radius: number) {
   context.beginPath();
@@ -35,12 +39,33 @@ function drawDetail(
   maxWidth: number,
 ) {
   context.fillStyle = "#64748B";
-  context.font = "700 19px Inter, Arial, sans-serif";
+  context.font = "750 17px Inter, Arial, sans-serif";
   context.fillText(label.toUpperCase(), x, y);
   context.fillStyle = "#07142F";
-  const size = fittedText(context, value, maxWidth, 28, 20, 800);
+  const size = fittedText(context, value, maxWidth, 27, 17, 800);
   context.font = `800 ${size}px Inter, Arial, sans-serif`;
-  context.fillText(value, x, y + 38, maxWidth);
+  context.fillText(value, x, y + 36, maxWidth);
+}
+
+function drawValidityDetail(
+  context: CanvasRenderingContext2D,
+  value: string,
+  x: number,
+  y: number,
+  maxWidth: number,
+) {
+  const [duration, validUntil] = value.split(" · válido hasta ");
+  context.fillStyle = "#64748B";
+  context.font = "750 17px Inter, Arial, sans-serif";
+  context.fillText("VIGENCIA", x, y);
+  context.fillStyle = "#1D4ED8";
+  context.font = "800 25px Inter, Arial, sans-serif";
+  context.fillText(duration, x, y + 36, maxWidth);
+  context.fillStyle = "#334155";
+  const detail = validUntil ? `Válido hasta ${validUntil}` : value;
+  const size = fittedText(context, detail, maxWidth, 19, 16, 750);
+  context.font = `750 ${size}px Inter, Arial, sans-serif`;
+  context.fillText(detail, x, y + 66, maxWidth);
 }
 
 export async function createAccessShareCard(model: AccessShareCardModel): Promise<Blob> {
@@ -59,32 +84,31 @@ export async function createAccessShareCard(model: AccessShareCardModel): Promis
   context.fillStyle = background;
   context.fillRect(0, 0, ACCESS_SHARE_CARD_WIDTH, ACCESS_SHARE_CARD_HEIGHT);
 
-  context.fillStyle = "rgba(34, 211, 238, 0.12)";
-  context.beginPath();
-  context.arc(1040, 80, 250, 0, Math.PI * 2);
-  context.fill();
-
   context.fillStyle = "#FFFFFF";
-  context.font = "900 58px Inter, Arial, sans-serif";
-  context.fillText(model.brand, 72, 94);
+  context.font = "900 40px Inter, Arial, sans-serif";
+  context.fillText(model.brand, 64, 72);
   context.fillStyle = "#A5F3FC";
-  context.font = "700 26px Inter, Arial, sans-serif";
-  context.fillText(model.product, 72, 139);
+  context.font = "700 20px Inter, Arial, sans-serif";
+  context.fillText(model.product, 64, 108);
 
-  roundRect(context, 72, 176, 424, 68, 34);
+  const badgeWidth = model.title === "ACCESO AUTORIZADO" ? 320 : 276;
+  const badgeX = ACCESS_SHARE_CARD_WIDTH - badgeWidth - 64;
+  roundRect(context, badgeX, 45, badgeWidth, 54, 27);
   context.fillStyle = "rgba(16, 185, 129, 0.18)";
   context.fill();
   context.strokeStyle = "rgba(110, 231, 183, 0.55)";
   context.lineWidth = 2;
   context.stroke();
   context.fillStyle = "#D1FAE5";
-  context.font = "900 25px Inter, Arial, sans-serif";
-  context.fillText(model.title, 101, 219);
+  context.font = "900 20px Inter, Arial, sans-serif";
+  context.textAlign = "center";
+  context.fillText(model.title, badgeX + badgeWidth / 2, 79);
+  context.textAlign = "left";
 
   context.shadowColor = "rgba(2, 8, 23, 0.28)";
-  context.shadowBlur = 36;
-  context.shadowOffsetY = 16;
-  roundRect(context, 62, 278, 956, 962, 42);
+  context.shadowBlur = 32;
+  context.shadowOffsetY = 14;
+  roundRect(context, 52, 160, 976, 1095, 42);
   context.fillStyle = "#FFFFFF";
   context.fill();
   context.shadowColor = "transparent";
@@ -93,43 +117,43 @@ export async function createAccessShareCard(model: AccessShareCardModel): Promis
   await QRCode.toCanvas(qrCanvas, model.qrPayload, {
     errorCorrectionLevel: "M",
     margin: 4,
-    width: 560,
+    width: ACCESS_SHARE_QR_SIZE,
     color: { dark: "#07142FFF", light: "#FFFFFFFF" },
   });
   context.imageSmoothingEnabled = false;
-  context.drawImage(qrCanvas, 260, 316, 560, 560);
+  context.drawImage(qrCanvas, 290, 194, ACCESS_SHARE_QR_SIZE, ACCESS_SHARE_QR_SIZE);
   context.imageSmoothingEnabled = true;
-
-  context.fillStyle = "#475569";
-  context.font = "700 24px Inter, Arial, sans-serif";
-  context.textAlign = "center";
-  context.fillText(model.instruction, 540, 921);
 
   context.fillStyle = "#64748B";
   context.font = "800 19px Inter, Arial, sans-serif";
-  context.fillText("CÓDIGO DE ACCESO", 540, 966);
+  context.textAlign = "center";
+  context.fillText("CÓDIGO DE ACCESO", 540, 742);
   context.fillStyle = "#1D4ED8";
-  const codeSize = fittedText(context, model.code, 820, 58, 42, 900);
+  const codeSize = fittedText(context, model.code, 820, ACCESS_SHARE_CODE_FONT_SIZE, 48, 900);
   context.font = `900 ${codeSize}px ui-monospace, SFMono-Regular, Consolas, monospace`;
-  context.fillText(model.code, 540, 1031);
+  context.fillText(model.code, 540, 815);
+
+  context.fillStyle = "#475569";
+  context.font = "700 22px Inter, Arial, sans-serif";
+  context.fillText(model.instruction, 540, 868);
 
   context.textAlign = "left";
   context.strokeStyle = "#E2E8F0";
   context.lineWidth = 2;
   context.beginPath();
-  context.moveTo(112, 1066);
-  context.lineTo(968, 1066);
+  context.moveTo(112, 906);
+  context.lineTo(968, 906);
   context.stroke();
 
-  drawDetail(context, "Visitante", model.visitor, 112, 1109, 370);
-  drawDetail(context, "Vivienda", model.home, 572, 1109, 350);
-  drawDetail(context, "Tipo", model.visitType, 112, 1181, 370);
-  drawDetail(context, "Vigencia", model.validity, 572, 1181, 350);
+  drawDetail(context, "Visitante", model.visitor, 112, 956, 370);
+  drawValidityDetail(context, model.validity, 572, 956, 390);
+  drawDetail(context, "Vivienda", model.home, 112, 1064, 370);
+  drawDetail(context, "Tipo", model.visitType, 572, 1064, 390);
 
   context.fillStyle = "#CFFAFE";
-  context.font = "700 22px Inter, Arial, sans-serif";
+  context.font = "700 20px Inter, Arial, sans-serif";
   context.textAlign = "center";
-  context.fillText(model.footer, 540, 1305);
+  context.fillText(model.footer, 540, 1310);
 
   return new Promise<Blob>((resolve, reject) => {
     canvas.toBlob((blob) => {

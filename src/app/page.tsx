@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Building2,
@@ -20,6 +21,7 @@ import { InstallDemoAction } from "@/components/pwa-runtime";
 import { StatCard } from "@/components/stat-card";
 import { StatusBadge } from "@/components/status-badge";
 import { demoAccess, demoResident } from "@/data/demo";
+import { landingImages } from "@/data/landing-images";
 
 const benefits = [
   { icon: Clock3, title: "Reduce tiempos de espera", text: "El visitante llega con una autorización preparada de antemano." },
@@ -31,10 +33,15 @@ const benefits = [
 ];
 
 const demoFlow = [
-  { icon: UserRound, title: "Residente autoriza", text: "Registra la visita y define su vigencia." },
-  { icon: QrCode, title: "Visitante recibe QR", text: "Obtiene un código listo para presentar." },
-  { icon: ShieldCheck, title: "Seguridad valida", text: "Comprueba el permiso en pocos segundos." },
-  { icon: History, title: "Acceso registrado", text: "Entrada y salida alimentan el historial digital." },
+  { icon: UserRound, title: "Autorice la visita", text: "El residente genera un acceso antes de la llegada." },
+  { icon: QrCode, title: "Comparta el QR", text: "El visitante recibe su QR y código." },
+  { icon: ShieldCheck, title: "Seguridad valida", text: "El personal valida y registra la entrada en segundos." },
+];
+
+const commercialBenefits = [
+  { icon: CalendarClock, text: "Autorizaciones preparadas antes de la llegada." },
+  { icon: ShieldCheck, text: "Validación clara para el personal de seguridad." },
+  { icon: History, text: "Registro digital de entradas y salidas." },
 ];
 
 export default function HomePage() {
@@ -122,6 +129,59 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section aria-labelledby="residential-experience-title" className="border-b border-slate-200 bg-slate-50 py-16 sm:py-20">
+          <div className="mx-auto grid w-full max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-14 lg:px-8">
+            <div className="max-w-xl">
+              <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-700">Una operación conectada</p>
+              <h2 id="residential-experience-title" className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-5xl">
+                Una experiencia residencial más ágil
+              </h2>
+              <p className="mt-5 text-pretty text-base leading-7 text-slate-600 sm:text-lg sm:leading-8">
+                Desde una visita familiar hasta una entrega o servicio, ECOTERRA puede centralizar las autorizaciones y mantener un registro digital de cada acceso.
+              </p>
+              <ul className="mt-7 space-y-3">
+                {commercialBenefits.map(({ icon: Icon, text }) => (
+                  <li key={text} className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-blue-50 text-blue-700">
+                      <Icon aria-hidden="true" className="size-5" />
+                    </span>
+                    <span className="text-sm font-semibold leading-6 text-slate-700">{text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-[1.08fr_0.92fr] sm:items-center">
+              <figure className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-slate-200 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.6)] sm:aspect-[4/5]">
+                <Image
+                  src={landingImages.residence.src}
+                  alt={landingImages.residence.alt}
+                  fill
+                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 55vw, 36vw"
+                  className="object-cover"
+                  quality={80}
+                />
+                <figcaption className="absolute bottom-3 right-3 rounded-full bg-slate-950/75 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
+                  Imagen ilustrativa
+                </figcaption>
+              </figure>
+              <figure className="relative aspect-[16/9] overflow-hidden rounded-[1.5rem] bg-slate-200 shadow-[0_20px_50px_-32px_rgba(15,23,42,0.65)] sm:aspect-[4/3]">
+                <Image
+                  src={landingImages.access.src}
+                  alt={landingImages.access.alt}
+                  fill
+                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 40vw, 28vw"
+                  className="object-cover"
+                  quality={80}
+                />
+                <figcaption className="absolute bottom-3 right-3 rounded-full bg-slate-950/75 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
+                  Imagen ilustrativa
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
         <section id="experiencias" className="scroll-mt-6 bg-slate-50 py-16 sm:py-20">
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
@@ -140,8 +200,8 @@ export default function HomePage() {
         <section className="relative overflow-hidden bg-[#030b1d] py-16 text-white sm:py-20">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(37,99,235,0.28),transparent_30%),radial-gradient(circle_at_85%_30%,rgba(6,182,212,0.2),transparent_28%)]" aria-hidden="true" />
           <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="max-w-2xl"><p className="text-sm font-bold uppercase tracking-[0.16em] text-cyan-300">Así funciona</p><h2 className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] sm:text-5xl">Un flujo claro de principio a fin</h2><p className="mt-4 text-base leading-7 text-slate-300">Cuatro pasos sencillos conectan al residente, el visitante y el personal de seguridad.</p></div>
-            <ol className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="max-w-2xl"><p className="text-sm font-bold uppercase tracking-[0.16em] text-cyan-300">Flujo de acceso</p><h2 className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] sm:text-5xl">Cómo funciona</h2><p className="mt-4 text-base leading-7 text-slate-300">Tres pasos conectan al residente, el visitante y el personal de seguridad.</p></div>
+            <ol className="mt-10 grid gap-4 md:grid-cols-3">
               {demoFlow.map(({ icon: Icon, title, text }, index) => <li key={title} className="relative rounded-3xl border border-white/10 bg-white/[0.07] p-5 backdrop-blur-sm"><div className="flex items-center justify-between gap-4"><span className="grid size-11 place-items-center rounded-2xl bg-cyan-300/10 text-cyan-300"><Icon aria-hidden="true" className="size-5" /></span><span className="text-3xl font-black text-white/15">0{index + 1}</span></div><h3 className="mt-5 text-lg font-extrabold">{title}</h3><p className="mt-2 text-sm leading-6 text-slate-300">{text}</p></li>)}
             </ol>
           </div>

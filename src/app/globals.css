@@ -230,7 +230,7 @@ button {
 .secondary-button:active,
 .icon-button:active,
 .interactive-card:active {
-  transform: translateY(1px);
+  transform: translateY(0) scale(0.99);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -248,8 +248,12 @@ button {
   }
 
   .interactive-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     box-shadow: 0 24px 44px -20px rgb(15 23 42 / 0.5);
+  }
+
+  .interactive-card:hover .interactive-card-arrow {
+    transform: translateX(0.25rem);
   }
 
   .form-control:hover {

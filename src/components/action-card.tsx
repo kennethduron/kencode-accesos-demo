@@ -29,7 +29,7 @@ export function ActionCard({ href, icon: Icon, eyebrow, title, description, acce
       <span className="mt-7 text-xs font-bold uppercase tracking-[0.16em] text-cyan-100">{eyebrow}</span>
       <span className="mt-2 flex items-center justify-between gap-4 text-xl font-extrabold">
         {title}
-        <ArrowRight aria-hidden="true" className="size-5 transition-transform group-hover:translate-x-1" />
+        <ArrowRight aria-hidden="true" className="interactive-card-arrow size-5 transition-transform" />
       </span>
       <span className="mt-2 max-w-sm text-sm leading-6 text-white/75">{description}</span>
     </Link>
