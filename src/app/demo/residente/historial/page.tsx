@@ -69,15 +69,15 @@ export default function HistorialPage() {
       </section>
 
       <section className="surface-card mt-5 p-4 sm:p-6" aria-label="Buscar y filtrar historial">
-        <div className="grid gap-3 md:grid-cols-[1fr_auto]">
-          <div className="relative">
+        <div className="grid min-w-0 gap-3 md:grid-cols-[minmax(0,1fr)_13rem]">
+          <div className="relative min-w-0">
             <label htmlFor="history-search" className="sr-only">Buscar visitante o código</label>
             <Search aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" />
             <input id="history-search" type="search" value={query} onChange={(event) => setQuery(event.target.value)} className="form-control pl-12" placeholder="Buscar visitante o código" />
           </div>
-          <div>
+          <div className="min-w-0 max-w-full">
             <label htmlFor="history-date" className="sr-only">Filtrar por fecha</label>
-            <input id="history-date" type="date" value={date} onChange={(event) => setDate(event.target.value)} className="form-control min-w-48" />
+            <input id="history-date" type="date" value={date} onChange={(event) => setDate(event.target.value)} className="form-control w-full min-w-0 max-w-full" />
           </div>
         </div>
         <fieldset className="mt-4 min-w-0 max-w-full">

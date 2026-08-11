@@ -1,0 +1,2282 @@
+[
+  {
+    "viewport": "360x800",
+    "route": "/demo/registro",
+    "clientWidth": 345,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "input",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "email",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "tel",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "password",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "password",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "select",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "input",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "input",
+        "width": 271.20001220703125
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 345
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 345,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "input",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "input",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "input",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "date",
+        "width": 271.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 308.0000114440918,
+        "type": "time",
+        "width": 271.20001220703125
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 345
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/residente/historial",
+    "clientWidth": 345,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 312.0000114440918,
+        "type": "search",
+        "width": 279.20001220703125
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 312.0000114440918,
+        "type": "date",
+        "width": 279.20001220703125
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 345
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/seguridad",
+    "clientWidth": 345,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 345
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/admin",
+    "clientWidth": 345,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 345
+  },
+  {
+    "viewport": "375x812",
+    "route": "/demo/registro",
+    "clientWidth": 360,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "input",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "email",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "tel",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "password",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "password",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "select",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "input",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "input",
+        "width": 286.3999938964844
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 360
+  },
+  {
+    "viewport": "375x812",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 360,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "input",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "input",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "input",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "date",
+        "width": 286.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 323.1999931335449,
+        "type": "time",
+        "width": 286.3999938964844
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 360
+  },
+  {
+    "viewport": "375x812",
+    "route": "/demo/residente/historial",
+    "clientWidth": 360,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 327.1999931335449,
+        "type": "search",
+        "width": 294.3999938964844
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 327.1999931335449,
+        "type": "date",
+        "width": 294.3999938964844
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 360
+  },
+  {
+    "viewport": "375x812",
+    "route": "/demo/seguridad",
+    "clientWidth": 360,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 360
+  },
+  {
+    "viewport": "375x812",
+    "route": "/demo/admin",
+    "clientWidth": 360,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 360
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/registro",
+    "clientWidth": 375,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "input",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "email",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "tel",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "password",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "password",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "select",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "input",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "input",
+        "width": 301.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 375
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 375,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "input",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "input",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "input",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "date",
+        "width": 301.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 338.4000053405762,
+        "type": "time",
+        "width": 301.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 375
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/residente/historial",
+    "clientWidth": 375,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 342.4000053405762,
+        "type": "search",
+        "width": 309.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 342.4000053405762,
+        "type": "date",
+        "width": 309.6000061035156
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 375
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/seguridad",
+    "clientWidth": 375,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 375
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/admin",
+    "clientWidth": 375,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 375
+  },
+  {
+    "viewport": "393x852",
+    "route": "/demo/registro",
+    "clientWidth": 378,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "input",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "email",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "tel",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "password",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "password",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "select",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "input",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "input",
+        "width": 304.8000183105469
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 378
+  },
+  {
+    "viewport": "393x852",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 378,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "input",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "input",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "input",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "date",
+        "width": 304.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 341.6000175476074,
+        "type": "time",
+        "width": 304.8000183105469
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 378
+  },
+  {
+    "viewport": "393x852",
+    "route": "/demo/residente/historial",
+    "clientWidth": 378,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 345.6000175476074,
+        "type": "search",
+        "width": 312.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 345.6000175476074,
+        "type": "date",
+        "width": 312.8000183105469
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 378
+  },
+  {
+    "viewport": "393x852",
+    "route": "/demo/seguridad",
+    "clientWidth": 378,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 378
+  },
+  {
+    "viewport": "393x852",
+    "route": "/demo/admin",
+    "clientWidth": 378,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 378
+  },
+  {
+    "viewport": "414x896",
+    "route": "/demo/registro",
+    "clientWidth": 399,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "input",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "email",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "tel",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "password",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "password",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "select",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "input",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "input",
+        "width": 325.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 399
+  },
+  {
+    "viewport": "414x896",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 399,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "input",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "input",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "input",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "date",
+        "width": 325.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 362.4000053405762,
+        "type": "time",
+        "width": 325.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 399
+  },
+  {
+    "viewport": "414x896",
+    "route": "/demo/residente/historial",
+    "clientWidth": 399,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 366.4000053405762,
+        "type": "search",
+        "width": 333.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 366.4000053405762,
+        "type": "date",
+        "width": 333.6000061035156
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 399
+  },
+  {
+    "viewport": "414x896",
+    "route": "/demo/seguridad",
+    "clientWidth": 399,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 399
+  },
+  {
+    "viewport": "414x896",
+    "route": "/demo/admin",
+    "clientWidth": 399,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 399
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/registro",
+    "clientWidth": 415,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "input",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "email",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "tel",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "password",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "password",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "select",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "input",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "input",
+        "width": 341.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 415
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 415,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "input",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "input",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "input",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "date",
+        "width": 341.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 36.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 378.4000053405762,
+        "type": "time",
+        "width": 341.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 415
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/residente/historial",
+    "clientWidth": 415,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 382.4000053405762,
+        "type": "search",
+        "width": 349.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 32.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 382.4000053405762,
+        "type": "date",
+        "width": 349.6000061035156
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 415
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/seguridad",
+    "clientWidth": 415,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 415
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/admin",
+    "clientWidth": 415,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 415
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/registro",
+    "clientWidth": 753,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 700.0000114440918,
+        "type": "input",
+        "width": 647.2000122070312
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 366.4000053405762,
+        "type": "email",
+        "width": 313.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 386.3999938964844,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 700,
+        "type": "tel",
+        "width": 313.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 366.4000053405762,
+        "type": "password",
+        "width": 313.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 386.3999938964844,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 700,
+        "type": "password",
+        "width": 313.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 700.0000114440918,
+        "type": "select",
+        "width": 647.2000122070312
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 366.4000053405762,
+        "type": "input",
+        "width": 313.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 386.3999938964844,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 700,
+        "type": "input",
+        "width": 313.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 753
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 753,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 700.0000114440918,
+        "type": "input",
+        "width": 647.2000122070312
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 366.4000053405762,
+        "type": "input",
+        "width": 313.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 386.3999938964844,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 700,
+        "type": "input",
+        "width": 313.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 366.4000053405762,
+        "type": "date",
+        "width": 313.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 386.3999938964844,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 700,
+        "type": "time",
+        "width": 313.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 753
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/residente/historial",
+    "clientWidth": 753,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 48.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 484.0000114440918,
+        "type": "search",
+        "width": 435.2000122070313
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 496,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 704,
+        "type": "date",
+        "width": 208
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 753
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/seguridad",
+    "clientWidth": 753,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 753
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/admin",
+    "clientWidth": 753,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 753
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/registro",
+    "clientWidth": 819,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 766.4000358581543,
+        "type": "input",
+        "width": 713.6000366210938
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 399.6000175476074,
+        "type": "email",
+        "width": 346.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 419.6000061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 766.4000244140625,
+        "type": "tel",
+        "width": 346.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 399.6000175476074,
+        "type": "password",
+        "width": 346.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 419.6000061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 766.4000244140625,
+        "type": "password",
+        "width": 346.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 766.4000358581543,
+        "type": "select",
+        "width": 713.6000366210938
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 399.6000175476074,
+        "type": "input",
+        "width": 346.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 419.6000061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 766.4000244140625,
+        "type": "input",
+        "width": 346.8000183105469
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 819
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 819,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 766.4000358581543,
+        "type": "input",
+        "width": 713.6000366210938
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 399.6000175476074,
+        "type": "input",
+        "width": 346.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 419.6000061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 766.4000244140625,
+        "type": "input",
+        "width": 346.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 52.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 399.6000175476074,
+        "type": "date",
+        "width": 346.8000183105469
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 419.6000061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 766.4000244140625,
+        "type": "time",
+        "width": 346.8000183105469
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 819
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/residente/historial",
+    "clientWidth": 834,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 48.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 565.5999870300293,
+        "type": "search",
+        "width": 516.7999877929688
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 577.6000366210938,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 785.6000366210938,
+        "type": "date",
+        "width": 208
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 834
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/seguridad",
+    "clientWidth": 819,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 819
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/admin",
+    "clientWidth": 819,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 819
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/registro",
+    "clientWidth": 1009,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 416.2875061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 948.000030517578,
+        "type": "input",
+        "width": 531.7125244140625
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 416.2875061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 672.1375122070312,
+        "type": "email",
+        "width": 255.8500061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 692.1375122070312,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 948.0000152587892,
+        "type": "tel",
+        "width": 255.8625030517578
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 416.2875061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 672.1375122070312,
+        "type": "password",
+        "width": 255.8500061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 692.1375122070312,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 948.0000152587892,
+        "type": "password",
+        "width": 255.8625030517578
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 416.2875061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 948.000030517578,
+        "type": "select",
+        "width": 531.7125244140625
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 416.2875061035156,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 672.1375122070312,
+        "type": "input",
+        "width": 255.8500061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 692.1375122070312,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 948.0000152587892,
+        "type": "input",
+        "width": 255.8625030517578
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 1009
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 1009,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 60.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 948.0000114440918,
+        "type": "input",
+        "width": 887.2000122070312
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 60.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 494.4000053405762,
+        "type": "input",
+        "width": 433.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 514.4000244140625,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 948.000030517578,
+        "type": "input",
+        "width": 433.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 60.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 494.4000053405762,
+        "type": "date",
+        "width": 433.6000061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 514.4000244140625,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 948.000030517578,
+        "type": "time",
+        "width": 433.6000061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 1009
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/residente/historial",
+    "clientWidth": 1009,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 56.79999923706055,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 732.0000114440918,
+        "type": "search",
+        "width": 675.2000122070312
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 744,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 952,
+        "type": "date",
+        "width": 208
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 1009
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/seguridad",
+    "clientWidth": 1009,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 1009
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/admin",
+    "clientWidth": 1009,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 1009
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/registro",
+    "clientWidth": 1425,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "name",
+        "left": 622.1500244140625,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1163.6000366210938,
+        "type": "input",
+        "width": 541.4500122070312
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "email",
+        "left": 622.1500244140625,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 882.8750305175781,
+        "type": "email",
+        "width": 260.7250061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "phone",
+        "left": 902.875,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1163.6000061035156,
+        "type": "tel",
+        "width": 260.7250061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "password",
+        "left": 622.1500244140625,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 882.8750305175781,
+        "type": "password",
+        "width": 260.7250061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "confirmPassword",
+        "left": 902.875,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1163.6000061035156,
+        "type": "password",
+        "width": 260.7250061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "community",
+        "left": 622.1500244140625,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1163.6000366210938,
+        "type": "select",
+        "width": 541.4500122070312
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "home",
+        "left": 622.1500244140625,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 882.8750305175781,
+        "type": "input",
+        "width": 260.7250061035156
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "sector",
+        "left": 902.875,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1163.6000061035156,
+        "type": "input",
+        "width": 260.7250061035156
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 1425
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 1425,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "visitorName",
+        "left": 693.6000366210938,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1291.6000366210938,
+        "type": "input",
+        "width": 598
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "plate",
+        "left": 693.6000366210938,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 982.6000366210938,
+        "type": "input",
+        "width": 289
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "vehicle",
+        "left": 1002.6000366210938,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1291.6000366210938,
+        "type": "input",
+        "width": 289
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "date",
+        "left": 693.6000366210938,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 982.6000366210938,
+        "type": "date",
+        "width": 289
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "time",
+        "left": 1002.6000366210938,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1291.6000366210938,
+        "type": "time",
+        "width": 289
+      }
+    ],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 1425
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/residente/historial",
+    "clientWidth": 1425,
+    "controls": [
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-search",
+        "left": 129.1999969482422,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1075.6000213623047,
+        "type": "search",
+        "width": 946.4000244140624
+      },
+      {
+        "boxSizing": "border-box",
+        "fontSize": "16px",
+        "id": "history-date",
+        "left": 1087.5999755859375,
+        "maxWidth": "100%",
+        "minWidth": "0px",
+        "overflow": false,
+        "right": 1295.5999755859375,
+        "type": "date",
+        "width": 208
+      }
+    ],
+    "historyDateFits": true,
+    "pageOverflow": false,
+    "scrollWidth": 1425
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/seguridad",
+    "clientWidth": 1440,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 1440
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/admin",
+    "clientWidth": 1425,
+    "controls": [],
+    "historyDateFits": null,
+    "pageOverflow": false,
+    "scrollWidth": 1425
+  }
+]

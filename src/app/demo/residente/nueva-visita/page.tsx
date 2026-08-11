@@ -176,13 +176,13 @@ export default function NuevaVisitaPage() {
               <p className="rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-900">Ingreso peatonal seleccionado. No se solicitarán datos de vehículo.</p>
             )}
 
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div>
+            <div className="grid min-w-0 gap-5 sm:grid-cols-2">
+              <div className="min-w-0">
                 <label htmlFor="date" className="form-label"><CalendarDays aria-hidden="true" className="size-4" />Fecha</label>
                 <input id="date" type="date" className="form-control" value={form.date} onChange={(event) => update("date", event.target.value)} aria-invalid={Boolean(errors.date)} aria-describedby={errors.date ? "date-error" : undefined} />
                 <FieldError id="date-error">{errors.date}</FieldError>
               </div>
-              <div>
+              <div className="min-w-0">
                 <label htmlFor="time" className="form-label"><Clock3 aria-hidden="true" className="size-4" />Hora</label>
                 <input id="time" type="time" className="form-control" value={form.time} onChange={(event) => update("time", event.target.value)} aria-invalid={Boolean(errors.time)} aria-describedby={errors.time ? "time-error" : undefined} />
                 <FieldError id="time-error">{errors.time}</FieldError>
@@ -206,7 +206,7 @@ export default function NuevaVisitaPage() {
             </fieldset>
 
             {form.validity === "custom" ? (
-              <div>
+              <div className="min-w-0">
                 <label htmlFor="customExpiresAt" className="form-label">Fecha y hora de expiración</label>
                 <input id="customExpiresAt" type="datetime-local" min={minDateTime} className="form-control" value={form.customExpiresAt} onChange={(event) => update("customExpiresAt", event.target.value)} aria-invalid={Boolean(errors.customExpiresAt)} aria-describedby={errors.customExpiresAt ? "customExpiresAt-error" : undefined} />
                 <FieldError id="customExpiresAt-error">{errors.customExpiresAt}</FieldError>
