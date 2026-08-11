@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { Download, Share2, Wifi, WifiOff } from "lucide-react";
+import { Download, Share2, WifiOff } from "lucide-react";
 import { shouldShowIosInstallHelp } from "@/lib/connectivity";
 import { useOnlineStatus } from "@/hooks/use-online-status";
 
@@ -88,15 +88,18 @@ export function PwaRuntime({ children }: { children: ReactNode }) {
 
   return (
     <InstallContext.Provider value={value}>
+      {!online ? (
+        <div role="status" aria-live="assertive" className="offline-banner">
+          <div className="mx-auto flex w-full max-w-7xl items-start gap-3 px-4 py-3 sm:px-6 lg:px-8">
+            <WifiOff aria-hidden="true" className="mt-0.5 size-5 shrink-0" />
+            <p className="text-sm leading-5">
+              <strong className="block font-extrabold">Sin conexión</strong>
+              <span>Se necesita conexión a internet para validar accesos.</span>
+            </p>
+          </div>
+        </div>
+      ) : null}
       {children}
-      <div
-        role="status"
-        aria-live="polite"
-        className={`connection-pill ${online ? "connection-pill-online" : "connection-pill-offline"}`}
-      >
-        {online ? <Wifi aria-hidden="true" className="size-3.5" /> : <WifiOff aria-hidden="true" className="size-3.5" />}
-        {online ? "Conectado" : "Sin conexión"}
-      </div>
     </InstallContext.Provider>
   );
 }

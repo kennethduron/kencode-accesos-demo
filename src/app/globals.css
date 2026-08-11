@@ -36,47 +36,17 @@ body {
   padding-bottom: calc(6rem + env(safe-area-inset-bottom));
 }
 
-.connection-pill {
-  position: fixed;
-  z-index: 60;
-  left: max(1rem, env(safe-area-inset-left));
-  bottom: max(1rem, env(safe-area-inset-bottom));
-  display: inline-flex;
-  min-height: 30px;
-  align-items: center;
-  gap: 0.4rem;
-  border: 1px solid;
-  border-radius: 999px;
-  padding: 0.35rem 0.65rem;
-  font-size: 0.7rem;
-  font-weight: 800;
-  box-shadow: 0 8px 24px -16px rgb(15 23 42 / 0.8);
-  backdrop-filter: blur(12px);
+.offline-banner {
+  position: relative;
+  z-index: 70;
+  border-bottom: 1px solid rgb(254 202 202);
+  background: rgb(254 242 242);
+  color: rgb(153 27 27);
 }
 
-body:has(.resident-safe-bottom) .connection-pill {
-  bottom: calc(6.5rem + env(safe-area-inset-bottom));
-}
-
-.connection-pill-online {
-  border-color: rgb(167 243 208 / 0.85);
-  background: rgb(240 253 250 / 0.92);
-  color: rgb(4 120 87);
-}
-
-.connection-pill-offline {
-  border-color: rgb(254 202 202 / 0.95);
-  background: rgb(254 242 242 / 0.96);
-  color: rgb(185 28 28);
-}
-
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .resident-safe-bottom {
     padding-bottom: 0;
-  }
-
-  .connection-pill {
-    bottom: max(1rem, env(safe-area-inset-bottom));
   }
 }
 

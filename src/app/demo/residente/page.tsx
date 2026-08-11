@@ -12,6 +12,7 @@ import {
   KeyRound,
   MapPin,
   PlusCircle,
+  RotateCcw,
   UserRound,
   UsersRound,
 } from "lucide-react";
@@ -33,7 +34,7 @@ const conceptualItems = [
 ];
 
 export default function ResidentDashboardPage() {
-  const { authorizations } = useDemoAccess();
+  const { authorizations, resetDemo, busy, hydrated, online } = useDemoAccess();
   const now = new Date();
   const today = toLocalDateInput(now);
   const activeCount = authorizations.filter((item) => resolveAuthorizationStatus(item, now) === "active").length;
@@ -101,7 +102,24 @@ export default function ResidentDashboardPage() {
                   <span className="flex shrink-0 items-center gap-2"><StatusBadge status={status} /><ArrowRight aria-hidden="true" className="hidden size-4 text-slate-400 sm:block" /></span>
                 </Link>
               );
-            }) : <div className="p-8 text-center"><History aria-hidden="true" className="mx-auto size-8 text-slate-300" /><p className="mt-3 font-bold text-slate-700">Aún no hay actividad reciente.</p><Link href="/demo/residente/nueva-visita" className="mt-2 inline-flex min-h-11 items-center text-sm font-extrabold text-blue-700">Crear la primera visita</Link></div>}
+            }) : hydrated ? (
+              <div className="p-5 sm:p-7">
+                <div className="rounded-3xl border border-blue-100 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.14),transparent_38%),linear-gradient(145deg,#eff6ff,#ffffff_70%)] p-6 text-center sm:p-8">
+                  <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-900/15">
+                    <History aria-hidden="true" className="size-7" />
+                  </span>
+                  <h3 className="mt-5 text-xl font-black tracking-[-0.025em] text-slate-950">Prepara la experiencia del residente</h3>
+                  <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-600">Carga los escenarios ficticios de visitas, permisos e historial para recorrer la demostración comercial.</p>
+                  <button type="button" disabled={busy || !online} onClick={() => void resetDemo()} className="primary-button mt-6 w-full sm:w-auto">
+                    <RotateCcw aria-hidden="true" className={`size-4 ${busy ? "animate-spin" : ""}`} />
+                    {busy ? "Preparando escenarios…" : "Preparar escenarios de demostración"}
+                  </button>
+                  {!online ? <p className="mt-3 text-xs font-semibold text-red-700">Conéctese a internet para preparar los escenarios.</p> : null}
+                </div>
+              </div>
+            ) : (
+              <div className="p-8 text-center" aria-live="polite"><p className="text-sm font-semibold text-slate-500">Cargando actividad…</p></div>
+            )}
           </div>
         </section>
       </section>

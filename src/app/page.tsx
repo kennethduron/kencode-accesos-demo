@@ -88,7 +88,6 @@ export default function HomePage() {
                 </Link>
                 <InstallDemoAction />
               </div>
-              <p className="mt-6 text-sm font-medium text-slate-500">Demostración conceptual desarrollada por Ken Code.</p>
             </div>
 
             <div className="relative mx-auto w-full max-w-xl lg:mx-0 lg:ml-auto">
@@ -151,28 +150,29 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-[1.08fr_0.92fr] sm:items-center">
+            <div className="grid gap-3 sm:grid-cols-[3fr_2fr] sm:items-center">
               <figure className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-slate-200 shadow-[0_24px_60px_-32px_rgba(15,23,42,0.6)] sm:aspect-[4/5]">
                 <Image
                   src={landingImages.residence.src}
                   alt={landingImages.residence.alt}
                   fill
                   sizes="(max-width: 639px) 100vw, (max-width: 1023px) 55vw, 36vw"
-                  className="object-cover"
-                  quality={80}
+                  className="object-cover saturate-[0.92] contrast-[1.04]"
+                  loading="eager"
+                  quality={75}
                 />
                 <figcaption className="absolute bottom-3 right-3 rounded-full bg-slate-950/75 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
                   Imagen ilustrativa
                 </figcaption>
               </figure>
-              <figure className="relative aspect-[16/9] overflow-hidden rounded-[1.5rem] bg-slate-200 shadow-[0_20px_50px_-32px_rgba(15,23,42,0.65)] sm:aspect-[4/3]">
+              <figure className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-slate-200 shadow-[0_20px_50px_-32px_rgba(15,23,42,0.65)] sm:aspect-[4/5]">
                 <Image
                   src={landingImages.access.src}
                   alt={landingImages.access.alt}
                   fill
                   sizes="(max-width: 639px) 100vw, (max-width: 1023px) 40vw, 28vw"
-                  className="object-cover"
-                  quality={80}
+                  className="object-cover saturate-[0.9] contrast-[1.05]"
+                  quality={75}
                 />
                 <figcaption className="absolute bottom-3 right-3 rounded-full bg-slate-950/75 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
                   Imagen ilustrativa
@@ -182,8 +182,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section id="experiencias" className="scroll-mt-6 bg-slate-50 py-16 sm:py-20">
-          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section id="experiencias" className="relative scroll-mt-6 overflow-hidden bg-slate-50 py-16 sm:py-20">
+          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_88%_18%,rgba(34,211,238,0.09),transparent_24%)]" />
+          <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
               <p className="text-sm font-bold uppercase tracking-[0.16em] text-blue-700">Tres experiencias conectadas</p>
               <h2 className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-5xl">Explora el concepto desde cada rol</h2>
@@ -207,28 +208,32 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="border-y border-slate-200 bg-white py-16 sm:py-20">
-          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
-              <div>
+        <section className="relative overflow-hidden border-y border-slate-200 bg-white py-16 sm:py-20">
+          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_8%_22%,rgba(37,99,235,0.08),transparent_26%)]" />
+          <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-start lg:gap-14">
+              <div className="lg:pt-2">
                 <p className="text-sm font-bold uppercase tracking-[0.16em] text-cyan-700">Operación residencial</p>
                 <h2 className="mt-3 text-balance text-3xl font-black tracking-[-0.04em] text-slate-950 sm:text-4xl">Diseñado para una operación residencial moderna</h2>
                 <p className="mt-4 text-base leading-7 text-slate-600">Una experiencia digital orientada a reducir fricción, ordenar la operación y facilitar decisiones durante cada acceso.</p>
+                <div aria-hidden="true" className="mt-8 hidden h-px w-24 bg-gradient-to-r from-blue-700 to-cyan-400 lg:block" />
               </div>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                <StatCard icon={KeyRound} label="Códigos" value="Únicos" tone="blue" />
-                <StatCard icon={Clock3} label="Permisos" value="24 / 48 h" tone="green" />
-                <StatCard icon={QrCode} label="Validación" value="Ágil" tone="cyan" />
+              <div>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <StatCard icon={KeyRound} label="Códigos" value="Únicos" tone="blue" />
+                  <StatCard icon={Clock3} label="Permisos" value="24 / 48 h" tone="green" />
+                  <StatCard icon={QrCode} label="Validación" value="Ágil" tone="cyan" />
+                </div>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                  {benefits.map(({ icon: Icon, title, text }) => (
+                    <article key={title} className="rounded-2xl border border-slate-200 bg-slate-50/90 p-5">
+                      <span className="grid size-10 place-items-center rounded-xl bg-white text-blue-700 shadow-sm"><Icon aria-hidden="true" className="size-5" /></span>
+                      <h3 className="mt-4 font-bold text-slate-950">{title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
+                    </article>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {benefits.map(({ icon: Icon, title, text }) => (
-                <article key={title} className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                  <span className="grid size-10 place-items-center rounded-xl bg-white text-blue-700 shadow-sm"><Icon aria-hidden="true" className="size-5" /></span>
-                  <h3 className="mt-4 font-bold text-slate-950">{title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
-                </article>
-              ))}
             </div>
           </div>
         </section>
@@ -243,7 +248,7 @@ export default function HomePage() {
       <footer className="border-t border-slate-800 bg-[#030b1d] py-8 text-slate-300">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <BrandLogo className="w-[132px]" />
-          <p className="text-xs leading-5 text-slate-400">Demostración conceptual · Software de control de accesos y visitas</p>
+          <p className="text-xs leading-5 text-slate-400">Sistema digital de control de accesos y visitas</p>
         </div>
       </footer>
     </div>

@@ -45,8 +45,8 @@ export interface AdminAuditRecord {
 }
 
 export const adminSummary = [
-  { label: "Viviendas mostradas", value: "Demo", detail: "Escala ilustrativa, no censo real", tone: "blue" },
-  { label: "Residentes mostrados", value: "Demo", detail: "Datos ficticios", tone: "cyan" },
+  { label: "Viviendas", value: "Directorio", detail: "Muestra ilustrativa, no censo real", tone: "blue" },
+  { label: "Residentes", value: "Perfiles", detail: "Información ficticia de presentación", tone: "cyan" },
   { label: "Visitas hoy", value: "38", detail: "+12% frente al día anterior", tone: "indigo" },
   { label: "Personas dentro", value: "12", detail: "Presencia operativa actual", tone: "emerald" },
   { label: "Accesos activos", value: "27", detail: "Permisos vigentes", tone: "sky" },

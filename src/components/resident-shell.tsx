@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bell, History, Home, PlusCircle, RotateCcw, UserRound, WifiOff, X } from "lucide-react";
+import { Bell, History, Home, PlusCircle, RotateCcw, UserRound, X } from "lucide-react";
 import { useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { BrandLogo } from "@/components/brand-logo";
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -47,7 +47,7 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
           <Link href="/demo/residente" className="shrink-0" aria-label="ECOTERRA Access, inicio del residente">
             <BrandLogo priority className="w-[126px] sm:w-[150px]" />
           </Link>
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Navegación del residente">
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Navegación del residente">
             {desktopItems.map(({ href, label, icon: Icon }) => {
               const active = href === activeHref;
               return (
@@ -63,7 +63,7 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
               {notificationsOpen ? <X aria-hidden="true" className="size-5" /> : <Bell aria-hidden="true" className="size-5" />}
               <span className="absolute -right-0.5 -top-0.5 grid size-5 place-items-center rounded-full bg-blue-600 text-[10px] font-black text-white" aria-label="2 notificaciones">2</span>
             </button>
-            <button type="button" disabled={busy || !online} onClick={openReset} className="hidden min-h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60 sm:inline-flex">
+            <button type="button" disabled={busy || !online} onClick={openReset} className="hidden min-h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-600 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60 xl:inline-flex">
               <RotateCcw aria-hidden="true" className="size-4" />
               Restablecer escenarios demo
             </button>
@@ -80,14 +80,12 @@ export function ResidentShell({ children, activeHref }: ResidentShellProps) {
         </div>
       </header>
       <main className="mx-auto w-full max-w-7xl px-4 py-7 sm:px-6 sm:py-10 lg:px-8">
-        {!online ? <p role="alert" className="mb-6 flex items-center gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-bold text-red-800"><WifiOff aria-hidden="true" className="size-5 shrink-0" />Sin conexión. Se necesita conexión a internet para crear o actualizar accesos.</p> : null}
         {children}
-        <p className="mt-5 text-center text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Experiencia residente · Datos de demostración</p>
         {error ? <p role="alert" className="mx-auto mt-4 max-w-2xl rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-700">{error}</p> : null}
         <div className="mt-8"><DemoNotice compact /></div>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
           <Link href="/" className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-blue-700"><Home aria-hidden="true" className="size-4" />Volver al inicio del demo</Link>
-        <button type="button" disabled={busy || !online} onClick={openReset} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 disabled:opacity-60 sm:hidden">
+        <button type="button" disabled={busy || !online} onClick={openReset} className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-slate-500 disabled:opacity-60 xl:hidden">
           <RotateCcw aria-hidden="true" className="size-4" />
           Restablecer escenarios demo
         </button>

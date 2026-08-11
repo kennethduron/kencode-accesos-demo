@@ -17,7 +17,6 @@ import {
   SearchX,
   ShieldCheck,
   UserRound,
-  WifiOff,
   XCircle,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -287,9 +286,8 @@ export default function SeguridadPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <AccessValidationOverlay open={busy} source={validationSource} mode={operation ?? "validation"} />
-      <header className="safe-top border-b border-slate-200 bg-white"><div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"><Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[150px]" /></Link><div className="flex items-center gap-3"><Link href="/" className="hidden min-h-11 items-center text-sm font-bold text-blue-700 sm:inline-flex">Inicio del demo</Link><div className="text-right"><DemoBadge /><p className="mt-1 text-xs font-bold text-slate-500">ECOTERRA · Seguridad · Demo</p></div></div></div></header>
-      <main aria-busy={busy} className="mx-auto grid w-full max-w-7xl gap-7 px-4 py-7 sm:px-6 sm:py-10 lg:grid-cols-[0.82fr_1.18fr] lg:px-8">
-        {!online ? <p role="alert" className="flex items-center gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 font-bold text-red-800 lg:col-span-2"><WifiOff aria-hidden="true" className="size-5 shrink-0" /><span><span className="block">Sin conexión.</span><span className="font-semibold">Se necesita conexión a internet para validar accesos.</span></span></p> : null}
+      <header className="safe-top border-b border-slate-200 bg-white"><div className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8"><Link href="/" aria-label="Ken Code, regresar al inicio"><BrandLogo priority className="w-[132px] sm:w-[150px]" /></Link><div className="flex items-center gap-3"><Link href="/" className="hidden min-h-11 items-center text-sm font-bold text-blue-700 sm:inline-flex">Inicio del demo</Link><div className="text-right"><DemoBadge /><p className="mt-1 text-xs font-bold text-slate-500">ECOTERRA · Puesto de Seguridad</p></div></div></div></header>
+      <main aria-busy={busy} className="mx-auto grid w-full max-w-7xl gap-7 px-4 py-7 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-10 lg:px-8">
         <section>
           <p className="text-sm font-black uppercase tracking-[0.16em] text-blue-700">Puesto Principal</p>
           <h1 className="mt-2 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">Validar acceso</h1>
@@ -352,7 +350,29 @@ export default function SeguridadPage() {
               </div>
             </div>
           ) : (
-            <div className="surface-card grid min-h-80 place-items-center p-8 text-center"><div><span className="mx-auto grid size-16 place-items-center rounded-3xl bg-blue-50 text-blue-700"><ShieldCheck aria-hidden="true" className="size-8" /></span><h2 className="mt-5 text-xl font-black text-slate-950">Resultado de validación</h2><p className="mt-2 max-w-sm text-sm leading-6 text-slate-600">Aquí aparecerá el estado de la autorización y los datos ficticios necesarios para controlar el ingreso.</p></div></div>
+            <div className="surface-card overflow-hidden">
+              <div className="border-b border-slate-200 bg-[radial-gradient(circle_at_top_right,rgba(34,211,238,0.16),transparent_38%),linear-gradient(145deg,#eff6ff,#ffffff_72%)] p-6 sm:p-8">
+                <div className="flex items-start gap-4">
+                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-blue-700 text-white shadow-lg shadow-blue-900/15"><ShieldCheck aria-hidden="true" className="size-7" /></span>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-700">Estado de la estación</p>
+                    <h2 className="mt-2 text-2xl font-black tracking-[-0.03em] text-slate-950 sm:text-3xl">Listo para validar un acceso</h2>
+                    <p className="mt-3 max-w-lg text-sm leading-6 text-slate-600 sm:text-base">Escanee el QR del visitante o ingrese su código para comprobar la autorización.</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6 sm:p-8">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">Flujo de validación</p>
+                <ol className="mt-4 grid gap-3">
+                  {["Escanee o ingrese el código.", "Revise la autorización.", "Confirme entrada o salida."].map((step, index) => (
+                    <li key={step} className="flex min-h-14 items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
+                      <span className="grid size-8 shrink-0 place-items-center rounded-full bg-slate-950 text-xs font-black text-white">{index + 1}</span>
+                      <span className="text-sm font-bold text-slate-700">{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
           )}
         </section>
       </main>

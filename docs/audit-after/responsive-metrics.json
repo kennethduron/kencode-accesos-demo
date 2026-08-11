@@ -1,0 +1,731 @@
+[
+  {
+    "viewport": "360x800",
+    "route": "/",
+    "clientWidth": 345,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 345,
+    "overflow": false
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/registro",
+    "clientWidth": 345,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 345,
+    "overflow": false
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/residente",
+    "clientWidth": 345,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 345,
+    "overflow": false
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 345,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 345,
+    "overflow": false
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 360,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 360,
+    "overflow": false
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 360,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 360,
+    "overflow": false
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/residente/historial",
+    "clientWidth": 345,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 345,
+    "overflow": false
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/seguridad",
+    "clientWidth": 345,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 345,
+    "overflow": false
+  },
+  {
+    "viewport": "360x800",
+    "route": "/demo/admin",
+    "clientWidth": 345,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 345,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/",
+    "clientWidth": 375,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 375,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/registro",
+    "clientWidth": 375,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 375,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/residente",
+    "clientWidth": 375,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 375,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 375,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 375,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 390,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 390,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/residente/historial",
+    "clientWidth": 375,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 375,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/seguridad",
+    "clientWidth": 375,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 375,
+    "overflow": false
+  },
+  {
+    "viewport": "390x844",
+    "route": "/demo/admin",
+    "clientWidth": 375,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 375,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/",
+    "clientWidth": 415,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 415,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/registro",
+    "clientWidth": 415,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 415,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/residente",
+    "clientWidth": 415,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 415,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 415,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 415,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 430,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 430,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 430,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 430,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/residente/historial",
+    "clientWidth": 415,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 415,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/seguridad",
+    "clientWidth": 415,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 415,
+    "overflow": false
+  },
+  {
+    "viewport": "430x932",
+    "route": "/demo/admin",
+    "clientWidth": 415,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 415,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/",
+    "clientWidth": 753,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 753,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/registro",
+    "clientWidth": 753,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 753,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/residente",
+    "clientWidth": 753,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 753,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 753,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 753,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 768,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 768,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 768,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 768,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/residente/historial",
+    "clientWidth": 753,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 753,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/seguridad",
+    "clientWidth": 753,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 753,
+    "overflow": false
+  },
+  {
+    "viewport": "768x1024",
+    "route": "/demo/admin",
+    "clientWidth": 753,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 753,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/",
+    "clientWidth": 819,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 819,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/registro",
+    "clientWidth": 819,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 819,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/residente",
+    "clientWidth": 819,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 819,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 819,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 819,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 834,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 834,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 834,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 834,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/residente/historial",
+    "clientWidth": 834,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 834,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/seguridad",
+    "clientWidth": 819,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 819,
+    "overflow": false
+  },
+  {
+    "viewport": "834x1194",
+    "route": "/demo/admin",
+    "clientWidth": 819,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 819,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/",
+    "clientWidth": 1009,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 1009,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/registro",
+    "clientWidth": 1009,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 1009,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/residente",
+    "clientWidth": 1009,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 1009,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 1009,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 1009,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 1024,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 1024,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 1024,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 1024,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/residente/historial",
+    "clientWidth": 1009,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 1009,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/seguridad",
+    "clientWidth": 1009,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 1009,
+    "overflow": false
+  },
+  {
+    "viewport": "1024x768",
+    "route": "/demo/admin",
+    "clientWidth": 1009,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 1009,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/",
+    "clientWidth": 1265,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 1265,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/demo/registro",
+    "clientWidth": 1265,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 1265,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/demo/residente",
+    "clientWidth": 1265,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 1265,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 1265,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 1265,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 1280,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 1280,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 1280,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 1280,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/demo/residente/historial",
+    "clientWidth": 1265,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 1265,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/demo/seguridad",
+    "clientWidth": 1265,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 1265,
+    "overflow": false
+  },
+  {
+    "viewport": "1280x800",
+    "route": "/demo/admin",
+    "clientWidth": 1265,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 1265,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/",
+    "clientWidth": 1425,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 1425,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/registro",
+    "clientWidth": 1425,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 1425,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/residente",
+    "clientWidth": 1425,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 1425,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 1425,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 1425,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 1440,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 1440,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/residente/historial",
+    "clientWidth": 1425,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 1425,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/seguridad",
+    "clientWidth": 1440,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "viewport": "1440x900",
+    "route": "/demo/admin",
+    "clientWidth": 1425,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 1425,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/",
+    "clientWidth": 1905,
+    "connected": false,
+    "heading": "Sistema Digital deControl de Accesos y Visitas",
+    "scrollWidth": 1905,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/demo/registro",
+    "clientWidth": 1905,
+    "connected": false,
+    "heading": "Crear cuenta",
+    "scrollWidth": 1905,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/demo/residente",
+    "clientWidth": 1920,
+    "connected": false,
+    "heading": "Hola, Alejandro",
+    "scrollWidth": 1920,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/demo/residente/nueva-visita",
+    "clientWidth": 1905,
+    "connected": false,
+    "heading": "Nueva visita",
+    "scrollWidth": 1905,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/demo/residente/codigo",
+    "clientWidth": 1920,
+    "connected": false,
+    "heading": "",
+    "scrollWidth": 1920,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/demo/residente/permiso-familiar",
+    "clientWidth": 1920,
+    "connected": false,
+    "heading": "Permiso para familiar",
+    "scrollWidth": 1920,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/demo/residente/historial",
+    "clientWidth": 1920,
+    "connected": false,
+    "heading": "Historial de accesos",
+    "scrollWidth": 1920,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/demo/seguridad",
+    "clientWidth": 1920,
+    "connected": false,
+    "heading": "Validar acceso",
+    "scrollWidth": 1920,
+    "overflow": false
+  },
+  {
+    "viewport": "1920x1080",
+    "route": "/demo/admin",
+    "clientWidth": 1905,
+    "connected": false,
+    "heading": "Sistema Digital de Control de Accesos",
+    "scrollWidth": 1905,
+    "overflow": false
+  }
+]

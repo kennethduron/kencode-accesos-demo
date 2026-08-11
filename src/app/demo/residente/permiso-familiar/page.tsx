@@ -77,9 +77,9 @@ export default function PermisoFamiliarPage() {
           </div>
         </div>
 
-        <div className="grid gap-3 border-t border-slate-200 bg-slate-50 p-5 sm:grid-cols-2 sm:p-6">
+        <div className="grid items-start gap-3 border-t border-slate-200 bg-slate-50 p-5 sm:grid-cols-2 sm:p-6">
           <ShareAccessButton authorization={authorization} status={status} label="Compartir permiso" variant="family" />
-          <button ref={revokeButtonRef} type="button" disabled={!online || !canRevoke} onClick={() => setDialogOpen(true)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-red-300 bg-white px-4 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400">
+          <button ref={revokeButtonRef} type="button" disabled={!online || !canRevoke} onClick={() => setDialogOpen(true)} className="inline-flex min-h-11 self-start items-center justify-center gap-2 rounded-xl border border-red-300 bg-white px-4 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400">
             <Trash2 aria-hidden="true" className="size-5" />{status === "cancelled" ? "Acceso revocado" : "Revocar acceso"}
           </button>
         </div>
