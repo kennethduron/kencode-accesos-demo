@@ -16,6 +16,13 @@ import {
   validateAccess,
 } from "../src/lib/access.ts";
 import { buildQrPayload, parseQrPayload } from "../src/lib/qr.ts";
+import {
+  buildAccessShareModel,
+  buildAccessShareText,
+  createAccessShareFilename,
+  getShareCapability,
+  isShareCancellation,
+} from "../src/lib/access-share.ts";
 import { createAccessValidationGate } from "../src/lib/access-validation-feedback.ts";
 import { authorizationToFirebase, firebaseToAuthorization } from "../src/repositories/firebase-mapping.ts";
 import manifest from "../src/app/manifest.ts";
@@ -454,4 +461,64 @@ test("ayuda de instalación iOS aparece solo en Safari y fuera de standalone", (
   assert.equal(shouldShowIosInstallHelp({ userAgent: safari }), true);
   assert.equal(shouldShowIosInstallHelp({ userAgent: safari, navigatorStandalone: true }), false);
   assert.equal(shouldShowIosInstallHelp({ userAgent: safari.replace("Version/18.0", "CriOS/126.0") }), false);
+});
+
+test("tarjeta compartible usa un filename profesional basado únicamente en el código", () => {
+  assert.equal(createAccessShareFilename("A7X9-2K4P"), "ecoterra-access-a7x9-2k4p.png");
+});
+
+test("tarjeta compartible conserva exactamente el mismo código y payload QR", () => {
+  const authorization = { ...createAuthorization(input({ visitType: "family", validity: "48h" }), now, () => 0.2), code: "A7X9-2K4P" };
+  const model = buildAccessShareModel(authorization, "active", "family");
+  assert.equal(model.code, "A7X9-2K4P");
+  assert.equal(model.qrPayload, "KCA1:A7X9-2K4P");
+  assert.match(buildAccessShareText(model), /Código: A7X9-2K4P/);
+});
+
+test("tarjeta compartible contiene datos mínimos y excluye información interna", () => {
+  const authorization = {
+    ...createAuthorization(input({ visitType: "family", validity: "48h" }), now, () => 0.2),
+    code: "A7X9-2K4P",
+    createdByUid: "internal-uid",
+  };
+  const model = buildAccessShareModel(authorization, "active", "family");
+  assert.deepEqual(
+    { visitor: model.visitor, home: model.home, visitType: model.visitType },
+    { visitor: authorization.visitorName, home: "Casa 27", visitType: "Familiar" },
+  );
+  for (const forbidden of ["id", "uid", "plate", "vehicle", "residenceId", "createdByUid"]) {
+    assert.equal(Object.hasOwn(model, forbidden), false);
+  }
+  assert.doesNotMatch(JSON.stringify(model), /internal-uid|ABC-123|Toyota Corolla/);
+});
+
+test("un acceso cancelado no se presenta ni se genera como autorizado", () => {
+  const authorization = { ...createAuthorization(input(), now, () => 0.2), status: "cancelled" };
+  const model = buildAccessShareModel(authorization, "cancelled");
+  assert.equal(model.shareable, false);
+  assert.equal(model.title, "ACCESO CANCELADO");
+  assert.doesNotMatch(model.title, /AUTORIZADO/);
+});
+
+test("vigencia compartida se deriva de la autorización real", () => {
+  const authorization24 = createAuthorization(input({ validity: "24h" }), now, () => 0.2);
+  const authorization48 = createAuthorization(input({ visitType: "family", validity: "48h" }), now, () => 0.2);
+  const validity24 = buildAccessShareModel(authorization24, "active").validity;
+  const validity48 = buildAccessShareModel(authorization48, "active", "family").validity;
+  assert.match(validity24, /^24 horas · hasta /);
+  assert.match(validity48, /^48 horas · hasta /);
+  assert.notEqual(validity24, validity48);
+});
+
+test("capacidad de compartir distingue archivos, texto y descarga", () => {
+  const files = [{}];
+  assert.equal(getShareCapability({ share() {}, canShare: () => true }, files), "files");
+  assert.equal(getShareCapability({ share() {}, canShare: () => false }, files), "text");
+  assert.equal(getShareCapability(undefined, files), "download");
+});
+
+test("cancelar el selector de compartir se trata como una cancelación normal", () => {
+  assert.equal(isShareCancellation(new DOMException("cancelled", "AbortError")), true);
+  assert.equal(isShareCancellation({ name: "AbortError" }), true);
+  assert.equal(isShareCancellation(new Error("network")), false);
 });

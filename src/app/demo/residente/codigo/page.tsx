@@ -84,7 +84,7 @@ export default function CodigoPage() {
             ))}
           </dl>
           <div className="grid gap-3 border-t border-slate-200 bg-slate-50 p-5 sm:grid-cols-2 sm:p-6">
-            <ShareAccessButton authorization={authorization} />
+            <ShareAccessButton authorization={authorization} status={status} />
             <button ref={cancelButtonRef} type="button" disabled={!online || !canCancel} onClick={() => setDialogOpen(true)} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-red-200 bg-white px-4 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:border-slate-200 disabled:text-slate-400">
               <Trash2 aria-hidden="true" className="size-5" />
               {status === "cancelled" ? "Permiso cancelado" : "Cancelar permiso"}

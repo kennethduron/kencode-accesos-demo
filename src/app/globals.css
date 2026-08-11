@@ -121,15 +121,14 @@ button {
 @layer components {
   .brand-logo {
     display: inline-flex;
-    overflow: hidden;
-    border-radius: 0.75rem;
-    background: #020817;
+    align-items: center;
   }
 
   .brand-logo img {
     display: block;
     width: 100%;
     height: auto;
+    object-fit: contain;
   }
 
   .surface-card {

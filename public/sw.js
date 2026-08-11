@@ -1,6 +1,6 @@
 const BRAND_CACHE = "ecoterra-access-brand-v1";
 const BRAND_ASSETS = [
-  "/brand/ken-code-logo.jpg",
+  "/brand/ken-code-logo-transparent.png",
   "/favicon.ico",
   "/icons/icon-32x32.png",
   "/icons/icon-48x48.png",

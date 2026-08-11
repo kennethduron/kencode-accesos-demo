@@ -12,10 +12,10 @@ export function BrandLogo({ priority = false, className = "" }: BrandLogoProps) 
       aria-label="Ken Code — Desarrollamos soluciones, construimos el futuro"
     >
       <Image
-        src="/brand/ken-code-logo.jpg"
+        src="/brand/ken-code-logo-transparent.png"
         alt="Ken Code — Desarrollamos soluciones, construimos el futuro"
-        width={1241}
-        height={620}
+        width={877}
+        height={439}
         priority={priority}
         loading={priority ? "eager" : "lazy"}
         sizes="(max-width: 640px) 132px, 164px"
